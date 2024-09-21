@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Schedule page</title>
+        <link rel="stylesheet" href="scstyles.css">
+    </head>
+     <body>
+        <div  class="container">
+            <aside class="sidebar">
+            <div class="logo">
+                <h1>time<span style="color: rgb(57, 255, 7);">Pawa</span></h1>
+            </div>    
+        <nav>
+            <ul>
+                <li id="home-link"><a href="home.html">Home</a></li>
+                <li><a href="breaks.html">My Breaks</a></li>
+                <li><a href="#">Swaps</a></li>
+                <li id="schedule-link"><a href="schedule.html">Schedule</a></li>
+                <li><a href="#">On Break</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <div class="main-container">
+        <div class="header">
+            <h2>Request Break</h2>
+            <div class="profile">
+
+                <div class="profile-pic"><img src="profile.png" alt=""></div>
+                <p>Amstrong</p>
+            </div>
+        </div>
+
+        <div class="form-container">
+            <div class="form-card">
+                <h3>Fill out this form</h3>
+                <form action="#" method="POST">
+                    <label for="date">Date</label>
+                    <input type="date" name="date" id="date">
+                    <label for="time">Time</label>
+                    <input type="time" name="time" id="time">
+                    <label for="reason">Reason</label>
+                    <input type="text" id="reason" placeholder="Why do you need this break?">
+                    <button>Request a break</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+const currentPath = window.location.pathname;
+
+document.querySelectorAll('nav li').forEach((item) => {
+item.classList.remove('active');
+});
+
+if (currentPath.includes("schedule.html")) {
+document.getElementById("schedule-link").classList.add("active");
+}
+
+    </script>
+</body>
+</html>

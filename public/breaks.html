@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>My Breaks page</title>
+        <link rel="stylesheet" href="breakstyles.css">
+    </head>
+     <body>
+        <div  class="container">
+            <aside class="sidebar">
+            <div class="logo">
+                <h1>time<span style="color: rgb(57, 255, 7);">Pawa</span></h1>
+            </div>    
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li id="breaks-link"><a href="breaks.html">My Breaks</a></li>
+                <li><a href="#">Swaps</a></li>
+                <li><a href="schedule.html">Schedule</a></li>
+                <li><a href="#">On Break</a></li>
+            </ul>
+        </nav>
+    </aside>
+    <main>
+        <header class="top-bar">
+            <h2>My Breaks</h2>
+            <div class="profile">
+                <div class="profile-pic"><img src="profile.png" alt=""></div>
+                <p>Amstrong</p>
+            </div>
+        </header>
+        <section class="break-schedule">
+            <strong>Monday</strong>
+            <div class="break-box">
+                
+               <div>10:30 AM - 12:30 PM</div>
+                <div>10:30 AM - 12:30 PM</div>
+                <div>10:30 AM - 12:30 PM</div>
+                </div>
+        </section>
+        <section class="break-schedule">
+            <strong>Tuesday</strong>
+            <div class="break-box">
+                
+               <div>10:30 AM - 12:30 PM</div>
+                <div>10:30 AM - 12:30 PM</div>
+                <div>10:30 AM - 12:30 PM</div>
+                </div>
+        </section>
+        <section class="break-schedule">
+            <strong>Wednesday</strong>
+            <div class="break-box">
+                
+               <div>10:30 AM - 12:30 PM</div>
+                <div>10:30 AM - 12:30 PM</div>
+                <div>10:30 AM - 12:30 PM</div>
+                </div>
+        </section>
+        <section class="break-schedule">
+            <strong>Thursday</strong>
+            <div class="no-break">
+                
+               <div>Oops! looks like this is your day off</div>
+                
+                </div>
+        </section>
+        <section class="break-schedule">
+            <strong>Friday</strong>
+            <div class="break-box">
+                
+               <div>10:30 AM - 12:30 PM</div>
+                <div>10:30 AM - 12:30 PM</div>
+                <div>10:30 AM - 12:30 PM</div>
+                </div>
+        </section>
+        <section class="break-schedule">
+            <strong>Saturday</strong>
+            <div class="break-box">
+                
+               <div>10:30 AM - 12:30 PM</div>
+                <div>10:30 AM - 12:30 PM</div>
+                <div>10:30 AM - 12:30 PM</div>
+                </div>
+        </section>
+        <section class="break-schedule">
+            <strong>Sunday</strong>
+            <div class="no-break">
+                
+               <div>No Schedule for today!</div>
+        
+                </div>
+        </section>
+        </main>
+        </div>
+        <script>
+
+const currentPath = window.location.pathname;
+
+document.querySelectorAll('nav li').forEach((item) => {
+  item.classList.remove('active');
+});
+
+if (currentPath.includes("breaks.html")) {
+  document.getElementById("breaks-link").classList.add("active");
+} 
+        </script>
+        </body>
+        </html>
