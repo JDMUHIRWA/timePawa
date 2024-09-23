@@ -11,10 +11,10 @@ sql = `CREATE TABLE Users (id INTEGER PRIMARY KEY, username TEXT, password TEXT)
 db.run(sql);
 
 //Inserting Users
-// sql = `INSERT INTO Users (username, password) VALUES (?, ?)`;
-// db.run(sql, ["gustavo", "manzinte"], (err) => {
-//   if (err) return console.error(err.message);
-// });
+sql = `INSERT INTO Users (username, password) VALUES (?, ?)`;
+db.run(sql, ["gustavo", "manzinte"], (err) => {
+  if (err) return console.error(err.message);
+});
 
 //update Users
 sql = `UPDATE Users SET username = ? WHERE id = ?`;
