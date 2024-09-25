@@ -11,3 +11,9 @@ app.get('/', (req, res) => {
 app.listen(3000, () => {
     console.log('Server is running on port 5000');
 })
+
+// Close the server
+app.get('/close', (req, res) => {
+    res.send('Server is closing');
+    process.exit();
+})
