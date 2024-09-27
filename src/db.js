@@ -1,38 +1,21 @@
-const sqlite3 = require("sqlite3").verbose();
-let sql;
+// Import the mysql package
+const mysql = require("mysql");
 
-// Open (or create) the SQLite database
-const db = new sqlite3.Database("./test.db", sqlite3.OPEN_READWRITE, (err) => {
-  if (err) return console.error(err.message);
+// Create a connection object
+const connection = mysql.createConnection({
+  host: "localhost", // Replace with your MySQL host
+  user: "root", // Replace with your MySQL user
+  password: "", // Replace with your MySQL password
 });
 
-// Create a table
-sql = `CREATE TABLE Users (id INTEGER PRIMARY KEY, username TEXT, password TEXT)`;
-db.run(sql);
+// Connect to MySQL
+connection.connect((err) => {
+  if (err) {
+    console.error("MySQL is not installed or not running:", err.message);
+  } else {
+    console.log("MySQL is installed and connection established!");
+  }
 
-//Inserting Users
-sql = `INSERT INTO Users (username, password) VALUES (?, ?)`;
-db.run(sql, ["gustavo", "manzinte"], (err) => {
-  if (err) return console.error(err.message);
+  // Close the connection
+  connection.end();
 });
-
-//update Users
-sql = `UPDATE Users SET username = ? WHERE id = ?`;
-db.run(sql, ["axo", 2], (err) => {
-  if (err) return console.error(err.message);
-});
-
-//delete Users
-sql = `DELETE FROM Users WHERE id = ?`;
-db.run (sql, [1], (err) =>{
-    if (err) return console.error(err.message);
-})
-
-// query the database
-sql = `SELECT * FROM Users`;
-db.all(sql, [], (err, rows) => {
-    if (err) return console.error(err.message);
-    rows.forEach((row) => {
-      console.log(row);
-    });
-})
