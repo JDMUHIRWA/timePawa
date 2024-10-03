@@ -18,6 +18,11 @@ const db = mysql.createConnection({
 const publicDirectory = path.join(__dirname, "./public-fn");
 app.use(express.static(publicDirectory));
 
+// Parse URL-encoded bodies (as sent by HTML forms)
+app.use(express.urlencoded({ extended: false }));
+// Parse JSON bodies (as sent by API clients)
+app.use(express.json());
+
 // view engine setup for HTML
 app.set("view engine", "hbs");
 
@@ -34,6 +39,7 @@ db.connect((err) => {
 app.get("/login", require("./routes/pages"));
 app.get("/register", require("./routes/pages"));
 app.get("/", require("./routes/pages"));
+app.use("/auth", require("./routes/auth"));
 
 app.listen(4003, () => {
   console.log("Server is running on port 5000");
