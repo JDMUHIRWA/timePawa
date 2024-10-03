@@ -36,9 +36,8 @@ db.connect((err) => {
 });
 
 //check if the server is running
-app.get("/login", require("./routes/pages"));
-app.get("/register", require("./routes/pages"));
-app.get("/", require("./routes/pages"));
+
+app.use("/", require("./routes/pages"));
 app.use("/auth", require("./routes/auth"));
 
 app.listen(4003, () => {
