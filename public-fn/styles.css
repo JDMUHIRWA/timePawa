@@ -1,0 +1,85 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: 'inter', sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.container {
+    background-color:white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 10px 12px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    
+}
+.headerh1{
+    font-size: 35px;
+    color: black;
+    text-align: left;
+    margin-bottom: 50px;
+    font-style: italic;
+
+}
+.headerspan{
+    color: #9CE800;
+}
+.form-container h2{
+    font-size: 25px;
+    margin-bottom: 7px;
+
+}
+.form-container p{
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 13px;
+}
+form{
+    display: flex;
+    flex-direction: column;
+}
+form input{
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 13px;
+}
+form button{
+    padding: 10px;
+    background-color: #9CE800;
+    color: black;
+    border: none;
+    border-radius: 20px;
+    font-size: 15px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    margin-top: 15px;
+}
+form button:hover {
+    background-color: black;
+    color: #9CE800;
+
+}
+.log-in{
+    color: #9CE800;
+    text-decoration: none;
+}
+.log-in:hover{
+    text-decoration: underline;
+}
+.checkbox-container{
+    display: flex;
+    margin-bottom: 15px;
+    font-size: 12px;
+}
+.checkbox-container input[type="checkbox"]{
+    margin-right: 3px;
+}
