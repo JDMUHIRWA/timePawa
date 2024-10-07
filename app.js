@@ -4,6 +4,7 @@ const app = express();
 const mysql = require("mysql");
 const dotenv = require("dotenv");
 
+
 dotenv.config({ path: "./.env" });
 
 // Create a new database
