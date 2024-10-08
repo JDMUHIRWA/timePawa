@@ -17,4 +17,8 @@ router.get("/home", (req, res) => {
   res.render("Home");
 });
 
+router.get("/schedule", (req, res) => {
+  res.render("Schedule");
+});
+
 module.exports = router;
