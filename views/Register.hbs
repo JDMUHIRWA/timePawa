@@ -39,11 +39,11 @@
           Already have an account?<a href="/login" class="log-in"> Log In </a>
         </p>
       </form>
-    </div>
-    <div>
-      {{#if message}}
-        <h4>{{message}}</h4>
-      {{/if}}
+      <div class="error-message">
+        {{#if message}}
+          <h4>{{message}}</h4>
+        {{/if}}
+      </div>
     </div>
   </body>
 </html>

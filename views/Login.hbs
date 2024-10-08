@@ -13,8 +13,8 @@
         <p>Enter your credentials to Log in</p>
       </div>
       <form action="/auth/login" method="POST">
-        <input type="text" id="Username" placeholder="Username" required />
-        <input type="password" id="Password" placeholder="Password" required />
+        <input type="text" id="Username" placeholder="Username" name="username" required />
+        <input type="password" id="Password" placeholder="Password" name="password" required />
         <div class="checkbox-container">
           <input type="checkbox" id="remember-me" />
           <label for="remember-me">Remember me</label>
@@ -24,6 +24,10 @@
           Don't have an account?<a href="/register" class="log-in"> Sign Up </a>
         </p>
       </form>
+      <div class="error-message">
+        {{#if message}}
+          <h4>{{message}}</h4>
+        {{/if}}
     </div>
   </body>
 </html>

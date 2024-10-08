@@ -83,3 +83,10 @@ form button:hover {
 .checkbox-container input[type="checkbox"]{
     margin-right: 3px;
 }
+.error-message{
+    color: red;
+    font-size: 12px;
+    margin-bottom: 10px;
+    display: flex;
+    position: absolute;
+}
