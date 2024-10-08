@@ -2,7 +2,7 @@ const mysql = require("mysql");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const express = require("express");
-
+const { parse } = require("dotenv");
 
 const db = mysql.createConnection({
   host: process.env.DATABASE_HOST,
@@ -86,24 +86,20 @@ exports.login = async (req, res) => {
 
           console.log("The token is: " + token);
 
+          const cookieExpires = process.env.JWT_COOKIE_EXPIRES || 7;
+
           const cookieOptions = {
             expires: new Date(
-              Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
+              Date.now() +
+                process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
             ),
             httpOnly: true,
           };
 
           res.cookie("jwt", token, cookieOptions);
 
-          // Instead of redirecting immediately, render a success message first
-          return res.render("login", {
-            message: "Login successful! Redirecting you to the dashboard...",
-          });
-
-          // Use setTimeout to redirect after displaying the message
-          setTimeout(() => {
-            res.redirect("/");
-          }, 3000); // Redirect after 3 seconds
+          //Render the home page
+          return res.redirect("/home");
         }
       }
     );
