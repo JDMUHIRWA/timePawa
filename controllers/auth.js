@@ -36,6 +36,7 @@ exports.register = (req, res) => {
       let hashedPassword = await bcrypt.hash(password, 8);
       console.log(hashedPassword);
 
+      // Insert the user and log them in right after successful registration
       db.query(
         "INSERT INTO users SET ?",
         { username: username, password: hashedPassword },
@@ -44,15 +45,38 @@ exports.register = (req, res) => {
             console.log(error);
           } else {
             console.log(results);
-            return res.render("register", {
-              message: "User registered",
-            });
+
+            //redirect to the login page
+            return res.redirect("/login");
+
+            // // Log the user in after registering
+            // const id = results.insertId; // Get the insertId to use for the token
+            // const token = jwt.sign({ id: id }, process.env.JWT_SECRET, {
+            //   expiresIn: process.env.JWT_EXPIRES_IN,
+            // });
+
+            // console.log("The token is: " + token);
+
+            // const cookieExpires = process.env.JWT_COOKIE_EXPIRES || 7;
+            // const cookieOptions = {
+            //   expires: new Date(
+            //     Date.now() +
+            //       process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+            //   ),
+            //   httpOnly: true,
+            // };
+
+            // res.cookie("jwt", token, cookieOptions);
+
+            // // Redirect to the home page after logging in
+            // return res.redirect("/home");
           }
         }
       );
     }
   );
 };
+
 
 // Login a user
 exports.login = async (req, res) => {
