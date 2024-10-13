@@ -12,7 +12,7 @@ body {
     height: 100vh;
 }
 .container {
-    background-color:white;
+    background-color: #ffffff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 10px 12px rgba(0, 0, 0, 0.1);
@@ -29,7 +29,7 @@ body {
 
 }
 .headerspan{
-    color: rgb(57, 255, 7);
+    color: #9CE800;
 }
 .form-container h2{
     font-size: 25px;
@@ -54,7 +54,7 @@ form input{
 }
 form button{
     padding: 10px;
-    background-color: rgb(57, 255, 7);
+    background-color: #9CE800;
     color: black;
     border: none;
     border-radius: 20px;
@@ -64,12 +64,12 @@ form button{
     margin-top: 15px;
 }
 form button:hover {
-    background-color: black;
-    color: rgb(57, 255, 7);
+    background-color: #091106;
+    color: #9CE800;
 
 }
 .log-in{
-    color: rgb(45, 212, 4);
+    color: #6B9F01;
     text-decoration: none;
     text-emphasis: ;
 }

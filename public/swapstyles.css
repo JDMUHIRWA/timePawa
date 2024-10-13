@@ -102,37 +102,55 @@ img{
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
+    max-width: 420px;
     width: 100%;
     text-align: center;
+    align-items: center;
+
 }
-.form-card h3{
+.form-card h2{
     color: #333;
     margin-bottom: 20px;
-
+    font-size: 20px;
+    
 }
-.form-card label{
-    display: block;
-    font-size: 14px;
-    font-weight: bold;
+.form-card h3{
+    color: #222;
     text-align: left;
+    margin-bottom: 7px;
+    padding: 7px;
+    font-size: 17px;
+}
+.form-group{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.input-group{
+    display: flex;
+    flex-direction: column;
+    width: 49%;
+    text-align: left;
+}
+.input-group label{
+    font-size: 13px;
     margin-bottom: 5px;
-    color: #333;
 }
 .form-card input{
-    width: 95%;
-    padding: 10px;
-    margin-bottom: 30px;
+    padding: 8px;
+    margin-bottom: 12px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 6px;
+    width: 90%;
+}
+input[type="date"]{
     text-transform: uppercase;
-
 }
-input[type="text"]{
-    text-transform: capitalize;
+input[type="text"]::placeholder{
     text-align: center;
+    text-transform: capitalize;
 }
-.form-card button{
+button{
   width: 100%;
   padding: 10px;
   background-color: #9ce800;
@@ -142,9 +160,10 @@ input[type="text"]{
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
+  margin-top: 10px;
   transition: background-color 0.7s ease;
 }
-.form-card button:hover{
-    background-color: #091106;
+button:hover{
+    background-color: #000;
     color: #9ce800;
 }
