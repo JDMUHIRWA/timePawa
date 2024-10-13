@@ -42,6 +42,7 @@ nav li.active a{
     padding: 8px;
     border-radius: 5px;
     display: block;
+    
 }
 nav ul li a:hover{
     background-color: #ffffff1e;
@@ -60,7 +61,7 @@ nav ul li a:hover{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 60px;
+    margin-bottom: 40px;
     background-color: #fff;
     padding: 20px;
     width: calc(100% + 40px);
@@ -91,60 +92,33 @@ img{
     border-radius: 50%;
     object-fit: cover;
 }
-.form-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 60vh;
-}
-.form-card{
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
+table{
     width: 100%;
+    overflow: hidden;
+}
+th, td{
+    background-color: #fff;
+    padding: 12px;
     text-align: center;
+    border-radius: 4px;
 }
-.form-card h3{
-    color: #333;
-    margin-bottom: 20px;
-
-}
-.form-card label{
-    display: block;
-    font-size: 14px;
+table th{
     font-weight: bold;
-    text-align: left;
-    margin-bottom: 5px;
-    color: #333;
+    background-color: #e7e7e7;
 }
-.form-card input{
-    width: 95%;
-    padding: 10px;
-    margin-bottom: 30px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    text-transform: uppercase;
+.status{
+    padding: 6px 10px;
+    border-radius: 10px;
+    font-size: 14px;
+    display: inline-block;
+}
+.status.completed{
+    background-color: #9de450;
+}
+.status.In-Progress{
+    background-color: #d1e8e2;
+}
+.status.On-break{
+    background-color: #ff9900;
 
-}
-input[type="text"]{
-    text-transform: capitalize;
-    text-align: center;
-}
-.form-card button{
-  width: 100%;
-  padding: 10px;
-  background-color: #9ce800;
-  color: #000;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.7s ease;
-}
-.form-card button:hover{
-    background-color: #091106;
-    color: #9ce800;
 }

@@ -12,7 +12,7 @@ body{
     height: 100vh;
 }
 .sidebar{
-    background-color: black;
+    background-color: #091106;
     color: #fff;
     width: 250px;
     padding: 20px;
@@ -35,27 +35,26 @@ nav li{
 nav li a{
     color: #fff;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 16px;
 }
 nav li.active a{
-    background-color: #333;
-    color: #fff;
-    padding: 10px;
+    background-color: #ffffff1e;
+    padding: 8px 7px;
     border-radius: 5px;
     display: block;
 }
 nav li a:hover{
-    background-color: #e5f9d4;
-    color: black;
-    padding: 10px;
+    background-color: #ffffff1e;
+    padding: 8px;
     border-top-left-radius: 10px;
     border-bottom-right-radius: 10px;
+    display: block;
 
 }
 main{
     flex: 1;
-    padding: 30px;
-    background-color: #e5f9d4;
+    padding: 20px;
+    background-color: #f2f2f2;
 }
 .top-bar{
     display: flex;
@@ -63,11 +62,14 @@ main{
     align-items: center;
     background-color: #fff;
     padding: 20px;
-    border-radius: 15px;
-    margin-bottom: 15px;
+    margin-bottom: 40px;
+    width: calc(100% + 40px);
+    margin-top: -20px;
+    margin-left: -20px;
+    margin-right: -20px;
 }
 .top-bar h2{
-    color: #333;
+    color: #222;
 }
 .profile{
     display: flex;
@@ -93,8 +95,8 @@ main{
 }
 .break-box{
     display: flex;
-    gap: 20px;
-    padding: 10px;
+    gap: 50px;
+    padding: 10px 5px;
     justify-content: space-between;
 }
 .break-box div{
@@ -114,7 +116,7 @@ main{
 
 }
 .no-break div{
-    width: 32%;
+    width: 30.50%;
     background-color: #fff;
     padding: 10px;
     border-radius: 6px;
