@@ -21,4 +21,8 @@ router.get("/schedule", (req, res) => {
   res.render("Schedule");
 });
 
+router.get("/swap", (req, res) => {
+  res.render("Profile");
+});
+
 module.exports = router;
