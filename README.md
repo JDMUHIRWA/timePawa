@@ -1,6 +1,6 @@
-# TimePawa
+# timePawa
 
-TimePawa is a web application that allows employees to manage their breaks, shifts, and schedule swaps with ease. This application provides an intuitive user interface to request breaks, swap shifts, monitor schedules, and manage user authentication. It is designed to streamline employee time management and improve team communication.
+timePawa is a web application that allows employees to manage their breaks, shifts, and schedule swaps with ease. This application provides an intuitive user interface to request breaks, swap shifts, monitor schedules, and manage user authentication. It is designed to streamline employee time management and improve team communication.
 
 ## Features
 
