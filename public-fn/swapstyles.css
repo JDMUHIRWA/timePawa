@@ -12,7 +12,7 @@ body{
     height: 100vh;
 }
 .sidebar{
-    background-color: black;
+    background-color: #091106;
     color: #fff;
     width: 250px;
     padding: 20px;
@@ -35,42 +35,42 @@ nav li{
 nav li a{
     color: #fff;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 16px;
 }
 nav li.active a{
-    background-color: #ff04041e;
-    color: #fff;
-    padding: 8px 7px;
-    border-radius: 7px;
+    background-color: #ffffff1e;
+    padding: 8px;
+    border-radius: 5px;
     display: block;
-    text-align: left;
-    width: 100%;
 }
 nav ul li a:hover{
-    background-color: #ffffff25;
+    background-color: #ffffff1e;
     padding: 8px;
     border-top-left-radius: 10px;
     border-bottom-right-radius: 10px;
-    transition: background-color 0.4s ease;
     display: block;
+
 }
 .main-container{
     flex-grow: 1;
-    padding: 30px;
-    background-color: #e5f9d4;
+    padding: 20px;
+    background-color: #f2f2f2;
 }
 .header{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 40px;
+    margin-bottom: 60px;
     background-color: #fff;
     padding: 20px;
-    border-radius: 15px;
+    width: calc(100% + 40px);
+    margin-top: -20px;
+    margin-left: -20px;
+    margin-right: -20px;
 
 }
 .header h2{
-    color: #333;
+    color: #222;
 }
 .profile{
     display: flex;
@@ -102,41 +102,68 @@ img{
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
+    max-width: 420px;
     width: 100%;
     text-align: center;
+    align-items: center;
+
 }
-.form-card h3{
+.form-card h2{
     color: #333;
     margin-bottom: 20px;
-
+    font-size: 20px;
+    
 }
-.form-card label{
-    display: block;
+.form-card h3{
+    color: #222;
     text-align: left;
+    margin-bottom: 7px;
+    padding: 7px;
+    font-size: 17px;
+}
+.form-group{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.input-group{
+    display: flex;
+    flex-direction: column;
+    width: 49%;
+    text-align: left;
+}
+.input-group label{
+    font-size: 13px;
     margin-bottom: 5px;
-    color: #666;
 }
 .form-card input{
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 30px;
+    padding: 8px;
+    margin-bottom: 12px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-
+    border-radius: 6px;
+    width: 90%;
 }
-.form-card button{
-  width: 60%;
+input[type="date"]{
+    text-transform: uppercase;
+}
+input[type="text"]::placeholder{
+    text-align: center;
+    text-transform: capitalize;
+}
+button{
+  width: 100%;
   padding: 10px;
-  background-color: rgb(57, 255, 7);
+  background-color: #9ce800;
   color: #000;
   border: none;
   border-radius: 10px;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.7s ease;
 }
-.form-card button:hover{
+button:hover{
     background-color: #000;
-    color: rgb(57, 255, 7);
+    color: #9ce800;
 }

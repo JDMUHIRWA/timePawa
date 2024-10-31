@@ -22,7 +22,15 @@ router.get("/schedule", (req, res) => {
 });
 
 router.get("/swap", (req, res) => {
-  res.render("Profile");
+  res.render("Swap");
+});
+
+router.get("/break", (req, res) => {
+  res.render("Break");
+});
+
+router.get("/onbreak", (req, res) => {
+  res.render("Onbreak");
 });
 
 module.exports = router;

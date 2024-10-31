@@ -39,7 +39,6 @@ nav li a{
     font-size: 16px;
 }
 nav li.active a{
-    background-color: #ffffff1e;
     color: #fff;
     padding: 8px 7px;
     border-radius: 7px;
@@ -48,7 +47,7 @@ nav li.active a{
     width: 100%;
 }
 nav ul li a:hover{
-    background-color: #ffffff1e;
+    background-color: #ffffff25;
     padding: 8px;
     border-top-left-radius: 10px;
     border-bottom-right-radius: 10px;
