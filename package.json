@@ -23,6 +23,8 @@
     "jsonwebtoken": "^9.0.2",
     "mysql": "^2.18.1",
     "nodemon": "^3.1.7",
+    "passport": "^0.7.0",
+    "passport-azure-ad": "^4.3.5",
     "sqlite3": "^5.1.7"
   },
   "description": ""
