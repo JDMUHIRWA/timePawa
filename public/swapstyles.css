@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 body{
-    font-family: arial, sans-serif;
+    font-family: inter, sans-serif;
     background-color: #ffffff;
 }
 .container{
@@ -20,13 +20,21 @@ body{
 .logo h1{
 
     font-size: 28px;
-    text-align: center;
     font-style: italic;
     margin-bottom: 20px;
+    padding-left: 15px;
+}
+.bottom-logo{
+    font-size: 28px;
+    font-style: italic;
+    font-weight: 900;
+    text-align: right;
+    margin-top: 70px;
+    
 }
 nav ul {
     list-style: none;
-    padding: 30px;
+    padding: 15px;
     
 }
 nav li{
@@ -39,9 +47,11 @@ nav li a{
 }
 nav li.active a{
     background-color: #ffffff1e;
-    padding: 8px;
-    border-radius: 5px;
+    padding: 8px 6px;
+    border-radius: 7px;
     display: block;
+    text-align: left;
+    width: 110%;
 }
 nav ul li a:hover{
     background-color: #ffffff1e;
@@ -50,6 +60,9 @@ nav ul li a:hover{
     border-bottom-right-radius: 10px;
     display: block;
 
+}
+i{
+    margin-right: 10px;
 }
 .main-container{
     flex-grow: 1;
@@ -69,14 +82,17 @@ nav ul li a:hover{
     margin-right: -20px;
 
 }
-.header h2{
+.header h3{
     color: #222;
+    font-size: 20px;
+    font-weight: 500;
 }
+
 .profile{
     display: flex;
     align-items: center;
     font-size: 13px;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: inter,sans-serif;
 }
 .profile-pic{
     width: 40px;
@@ -108,18 +124,17 @@ img{
     align-items: center;
 
 }
-.form-card h2{
+.form-card h3{
     color: #333;
     margin-bottom: 20px;
-    font-size: 20px;
+    font-size: 18px;
     
 }
-.form-card h3{
+.date-time{
     color: #222;
     text-align: left;
     margin-bottom: 7px;
-    padding: 7px;
-    font-size: 17px;
+    font-size: 16px;
 }
 .form-group{
     display: flex;
@@ -133,7 +148,7 @@ img{
     text-align: left;
 }
 .input-group label{
-    font-size: 13px;
+    font-size: 12px;
     margin-bottom: 5px;
 }
 .form-card input{
@@ -146,9 +161,11 @@ img{
 input[type="date"]{
     text-transform: uppercase;
 }
-input[type="text"]::placeholder{
-    text-align: center;
-    text-transform: capitalize;
+input[type="text"]{
+    text-transform: none;
+    padding: 10px 35px 35px 10px;
+    width: 95%;
+    margin-left: -17px;
 }
 button{
   width: 100%;
@@ -157,8 +174,9 @@ button{
   color: #000;
   border: none;
   border-radius: 10px;
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 14px;
+  font-family: inter,sans-serif;
+  letter-spacing: 0.5px;
   cursor: pointer;
   margin-top: 10px;
   transition: background-color 0.7s ease;

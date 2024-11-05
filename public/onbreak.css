@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 body{
-    font-family: arial, sans-serif;
+    font-family: inter, sans-serif;
     background-color: #ffffff;
 }
 .container{
@@ -20,13 +20,13 @@ body{
 .logo h1{
 
     font-size: 28px;
-    text-align: center;
     font-style: italic;
     margin-bottom: 20px;
+    padding-left: 15px;
 }
 nav ul {
     list-style: none;
-    padding: 30px;
+    padding: 15px;
     
 }
 nav li{
@@ -39,9 +39,11 @@ nav li a{
 }
 nav li.active a{
     background-color: #ffffff1e;
-    padding: 8px;
-    border-radius: 5px;
+    padding: 8px 6px;
+    border-radius: 7px;
     display: block;
+    text-align: left;
+    width: 110%;
     
 }
 nav ul li a:hover{
@@ -51,6 +53,9 @@ nav ul li a:hover{
     border-bottom-right-radius: 10px;
     display: block;
 
+}
+i{
+    margin-right: 10px;
 }
 .main-container{
     flex-grow: 1;
@@ -72,12 +77,13 @@ nav ul li a:hover{
 }
 .header h2{
     color: #222;
+    font-size: 20px;
+    font-weight: 500;
 }
 .profile{
     display: flex;
     align-items: center;
     font-size: 13px;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 .profile-pic{
     width: 40px;
@@ -92,8 +98,13 @@ img{
     border-radius: 50%;
     object-fit: cover;
 }
+.table-area{
+    display: flex;
+    justify-content: center;
+    padding: 0px 20px 20px 20px;
+}
 table{
-    width: 100%;
+    width: 90%;
     overflow: hidden;
 }
 th, td{
@@ -113,12 +124,12 @@ table th{
     display: inline-block;
 }
 .status.completed{
-    background-color: #9de450;
+    background-color: #a2ed53;
 }
 .status.In-Progress{
-    background-color: #d1e8e2;
+    background-color: #AFFFD0;
 }
 .status.On-break{
-    background-color: #ff9900;
+    background-color: #FFA527;
 
 }

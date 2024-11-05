@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Breaks Page</title>
     <link rel="stylesheet" href="breakstyles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
@@ -14,72 +16,81 @@
             </div>    
         <nav>
             <ul>
-                <li><a href="home.html">Home</a></li>
-                <li id="breaks-link"><a href="breaks.html">My Breaks</a></li>
-                <li><a href="swap.html">Swaps</a></li>
-                <li><a href="schedule.html">Schedule</a></li>
-                <li><a href="onbreak.html">On Break</a></li>
+                <li><a href="home.html"><i class="fa-solid fa-house"></i>Home</a></li>
+                <li id="breaks-link"><a href="breaks.html"><i class="fa-solid fa-mug-saucer"></i>My Breaks</a></li>
+                <li><a href="swap.html"><i class="fa-solid fa-right-left"></i>Swaps</a></li>
+                <li><a href="schedule.html"><i class="fa-solid fa-calendar-days"></i>Schedule</a></li>
+                <li><a href="onbreak.html"><i class="fa-solid fa-user"></i>On Break</a></li>
             </ul>
         </nav>
     </aside>
     <main>
         <header class="top-bar">
-            <h2>My Breaks</h2>
+            <div>
+                <h3>My Breaks</h3>
+                <p class="day">Here's your weekly schedule</p>
+            </div>
             <div class="profile">
                 <div class="profile-pic"><img src="profile.png" alt=""></div>
                 <p>Amstrong</p>
             </div>
         </header>
         <section class="break-schedule">
-            <strong>Monday</strong>
+            <Span>Monday</Span>
             <div class="break-box">
                 
-               <div>10:30 AM - 12:30 PM</div>
-                <div>10:30 AM - 12:30 PM</div>
-                <div>10:30 AM - 12:30 PM</div>
+               <div>10:30 AM - 10:45 AM</div>
+                <div>3:45 PM - 4:15 PM</div>
+                <div>7:00 PM - 7:15 PM</div>
                 </div>
             </section>
             <section class="break-schedule">
-                <strong>Tuesday</strong>
+                <span>Tuesday</span>
                 <div class="break-box">
                     <div>10:30 AM - 12:30 PM</div>
-                    <div>1:00 PM - 2:00 PM</div>
+                    <div>3:00 PM - 3:30 PM</div>
+                    <div>6:45 PM - 7:00 PM</div>
                 </div>
             </section>
             <section class="break-schedule">
-                <strong>Wednesday</strong>
+                <span>Wednesday</span>
                 <div class="break-box">
-                    <div>10:30 AM - 12:30 PM</div>
-                    <div>1:00 PM - 2:00 PM</div>
+                
+                    <div>10:30 AM - 10:45 PM</div>
+                     <div>3:45 PM - 4:15 PM</div>
+                     <div>7:00 PM - 7:15 PM</div>
                 </div>
             </section>
             <section class="break-schedule">
-                <strong>Thursday</strong>
+                <span>Thursday</span>
                 <div class="no-break">
-                    <div>Oops! Looks like this is your day off.</div>
+                    <div>Oops! Looks like it's your day off.</div>
                 </div>
             </section>
             <section class="break-schedule">
-                <strong>Friday</strong>
+                <span>Friday</span>
                 <div class="break-box">
                     <div>10:30 AM - 12:30 PM</div>
-                    <div>1:00 PM - 2:00 PM</div>
-                    <div>3:00 PM - 4:00 PM</div>
+                    <div>3:00 PM - 3:30 PM</div>
+                    <div>6:45 PM - 7:00 PM</div>
                 </div>
             </section>
             <section class="break-schedule">
-                <strong>Saturday</strong>
+                <span>Saturday</span>
                 <div class="break-box">
-                    <div>10:30 AM - 12:30 PM</div>
-                    <div>1:00 PM - 2:00 PM</div>
+                
+                    <div>10:30 AM - 10:45 PM</div>
+                     <div>3:45 PM - 4:15 PM</div>
+                     <div>7:00 PM - 7:15 PM</div>
                 </div>
             </section>
             <section class="break-schedule">
-                <strong>Sunday</strong>
+                <span>Sunday</span>
                 <div class="no-break">
                     <div>No schedule for today!</div>
                 </div>
             </section>
+            <h1 class="bottom-logo">bet<span style="color: #9ce800;">Pawa</span></h1>
         </main>
     </div>
     <script>
