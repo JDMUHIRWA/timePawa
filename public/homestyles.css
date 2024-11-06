@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 body{
-    font-family: arial, sans-serif;
+    font-family: inter, sans-serif;
     background-color: #ffffff;
 }
 .container{
@@ -24,6 +24,14 @@ body{
     margin-bottom: 50px;
     padding-left: 15px;
 }
+.bottom-logo{
+    font-size: 28px;
+    font-style: italic;
+    font-weight: 900;
+    text-align: right;
+    margin-top: 50px;
+    
+}
 nav ul {
     list-style: none;
     padding-left: 15px;
@@ -40,7 +48,6 @@ nav li a{
 }
 nav li.active a{
     background-color: #ffffff1e;
-    color: #fff;
     padding: 8px 7px;
     border-radius: 7px;
     display: block;
@@ -55,9 +62,12 @@ nav ul li a:hover{
     transition: background-color 0.4s ease;
     display: block;
 }
+i{
+    margin-right: 10px;
+}
 .logout{
     position: absolute;
-    bottom: 70px;
+    bottom: 50px;
 }
 .logout a{
     color: #9ce800;
@@ -78,20 +88,39 @@ main{
 }
 .top-bar{
     display: flex;
-    justify-content: space-between;
     align-items: center;
     background-color: #ffffff;
-    padding: 20px 20px;
+    padding: 20px;
     width: calc(100% + 40px);
     margin-left: -20px;
     margin-right: -20px;
     margin-top: -20px;
 }
+.welcome-container{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+.welcome{
+    font-size: 18px;
+    font-family: Inter, sans-serif;
+    line-height: normal;
+}
+.day {
+    color: #9A9292;
+    font-family: Inter, sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-top: 10px;
+    margin-bottom: -15px;
+}
 .profile{
     display: flex;
     align-items: center;
-    font-size: 13px;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 14px;
+    font-family: inter , sans-serif;
 }
 .profile-pic{
     width: 40px;
@@ -118,7 +147,11 @@ main{
 
 }
 .request-break h2{
-    font-size: 19px;
+    font-size: 16px;
+    font-style: normal;
+    font-family: inter, sans-serif;
+    line-height: 24px;
+    font-weight: 600;
     
 }
 .request-break a{
@@ -127,9 +160,14 @@ main{
     font-size: 12px;
     background-color: #091106;
     border: none;
-    padding: 13px 25px;
-    border-radius: 8px;
+    padding: 8px 28px;
+    border-radius: 12px;
     cursor: pointer;
+    font-family: inter, sans-serif;
+    font-style: normal;
+    letter-spacing: 0.9px;
+    line-height: 21px;
+    align-items: center;
 
 }
 .request-break a:hover{
@@ -147,16 +185,23 @@ main{
 }
 .break-box{
     background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 10px 10px 10px 10px;
-    border-radius: 10px;
-    text-align: center;
+    padding: 10px;
+    padding-left: 25px;
+    border-radius: 8px;
     flex: 1;
     
    
 }
-.break-box p{
+.p-days{
+    margin-top: 5px;
+    color: #9A9292;
+    font-family: inter, sans-serif;
+    font-size: 14px;
+}
+.p-hours{
     margin-top: 10px;
+    font-family: inter, sans-serif;
+    font-size: 14px;
 }
 .activity{
     margin-top: 20px;
@@ -169,8 +214,8 @@ main{
 }
 .activity li{
     background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 20px;
+    padding: 25px;
     border-radius: 5px;
     margin-top: 1px;
+    align-self: stretch;
 }
