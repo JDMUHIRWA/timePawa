@@ -124,10 +124,10 @@ table th{
     display: inline-block;
 }
 .status.completed{
-    background-color: #a2ed53;
+    background-color: #78b636;
 }
 .status.In-Progress{
-    background-color: #AFFFD0;
+    background-color: #badae7;
 }
 .status.On-break{
     background-color: #FFA527;
