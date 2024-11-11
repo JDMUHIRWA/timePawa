@@ -3,6 +3,10 @@ const path = require("path");
 const app = express();
 const mysql = require("mysql");
 const dotenv = require("dotenv");
+const passport = require("passport");
+const expressSession = require("express-session");
+const authRoutes = require("./routes/auth");
+const authController = require("./controllers/auth");
 
 dotenv.config({ path: "./.env" });
 
@@ -14,7 +18,7 @@ const db = mysql.createConnection({
   database: process.env.DATABASE,
 });
 
-// path to public directory for front-end
+// Path to public directory for front-end
 const publicDirectory = path.join(__dirname, "./public-fn");
 app.use(express.static(publicDirectory));
 
@@ -23,7 +27,7 @@ app.use(express.urlencoded({ extended: false }));
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
 
-// view engine setup for HTML
+// View engine setup for HTML
 app.set("view engine", "hbs");
 
 // Connect to the database
@@ -31,17 +35,49 @@ db.connect((err) => {
   if (err) {
     console.log("Error connecting to the database:", err);
   } else {
-    console.log("database connected");
+    console.log("Database connected");
   }
 });
 
-//check if the server is running
+// Middleware for session handling
+app.use(
+  expressSession({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false },
+  })
+);
 
+// Initialize passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+// Use auth routes
+app.use("/auth", authRoutes);
+app.post("/auth/callback", authController.callback);
+app.get("/protected", authController.authSuccess); // Protected route
+app.get("/error", (req, res) => {
+  console.log("Error page triggered. Session", req.session);
+  res.status(500).send("Authentication error");
+});
+
+// Use pages routes
 app.use("/", require("./routes/pages"));
-app.use("/auth", require("./routes/auth"));
 
+// Check if the server is running
 app.listen(4003, () => {
-  console.log("Server is running on port 5000");
+  console.log("Server is running on port 4003");
+});
+
+// Error handler for 404
+app.use((req, res) => {
+  res.status(404).send("Page not found");
+});
+
+app.get("/", (req, res) => {
+  res.send("Welcome to timePawa");
 });
 
 // Close the server

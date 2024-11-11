@@ -1,86 +1,143 @@
 const mysql = require("mysql");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const express = require("express");
-const { parse } = require("dotenv");
+const passport = require("passport");
+const OIDCStrategy = require("passport-azure-ad").OIDCStrategy;
+const dotenv = require("dotenv");
 
-const db = mysql.createConnection({
-  host: process.env.DATABASE_HOST,
-  user: process.env.DATABASE_USER,
-  password: process.env.DATABASE_PASSWORD,
-  database: process.env.DATABASE,
+dotenv.config({ path: "./.env" });
+
+// Azure AD authentication strategy configuration
+passport.use(
+  new OIDCStrategy(
+    {
+      identityMetadata: `https://login.microsoftonline.com/${process.env.AZURE_TENANT_ID}/v2.0/.well-known/openid-configuration`,
+      clientID: process.env.AZURE_CLIENT_ID,
+      responseType: "code id_token",
+      responseMode: "form_post",
+      redirectUrl: "http://localhost:4003/auth/callback",
+      allowHttpForRedirectUrl: true,
+      clientSecret: process.env.AZURE_CLIENT_SECRET,
+      validateIssuer: true,
+      passReqToCallback: false,
+      scope: ["profile", "email", "offline_access"],
+    },
+    (iss, sub, profile, accessToken, refreshToken, done) => {
+      // Add detailed log to check the entire profile
+      console.log(
+        "Full Profile returned by Azure AD:",
+        JSON.stringify(profile, null, 2)
+      );
+
+      if (!profile) {
+        return done(new Error("No profile found"), null);
+      }
+
+      // Log the Object ID (or whichever ID field Azure provides)
+      if (profile.oid) {
+        console.log("User authenticated with OID:", profile.oid);
+      } else {
+        console.error("Profile does not contain 'oid'. Profile:", profile);
+      }
+
+      return done(null, profile);
+    }
+  )
+);
+
+// Passport user serialization and deserialization
+passport.serializeUser((user, done) => {
+  console.log("Serializing user:", user); 
+  console.trace();
+  if (user && user.oid) {
+    done(null, user.oid); // Use 'oid' as the unique identifier
+  } else {
+    done(new Error("No OID found in user profile"), null);
+  }
 });
 
-// Register a new user
-exports.register = (req, res) => {
-  console.log(req.body);
-  const { username, password, ConfirmPassword } = req.body;
+passport.deserializeUser((id, done) => {
+  console.log("Deserializing user with OID:", id);
+  // In a real-world app, you'd look up the user from your database here
+  done(null, { oid: id });
+});
 
-  db.query(
-    "SELECT username FROM users WHERE username = ?",
-    [username],
-    async (error, results) => {
-      if (error) {
-        console.log(error);
+// Define authentication routes and handlers
+const authController = {
+  // Redirect to Microsoft login page
+  login: (req, res, next) => {
+    passport.authenticate("azuread-openidconnect", {
+      response: res,
+      prompt: "login",
+      failureRedirect: "/error", // Redirect to error page on failure
+    })(req, res, next);
+  },
+
+  // Handle the authentication callback
+  callback: (req, res, next) => {
+    console.log("Auth callback triggered");
+    passport.authenticate("azuread-openidconnect", {
+      failureRedirect: "/error",
+    })(req, res, (err) => {
+      // Note: we only check for error here
+      if (err) {
+        console.error("Authentication failed:", err);
+        return res.redirect("/error");
       }
-      if (results.length > 0) {
-        return res.render("register", {
-          message: "Username already taken",
-        });
-      } else if (password !== ConfirmPassword) {
-        return res.render("register", {
-          message: "Passwords do not match",
-        });
+
+      // At this point, if authentication succeeded, req.user should be set
+      if (!req.user) {
+        console.error("No user in request after authentication");
+        return res.redirect("/error");
       }
 
-      let hashedPassword = await bcrypt.hash(password, 8);
-      console.log(hashedPassword);
+      console.log("User logged in successfully:", req.user);
+      return res.redirect("/protected");
+    });
+  },
 
-      // Insert the user and log them in right after successful registration
-      db.query(
-        "INSERT INTO users SET ?",
-        { username: username, password: hashedPassword },
-        (error, results) => {
-          if (error) {
-            console.log(error);
-          } else {
-            console.log(results);
+  // On successful authentication, redirect to the protected page
+  authSuccess: (req, res) => {
+    res.send("Welcome to the protected page! You are authenticated.");
+  },
 
-            //redirect to the login page
-            return res.redirect("/login");
+  authFailure: (req, res) => {
+    res.send("Authentication failed. Please try again.");
+  },
 
-            // // Log the user in after registering
-            // const id = results.insertId; // Get the insertId to use for the token
-            // const token = jwt.sign({ id: id }, process.env.JWT_SECRET, {
-            //   expiresIn: process.env.JWT_EXPIRES_IN,
-            // });
+  // Register a new user (for local login)
+  register: (req, res) => {
+    const { username, password, ConfirmPassword } = req.body;
 
-            // console.log("The token is: " + token);
+    db.query(
+      "SELECT username FROM users WHERE username = ?",
+      [username],
+      async (error, results) => {
+        if (error) console.log(error);
 
-            // const cookieExpires = process.env.JWT_COOKIE_EXPIRES || 7;
-            // const cookieOptions = {
-            //   expires: new Date(
-            //     Date.now() +
-            //       process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-            //   ),
-            //   httpOnly: true,
-            // };
-
-            // res.cookie("jwt", token, cookieOptions);
-
-            // // Redirect to the home page after logging in
-            // return res.redirect("/home");
-          }
+        if (results.length > 0) {
+          return res.render("register", { message: "Username already taken" });
+        } else if (password !== ConfirmPassword) {
+          return res.render("register", { message: "Passwords do not match" });
         }
-      );
-    }
-  );
-};
 
+        let hashedPassword = await bcrypt.hash(password, 8);
 
-// Login a user
-exports.login = async (req, res) => {
-  try {
+        db.query(
+          "INSERT INTO users SET ?",
+          { username: username, password: hashedPassword },
+          (error, results) => {
+            if (error) console.log(error);
+
+            return res.redirect("/login");
+          }
+        );
+      }
+    );
+  },
+
+  // Login a user with local username/password
+  loginLocal: async (req, res) => {
     const { username, password } = req.body;
 
     if (!username || !password) {
@@ -93,7 +150,6 @@ exports.login = async (req, res) => {
       "SELECT * FROM users WHERE username = ?",
       [username],
       async (error, results) => {
-        console.log(results);
         if (
           !results ||
           !(await bcrypt.compare(password, results[0].password))
@@ -103,14 +159,9 @@ exports.login = async (req, res) => {
           });
         } else {
           const id = results[0].id;
-
           const token = jwt.sign({ id: id }, process.env.JWT_SECRET, {
             expiresIn: process.env.JWT_EXPIRES_IN,
           });
-
-          console.log("The token is: " + token);
-
-          const cookieExpires = process.env.JWT_COOKIE_EXPIRES || 7;
 
           const cookieOptions = {
             expires: new Date(
@@ -121,16 +172,19 @@ exports.login = async (req, res) => {
           };
 
           res.cookie("jwt", token, cookieOptions);
-
-          //Render the home page
           return res.redirect("/home");
         }
       }
     );
-  } catch (error) {
-    console.log(error);
-    return res.status(500).render("login", {
-      message: "An error occurred during login.",
-    });
-  }
+  },
 };
+
+// MySQL database connection
+const db = mysql.createConnection({
+  host: process.env.DATABASE_HOST,
+  user: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASSWORD,
+  database: process.env.DATABASE,
+});
+
+module.exports = authController;
