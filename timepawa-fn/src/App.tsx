@@ -1,5 +1,5 @@
-import { GitHubBanner, Refine } from "@refinedev/core";
-import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
+import { Refine } from "@refinedev/core";
+import { DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
 import { useNotificationProvider } from "@refinedev/antd";
@@ -18,7 +18,7 @@ import { createClient } from "graphql-ws";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { authProvider } from "./authProvider";
 import { ColorModeContextProvider } from "./contexts/color-mode";
-import { Register, Login } from "./pages";
+import { Register, Login, Welcome } from "./pages";
 
 
 const API_URL = "https://api.nestjs-query.refine.dev/graphql";
@@ -51,6 +51,8 @@ function App() {
                 <Routes>
                   <Route path="/login" element={<Login />} />
                   <Route path="/register" element={<Register />} />
+                  <Route path="/welcome" element={<Welcome />} />
+                  
                 </Routes>
                 <RefineKbar />
                 <UnsavedChangesNotifier />
