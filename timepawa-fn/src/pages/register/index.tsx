@@ -26,7 +26,7 @@ export const Register = () => {
             </form>
             <div className="span">
               <p>
-                Already have an account? <span>Login</span>{" "}
+                Already have an account? <a href="/login">Sign In</a>
               </p>
             </div>
           </div>

@@ -30,7 +30,7 @@ export const Login = () => {
             </form>
             <div className="span">
               <p>
-                Don't have an account? <span>Sign Up</span>{" "}
+                Don't have an account? <a href="/register">Register</a>
               </p>
             </div>
           </div>
