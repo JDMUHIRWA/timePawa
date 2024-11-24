@@ -14,7 +14,7 @@
 }
 .header{
     font-size: 20px;
-    margin-bottom: 30px;
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -49,18 +49,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f6f6f6;
+    background-color: #750b0b05;
     font-weight: 400;
 }
-.formcontainer{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #F6F6F6;
-    width: 30%;
-    border-radius: 20px;
-}
+
 .form{
     display: flex;
     flex-direction: column;
@@ -74,7 +66,7 @@
     height: 52px;
     padding: 10px;
     margin: 5px 0;
-    border: 1px solid #d1d5cb;
+    border: 1px solid #d7d7d7;
     border-radius: 5px;
     display: flex;
     justify-content: center;
@@ -83,6 +75,10 @@
 }
 .form input::placeholder{
     color: #00000095;
+}
+.form input:focus{
+    outline: none;
+    border-color: rgba(156, 232, 0, 1);;
 }
 .checkbox {
         display: flex;
@@ -113,17 +109,25 @@
     align-items: center;
     margin-top: 20px;
     width: 100%;
+    font-weight: 500;
 }
 .submit-div input{
     width: 60%;
     padding: 10px;
     margin: 10px 0;
-    border: 1px solid #d1d5cb;
+    border: 1px solid #d7d7d7;
     border-radius: 10px;
     display: flex;
     justify-content: center;
-    font-weight: 400;
+    background-color: #750b0b05;
     cursor: pointer;
+    color: #000000;
+    font-weight: 400;
+    font-size: medium;
+}
+.submit-div input:hover{
+    background-color: #9ce800;
+    color: #fff;
 }
 .button.active {
   background-color: #9ce800;
