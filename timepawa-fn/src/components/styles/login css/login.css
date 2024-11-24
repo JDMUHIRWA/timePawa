@@ -96,6 +96,11 @@
   margin-top: 10px;
   text-align: center;
 }
+.container .left .form-login .submit-input:hover {
+  background-color: rgba(156, 232, 0, 0.8);
+  transform: scale(1.05);
+  border-color: rgb(156, 232, 0);
+}
 .container .left .span {
   margin-top: 60px;
 }

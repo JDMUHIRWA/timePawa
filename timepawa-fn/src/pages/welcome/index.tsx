@@ -26,7 +26,9 @@ export const Welcome = () => {
           <div className="welcome">
             <h1>Ready to start your shift with ease</h1>
             <div className="button-div">
-              <button className="button">Get Started</button>
+              <button className="button">
+                <a href="/getstarted">Get Started</a>
+              </button>
             </div>
           </div>
         </div>
