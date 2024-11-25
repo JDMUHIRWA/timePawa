@@ -18,7 +18,7 @@ import { createClient } from "graphql-ws";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { authProvider } from "./authProvider";
 import { ColorModeContextProvider } from "./contexts/color-mode";
-import { Register, Login, Welcome, Dashboard, Started } from "./pages";
+import { Register, Login, Welcome, Dashboard, Started, Test } from "./pages";
 
 
 const API_URL = "https://api.nestjs-query.refine.dev/graphql";
@@ -54,6 +54,7 @@ function App() {
                   <Route path="/welcome" element={<Welcome />} />
                   <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="/getstarted" element={<Started />} />
+                  <Route path="/test" element={<Test />} />
                 </Routes>
                 <RefineKbar />
                 <UnsavedChangesNotifier />

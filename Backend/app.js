@@ -40,28 +40,28 @@ db.connect((err) => {
 });
 
 // Middleware for session handling
-app.use(
-  expressSession({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false },
-  })
-);
+// app.use(
+//   expressSession({
+//     secret: process.env.SESSION_SECRET,
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: { secure: false },
+//   })
+// );
 
 // Initialize passport
 app.use(passport.initialize());
 app.use(passport.session());
 
 
-// Use auth routes
-app.use("/auth", authRoutes);
-app.post("/auth/callback", authController.callback);
-app.get("/protected", authController.authSuccess); // Protected route
-app.get("/error", (req, res) => {
-  console.log("Error page triggered. Session", req.session);
-  res.status(500).send("Authentication error");
-});
+// // Use auth routes
+// app.use("/auth", authRoutes);
+// app.post("/auth/callback", authController.callback);
+// app.get("/protected", authController.authSuccess); // Protected route
+// app.get("/error", (req, res) => {
+//   console.log("Error page triggered. Session", req.session);
+//   res.status(500).send("Authentication error");
+// });
 
 // Use pages routes
 app.use("/", require("./routes/pages"));
