@@ -1,0 +1,227 @@
+.container1 {
+  color: rgb(0, 0, 0);
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3rem;
+  margin: auto;
+  margin-top: 60px;
+  padding: 2rem;
+  width: 30rem;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.header p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  margin-top: -15px;
+  color: rgb(155, 157, 155);
+}
+
+.header h1 {
+  font-size: 30px;
+  font-weight: 400;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+.buttons button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #d1d5cb;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(117, 11, 11, 0.0196078431);
+  font-weight: 400;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  margin-top: 10px;
+  width: 80%;
+}
+
+.form input {
+  width: 90%;
+  height: 40px;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #d7d7d7;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  color: #000000;
+}
+
+.form input::-moz-placeholder {
+  color: rgba(0, 0, 0, 0.5843137255);
+}
+
+.form input::placeholder {
+  color: rgba(0, 0, 0, 0.5843137255);
+}
+
+.form input:focus {
+  outline: none;
+  border-color: rgb(156, 232, 0);
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+}
+.checkbox .checkbox-input {
+  width: 14px;
+  height: 14px;
+  border: 1px solid rgb(201, 19, 19);
+  border-radius: 8px;
+  margin-left: -75px;
+  background-color: #c20000;
+}
+.checkbox input[type=checkbox]:checked {
+  accent-color: rgb(156, 232, 0);
+}
+.checkbox label {
+  font-size: 14px;
+  align-items: center;
+  justify-content: center;
+  color: #000000;
+  margin-left: 10px;
+}
+
+.submit-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  width: 100%;
+  font-weight: 500;
+}
+
+.submit-div input {
+  width: 50%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #d7d7d7;
+  border-radius: 40px;
+  display: flex;
+  justify-content: center;
+  background-color: rgba(117, 11, 11, 0.0196078431);
+  cursor: pointer;
+  color: #000000;
+  font-weight: 350;
+  font-size: normal;
+}
+
+.submit-div input:hover {
+  background-color: #9ce800;
+  color: #fff;
+}
+
+.button.active {
+  background-color: #9ce800;
+  color: #fff;
+  border: none;
+  font-weight: 400;
+}
+
+.display {
+  display: block;
+  color: rgb(155, 157, 155);
+  font-size: 15px;
+}
+
+.qrcode-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.qrcode-container img {
+  max-width: 200px;
+  max-height: 200px;
+  border: 1px solid #ddd;
+  margin-bottom: 15px;
+}
+
+.secret-container {
+  width: 100%;
+  max-width: 300px;
+}
+
+.secret-container input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #f4f4f4;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.secret-container input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.secret-message {
+  color: green;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.submit-div-setup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  width: 100%;
+  font-weight: 500;
+}
+
+.submit-div-setup button {
+  width: 50%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #d7d7d7;
+  border-radius: 40px;
+  display: flex;
+  justify-content: center;
+  background-color: rgba(210, 0, 0, 0.0196078431);
+  cursor: pointer;
+  color: #000000;
+  font-weight: 350;
+  font-size: normal;
+}
+
+.submit-div-setup button:hover {
+  background-color: #9ce800;
+  color: #fff;
+}/*# sourceMappingURL=login.css.map */

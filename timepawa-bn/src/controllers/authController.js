@@ -54,25 +54,32 @@ export const logout = async (req, res) => {
 };
 export const setup2FA = async (req, res) => {
   try {
-    console.log("User", req.user);
     const user = req.user;
     var secret = speakeasy.generateSecret({ length: 10 });
-    console.log("Secret", secret);
+    
+    // Only store the secret, do not set isMfaActive yet
     user.twoFactorSecret = secret.base32;
-    user.isMfaActive = true;
+    user.isMfaActive = false;  // Explicitly keep it false
     await user.save();
+    
     const url = speakeasy.otpauthURL({
       secret: secret.base32,
       label: `${req.user.username}`,
-      issuer: "Timepawa",
+      issuer: "timePawa",
       encoding: "base32",
     });
     const qrImageUrl = await qrcode.toDataURL(url);
-    res.status(200).json({ qrcode: qrImageUrl, secret: secret.base32 });
+    
+    res.status(200).json({ 
+      qrcode: qrImageUrl, 
+      secret: secret.base32,
+      isMfaSetupInProgress: true  // Add a flag to indicate setup is in progress
+    });
   } catch (error) {
     res.status(500).json({ error: "Error setting up 2fa", message: error });
   }
 };
+
 export const verify2FA = async (req, res) => {
   const { token } = req.body;
   const user = req.user;
@@ -82,7 +89,12 @@ export const verify2FA = async (req, res) => {
     encoding: "base32",
     token,
   });
+  
   if (verified) {
+    // Only set isMfaActive to true when verification is successful
+    user.isMfaActive = true;
+    await user.save();
+
     const jwtToken = jwt.sign(
       { username: user.username },
       process.env.JWT_SECRET,
@@ -90,7 +102,11 @@ export const verify2FA = async (req, res) => {
         expiresIn: "1h",
       }
     );
-    res.status(200).json({ message: "2FA verified", token: jwtToken });
+    res.status(200).json({ 
+      message: "2FA verified", 
+      token: jwtToken,
+      isMfaActive: true 
+    });
   } else {
     res.status(400).json({ message: "Invalid 2FA token" });
   }

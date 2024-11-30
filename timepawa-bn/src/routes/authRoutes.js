@@ -23,7 +23,7 @@ router.post("/logout", logout);
 
 // 2FA setup Route
 router.post(
-  "/2fa/setup",
+  "/setup2fa",
   (req, res, next) => {
     if (req.isAuthenticated()) return next();
     res.status(401).json({ message: "Unauthorized user" });
@@ -32,7 +32,7 @@ router.post(
 );
 // 2FA verify Route
 router.post(
-  "/2fa/verify",
+  "/verify2fa",
   (req, res, next) => {
     if (req.isAuthenticated()) return next();
     res.status(401).json({ message: "Unauthorized user" });
@@ -41,7 +41,7 @@ router.post(
 );
 // Reset Route
 router.post(
-  "/2fa/reset",
+  "/reset",
   (req, res, next) => {
     if (req.isAuthenticated()) return next();
     res.status(401).json({ message: "Unauthorized user" });
