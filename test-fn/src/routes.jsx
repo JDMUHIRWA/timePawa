@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Login, Register, Setup2FA, Verify2FA, Reset, Homepage  } from "./pages/export";
+import { Login, Register, Setup2FA, Verify2FA, Reset, Homepage } from "./pages/export";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const Router = createBrowserRouter([
@@ -12,9 +12,9 @@ const Router = createBrowserRouter([
         element: <ProtectedRoute />,
         children:
 
-            [   
+            [
                 {
-                    path: 'dashboard',
+                    path: '/dashboard',
                     element: <Homepage />,
                 },
                 {

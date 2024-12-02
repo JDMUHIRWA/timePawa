@@ -1,20 +1,21 @@
-body {
-  background-color: #F6F6F6;
+html, body {
+  color: #dddddd;
   font-family: "Roboto", sans-serif;
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1;
   margin: 0;
-  padding: 0;
+  height: 100%;
 }
 
 .left-sidebar {
   display: flex;
   position: fixed;
-  height: 55.9375rem;
+  height: 100vh;
   width: 17rem;
   justify-content: center;
   background: #091106;
-  flex-shrink: 0;
+  flex: 1;
+  z-index: 10;
 }
 
 .logo-sidebar {
@@ -44,18 +45,55 @@ body {
   left: 1rem;
 }
 
+.menu-sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-top: 20px;
+  color: #dddddd;
+}
+
 .menu-sidebar a {
   display: flex;
   align-items: center;
-  padding: 0.5rem;
-  width: 15rem;
-  height: 2.9rem;
-  font-size: 1rem;
-  font-weight: 300;
-  color: #F6F6F6;
+  padding: 0.75rem;
+  width: 14rem;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  color: #dddddd;
   text-decoration: none;
   gap: 0.5rem;
   text-align: center;
+}
+
+.logout {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  width: 14rem;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  color: #ffffff;
+  gap: 0.5rem;
+  text-align: center;
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  border: none;
+}
+
+.logout:hover {
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.logout button {
+  color: #ffffff;
+  background: none;
+  cursor: pointer;
 }
 
 .menu-sidebar a:hover {
@@ -66,4 +104,5 @@ body {
 .menu-sidebar a.active {
   border-radius: 0.5rem;
   background: rgba(255, 255, 255, 0.12);
+  color: #f6f6f6;
 }/*# sourceMappingURL=dashboard.css.map */
