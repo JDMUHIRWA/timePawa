@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Login, Register, Setup2FA, Verify2FA, Reset, Homepage } from "./pages/export";
+import { Login, Register, Setup2FA, Verify2FA, Reset, Homepage, MyBreaks, Swaps, AgentBreak, Schedule } from "./pages/export";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const Router = createBrowserRouter([
@@ -16,6 +16,22 @@ const Router = createBrowserRouter([
                 {
                     path: '/dashboard',
                     element: <Homepage />,
+                },
+                {
+                    path: '/breaks',
+                    element: <MyBreaks />,
+                },
+                {
+                    path: '/swaps',
+                    element: <Swaps />,
+                },
+                {
+                    path: '/schedule',
+                    element: <Schedule />,
+                },
+                {
+                    path: '/agents-on-break',
+                    element: <AgentBreak />,
                 },
                 {
                     path: "/register",

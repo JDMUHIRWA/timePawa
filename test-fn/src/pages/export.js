@@ -4,3 +4,7 @@ export { default as Setup2FA } from "./Setup2FA";
 export { default as Verify2FA } from "./Verify2FA";
 export { default as Reset } from "./Reset";
 export { default as Homepage } from "./Homepage";
+export { default as MyBreaks } from "./MyBreaks";
+export { default as Swaps } from "./Swaps";
+export { default as AgentBreak } from "./AgentBreak";
+export { default as Schedule } from "./Schedule";
