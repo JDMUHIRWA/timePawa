@@ -1,61 +1,100 @@
-// import { useSession } from '../contexts/SessionContex'
-import SideNavigation from '../components/SideNavigation';
+import {
+  ArrowLeftRight,
+  CircleCheckBig,
+  Bell,
+  Coffee,
+  Clock,
+  CheckCircle
+} from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
+import SideNavigation from '../components/SideNavigation';
 import '../assets/styles/home css/home.css';
-import { ArrowLeftRight, CircleCheckBig } from 'lucide-react';
 
 const Homepage = () => {
-  // const { user, logout } = useSession();
+  const navigate = useNavigate();
+
+  const handleBreakRequest = () => {
+    navigate('/breaks');
+  }
 
   return (
-
     <>
-      <div>
-        {/* <h1>Welcome {user?.username || "User"}</h1>
-      <button onClick={logout}>Logout</button> */}
-        <SideNavigation />
-        <Header />
-        <div className='all'>
-          <div className='request-break'>
-            <p>Request a break that suits your need</p>
-            <button>Request a break</button>
+    <SideNavigation />
+    <Header />
+    <div className="homepage-container">
+      <div className="homepage-content">
+        {/* Break Request Section */}
+        <div className="break-request-card">
+          <div className="break-request-content">
+            <div className="break-request-text">
+              <Coffee className="break-icon" />
+              <div>
+                <h3>Take a Moment</h3>
+                <p>Request a break that suits your needs</p>
+              </div>
+            </div>
+            <button
+              onClick={handleBreakRequest}
+              className="request-break-btn"
+            >
+              Request Break
+            </button>
           </div>
-          <div className='upcoming-breaks'>
-            <h2>Upcoming breaks</h2>
-            <div className='day-break'>
-              <div className='break1'>
-                <p>Monday</p>
-                <p>10:00am - 10:30am</p>
-              </div>
-              <div className='break2'>
-                <p>Monday</p>
-                <p>10:00am - 10:30am</p>
-              </div>
-              <div className='break3'>
-                <p>Monday</p>
-                <p>10:00am - 10:30am</p>
-              </div>
-            </div>
+        </div>
+
+        {/* Upcoming Breaks Section */}
+        <div className="upcoming-breaks-section">
+          <div className="section-header">
+            <Clock className="section-icon" />
+            <h2>Upcoming Breaks</h2>
           </div>
-          <h2 className='title-activity'>Activity</h2>
-          <div className='activity'>
-            <div className='activity1'>
-              <ArrowLeftRight size={20} />
-              <span>Muhirwa has requested for a swap.</span>
-            </div>
-            <div className='activity2'>
-              <CircleCheckBig size={20} />
-              <span>Your break has been approved.</span>
-            </div>
-            <div className='activity3'>
-              <CircleCheckBig size={20} />
-              <span>Muvunyi has approved your swap request.</span>
-            </div>
+          <div className="breaks-grid">
+            {[
+              { day: 'Monday', time: '10:00am - 10:30am' },
+              { day: 'Tuesday', time: '12:30pm - 1:00pm' },
+              { day: 'Wednesday', time: '3:00pm - 3:30pm' }
+            ].map((breakItem, index) => (
+              <div key={index} className="break-card">
+                <div className="breaks-day">{breakItem.day}</div>
+                <div className="break-time">{breakItem.time}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Activity Section */}
+        <div className="activity-section">
+          <div className="section-header">
+            <Bell className="section-icon" />
+            <h2>Recent Activity</h2>
+          </div>
+          <div className="activity-list">
+            {[
+              {
+                icon: <ArrowLeftRight className="activity-icon swap" />,
+                text: "Muhirwa has requested a break swap"
+              },
+              {
+                icon: <CircleCheckBig className="activity-icon approved" />,
+                text: "Your break has been approved"
+              },
+              {
+                icon: <CheckCircle className="activity-icon verified" />,
+                text: "Muvunyi has approved your swap request"
+              }
+            ].map((activity, index) => (
+              <div key={index} className="activity-item">
+                {activity.icon}
+                <span>{activity.text}</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
+    </div>
     </>
   )
 }
 
-export default Homepage
+export default Homepage;

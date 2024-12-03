@@ -29,7 +29,7 @@ const Header = () => {
                 <div className="left">
                     <h1>{title(location.pathname)}</h1>
 
-                    { location.pathname === "/dashboard" && <p>Get ready to kickoff your shift</p>}
+                    {/* { location.pathname === "/dashboard" && <p>Get ready to kickoff your shift</p>} */}
                 </div>
                 <div className="right">
                     <div className="profile">
