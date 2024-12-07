@@ -45,3 +45,9 @@ export const verify2FA = async (token) => {
 export const reset2fa = async () => {
   return await api.post("auth/reset", {}, { withCredentials: true });
 };
+
+export const fetchUsers = async () => {
+  return await api.get("auth/users", {
+    withCredentials: true,
+  });
+};

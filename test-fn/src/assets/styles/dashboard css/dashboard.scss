@@ -17,6 +17,7 @@ html, body {
   background: #091106;
   flex-direction: column;
   z-index: 20;
+  border-radius: 0 10px 10px 0;
   transition: transform 0.3s ease-in-out;
 }
 
@@ -156,7 +157,7 @@ html, body {
 
   .menu-sidebar {
     position: absolute;
-    width: 90%;
+    width: 80%;
     left: 0;
     padding: 0 0 0 1rem;
     top: 100px;
@@ -174,7 +175,7 @@ html, body {
   }
 
   .logout {
-    position: static;
+    position: fixed;
     width: 100%;
     padding: 1rem;
   }

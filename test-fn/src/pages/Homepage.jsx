@@ -15,7 +15,7 @@ const Homepage = () => {
   const navigate = useNavigate();
 
   const handleBreakRequest = () => {
-    navigate('/breaks');
+    navigate('/schedule');
   }
 
   return (
@@ -24,7 +24,6 @@ const Homepage = () => {
     <Header />
     <div className="homepage-container">
       <div className="homepage-content">
-        {/* Break Request Section */}
         <div className="break-request-card">
           <div className="break-request-content">
             <div className="break-request-text">

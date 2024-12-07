@@ -1,0 +1,64 @@
+.agents-table-container {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);    
+  margin-left: 20rem;
+  width: 75%;
+
+}
+
+.agents-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.table-header {
+  background-color: #f7fafc;
+  color: #4a5568;
+}
+
+.table-header-cell {
+  padding: 12px 16px;
+  text-align: left;
+}
+
+.table-row {
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.table-row.even {
+  background-color: #f7fafc;
+}
+
+.table-row.odd {
+  background-color: white;
+}
+
+.table-cell {
+  padding: 12px 16px;
+}
+
+.status-cell {
+  font-weight: 500;
+}
+
+.status-cell.completed {
+  color: #48bb78;
+}
+
+.status-cell.in-progress {
+  color: #ed8936;
+}
+
+.status-cell.on-break {
+  color: #f56565;
+}
+
+@media screen and (max-width: 768px) {
+  .agents-table-container {
+    margin-left: 1rem;
+    margin-right: 1.5rem;
+    width: 95%;
+  }
+}

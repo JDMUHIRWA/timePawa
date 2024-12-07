@@ -1,0 +1,126 @@
+:root {
+  --primary-color: #032a0f;
+  --text-dark: #1f2937;
+  --text-light: #6b7280;
+  --background-light: #f3f4f6;
+  --white: #ffffff;
+  --shadow-subtle: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 10px 15px rgba(0, 0, 0, 0.15);
+}
+
+.search-container {
+  position: relative;
+}
+
+.swap-icon {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  margin-bottom: 0.01rem;
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.dropdown-item {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background: #f0f0f0;
+}
+
+.swap-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  margin: 10rem;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: var(--background-light);
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: -10rem;
+  padding: 0;
+}
+
+.break-form {
+  padding: 2rem;
+  margin-top: 2rem;
+  margin-left: 15rem;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(4, 4, 4, 0.1);
+  width: 400px;
+  background-color: var(--white);
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 90%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: var(--background-light);
+}
+
+.submit-button {
+  display: flex;
+  justify-content: center;
+}
+
+.submit-button button {
+  background-color: #8bc34a;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #032a0f;
+}
+
+.submit-button button:hover {
+  background-color: rgba(198, 198, 198, 0.4588235294);
+  color: var(--text-light);
+}
+
+@media screen and (max-width: 768px) {
+  .swap-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -5em;
+    margin-left: 0;
+    width: 100%;
+  }
+  .content {
+    margin-top: -10rem;
+    margin-left: -25rem;
+    width: 100%;
+  }
+}/*# sourceMappingURL=swap.css.map */
