@@ -39,8 +39,8 @@ const BreakAllowanceSchema = new mongoose.Schema({
   },
   lunchBreakDuration: {
     type: Number,
-    default: 45, // 45 minutes default
-    min: 30,
+    default: 30, // 30 minutes default
+    min: 0,
     max: 90,
   },
   screenBreak2Duration: {
