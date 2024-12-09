@@ -47,7 +47,7 @@ export const reset2fa = async () => {
 };
 
 export const fetchUsers = async () => {
-  return await api.get("auth/users", {
+  return await api.get("users", {
     withCredentials: true,
   });
 };

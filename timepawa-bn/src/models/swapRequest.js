@@ -77,9 +77,6 @@ SwapRequestSchema.pre("save", function (next) {
   if (!validBreakTypes.includes(this.breakType)) {
     return next(new Error("Invalid break type for swap"));
   }
-
-  // Optional: Add more validation logic
-  // For example, ensure start and end times make sense
   if (
     this.initiatorBreakDetails.startTime >= this.initiatorBreakDetails.endTime
   ) {

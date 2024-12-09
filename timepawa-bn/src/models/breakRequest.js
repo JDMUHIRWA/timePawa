@@ -1,4 +1,4 @@
-
+import User from "../models/user.js";
 import mongoose from "mongoose";
 
 const BreakRequestSchema = new mongoose.Schema(
@@ -10,11 +10,7 @@ const BreakRequestSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      enum: [
-        "MEETING",
-        "COACHING",
-        "TRAINING",
-      ],
+      enum: ["MEETING", "COACHING", "TRAINING"],
       required: true,
     },
     startTime: {
@@ -43,7 +39,45 @@ const BreakRequestSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+// Method to check break availability
+breakRequestSchema.statics.checkBreakAvailability = async function (
+  breakRequest
+) {
+  try {
+    const existingBreaks = await BreakRequest.find({
+      startTime: { $lte: breakRequest.startTime },
+      endTime: { $gte: breakRequest.endTime },
+    });
 
+    // Check if any breaks overlap
+    const hasConflict = existingBreaks.some((existingBreak) =>
+      existingBreak.breaksOverlap(breakRequest)
+    );
+
+    if (hasConflict) {
+      // Adjust the break or reject it based on your logic
+      return {
+        conflict: true,
+        // Example: you can adjust timing here
+        adjustedBreak: {
+          ...breakRequest,
+          startTime: moment(breakRequest.startTime).add(30, "minutes").toDate(),
+        },
+      };
+    }
+
+    return { conflict: false };
+  } catch (error) {
+    console.error("Error checking break availability:", error);
+    return { conflict: false }; // No conflict if error occurs
+  }
+};
+// Method to check if two breaks overlap
+breakRequestSchema.statics.breaksOverlap = function (break1, break2) {
+  return (
+    break1.startTime >= break2.startTime && break1.startTime <= break2.endTime
+  );
+};
 // Indexing for performance
 BreakRequestSchema.index({ user: 1, startTime: 1 });
 BreakRequestSchema.index({ status: 1 });
