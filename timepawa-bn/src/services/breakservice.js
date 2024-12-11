@@ -223,6 +223,255 @@ class BreakScheduleService {
       throw error;
     }
   }
+  static async getTodaysBreaks(userId) {
+    try {
+      const today = new Date();
+      const startOfDay = new Date(today.setHours(0, 0, 0, 0)); // Start of the day
+      const endOfDay = new Date(today.setHours(23, 59, 59, 999)); // End of the day
+
+      const breaks = await GeneratedBreak.find({
+        userId,
+        startTime: { $gte: startOfDay, $lte: endOfDay },
+      });
+      return breaks;
+    } catch (error) {
+      console.error("Error fetching today's breaks:", error);
+      throw new Error("Failed to fetch today's breaks.");
+    }
+  }
+
+  // Fetch the weekly breaks for a user
+  static async getWeeklyBreaks(userId) {
+    try {
+      const today = new Date();
+      const startOfWeek = new Date(
+        today.setDate(today.getDate() - today.getDay())
+      ); // Start of the week (Sunday)
+      const endOfWeek = new Date(startOfWeek);
+      endOfWeek.setDate(startOfWeek.getDate() + 6); // End of the week (Saturday)
+
+      const breaks = await GeneratedBreak.find({
+        userId,
+        startTime: { $gte: startOfWeek, $lte: endOfWeek },
+      });
+      return breaks;
+    } catch (error) {
+      console.error("Error fetching weekly breaks:", error);
+      throw new Error("Failed to fetch weekly breaks.");
+    }
+  }
+
+  // Request a break swap
+  static async requestBreakSwap(userId, swapDetails) {
+    try {
+      const { breakId, swapWithBreakId, reason } = swapDetails;
+
+      // Find the break the user wants to swap
+      const breakToSwap = await GeneratedBreak.findOne({
+        _id: breakId,
+        userId,
+      });
+      if (!breakToSwap) {
+        throw new Error("Break not found or invalid user.");
+      }
+
+      // Find the target break for the swap
+      const targetBreak = await GeneratedBreak.findById(swapWithBreakId);
+      if (!targetBreak) {
+        throw new Error("Target break not found.");
+      }
+
+      // Update the break statuses
+      const result = await GeneratedBreak.updateMany(
+        { _id: { $in: [breakId, swapWithBreakId] } },
+        {
+          $set: {
+            status: "SWAP_REQUESTED",
+            requestedBy: userId,
+            reason: reason || "No reason provided.",
+          },
+        }
+      );
+
+      if (result.nModified !== 2) {
+        throw new Error("Failed to update both breaks. Swap request aborted.");
+      }
+
+      return {
+        message: "Swap request submitted successfully.",
+        breaks: { breakToSwap, targetBreak },
+      };
+    } catch (error) {
+      console.error("Error submitting break swap request:", error);
+      throw new Error("Failed to submit break swap request.");
+    }
+  }
+
+  // Fetch breaks eligible for swapping
+  static async getAvailableBreaksForSwap(userId) {
+    try {
+      const breaks = await GeneratedBreak.find({
+        userId: { $ne: userId }, // Exclude the current user's breaks
+        status: "PENDING", // Only pending breaks are eligible
+      });
+      return breaks;
+    } catch (error) {
+      console.error("Error fetching available breaks for swap:", error);
+      throw new Error("Failed to fetch available breaks for swap.");
+    }
+  }
+
+  // Schedule a new break
+  static async scheduleBreak(userId, breakDetails) {
+    try {
+      const { username, type, shift, slot, startTime, endTime } = breakDetails;
+
+      // Create a new break entry
+      const newBreak = new GeneratedBreak({
+        userId,
+        username,
+        type,
+        shift,
+        slot,
+        startTime,
+        endTime,
+        status: "PENDING",
+      });
+
+      await newBreak.save();
+      return {
+        message: "Break scheduled successfully.",
+        breakId: newBreak._id,
+      };
+    } catch (error) {
+      console.error("Error scheduling break:", error);
+      throw new Error("Failed to schedule break.");
+    }
+  }
+
+  // Fetch all available break types
+  static async getBreakTypes() {
+    try {
+      // Since break types are enums in your schema, we can return them directly
+      return ["SCREEN_BREAK_1", "LUNCH_BREAK", "SCREEN_BREAK_2"];
+    } catch (error) {
+      console.error("Error fetching break types:", error);
+      throw new Error("Failed to fetch break types.");
+    }
+  }
+
+  // Fetch all agents currently on break
+  static async getAgentsOnBreak() {
+    try {
+      const now = new Date();
+
+      const agentsOnBreak = await GeneratedBreak.find({
+        startTime: { $lte: now },
+        endTime: { $gte: now },
+        status: "PENDING", // Assume "PENDING" means the break is ongoing
+      }).populate("userId", "username"); // Populate user details
+
+      return agentsOnBreak;
+    } catch (error) {
+      console.error("Error fetching agents on break:", error);
+      throw new Error("Failed to fetch agents currently on break.");
+    }
+  }
+  // Notifiations
+  static async getNofiications() {
+    try {
+      // fetch break swap requests
+      const breakSwapRequests = await GeneratedBreak.find({
+        userId,
+        status: "SWAP_REQUESTED",
+      }).populate("userId", "username");
+
+      // fetch supervisor approved breaks
+      const supervisorApprovedBreaks = await GeneratedBreak.find({
+        userId,
+        status: "SUPERVISOR_APPROVED",
+        $or: [{ type: "COACHING", type: "MEETING", type: "TRAINING" }],
+      }).populate("apporvedBy", "username");
+
+      // Transform break swap requests into notifications objects
+      const swapRequestNotifications = breakSwapRequests.map((request) => ({
+        id: request._id,
+        type: "BREAK_SWAP_REQUEST",
+        message: `${request.userId.username} has requested a break swap`,
+        timestamp: request.createdAt,
+      }));
+
+      // Transform supervisor-approved requests into notification objects
+      const supervisorNotifications = supervisorApprovedRequests.map(
+        (request) => ({
+          id: request._id,
+          type: "SUPERVISOR_APPROVED",
+          message: `Your ${request.type} request has been approved by ${request.approvedBy.username}`,
+          breakId: request._id,
+          approvedBy: request.approvedBy.username,
+          breakType: request.type,
+          createdAt: request.createdAt,
+        })
+      );
+      // Combine and sort notifications by creation time
+      const allNotifications = [
+        ...swapNotifications,
+        ...supervisorNotifications,
+      ].sort((a, b) => b.createdAt - a.createdAt);
+
+      return allNotifications;
+    } catch (error) {
+      logger.error(`Error fetching notifications for user ${userId}`, {
+        error,
+      });
+      throw new Error("Failed to fetch notifications");
+    }
+  }
+  // Supervisor approval
+  static async approveBreakRequest(userId, breakId) {
+    try {
+      // Validate the approving user (must be a manager or supervisor)
+      const approvingUser = await User.findById(userId);
+      if (!approvingUser || approvingUser.role !== "MANAGER") {
+        throw new Error("User is not authorized to approve break requests.");
+      }
+
+      // Find the break request
+      const breakRequest = await BreakRequest.findById(breakId).populate(
+        "userId",
+        "username"
+      );
+      if (!breakRequest) {
+        throw new Error(`Break request with ID ${breakId} not found.`);
+      }
+      if (breakRequest.status !== "PENDING") {
+        throw new Error(
+          `Break request ${breakId} is already ${breakRequest.status}.`
+        );
+      }
+
+      // Approve the break request
+      breakRequest.status = "APPROVED";
+      breakRequest.approvedBy = userId;
+      await breakRequest.save();
+
+      // Log the successful approval
+      logger.info(
+        `Break request ${breakId} approved by user ${approvingUser.username}`
+      );
+
+      // Return a detailed success response
+      return {
+        message: "Break request approved successfully.",
+        breakRequest,
+        approvedBy: approvingUser.username,
+        timestamp: new Date(),
+      };
+    } catch (error) {
+      logger.error("Error approving break request", { error, userId, breakId });
+      throw new Error("Failed to approve break request.");
+    }
+  }
 }
 
 export default BreakScheduleService;

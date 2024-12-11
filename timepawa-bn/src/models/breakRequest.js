@@ -3,12 +3,13 @@ import mongoose from "mongoose";
 
 const BreakRequestSchema = new mongoose.Schema(
   {
-    user: {
+    username: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
-    type: {
+
+    break_type: {
       type: String,
       enum: ["MEETING", "COACHING", "TRAINING"],
       required: true,

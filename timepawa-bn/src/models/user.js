@@ -5,6 +5,7 @@ const UserSchema = new mongoose.Schema(
     username: {
       type: String,
       required: true,
+      ref: "User",
       unique: true,
     },
     password: {
@@ -26,7 +27,7 @@ const UserSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["ACTIVE", "INACTIVE"],
+      enum: ["TEMPORARILY_INACTIVE", "SUSPENDED"],
       default: "ACTIVE",
       required: true,
     },
@@ -36,35 +37,8 @@ const UserSchema = new mongoose.Schema(
   }
 );
 
-const BreakAllowanceSchema = new mongoose.Schema({
-  screenBreak1Duration: {
-    type: Number,
-    default: 15, // 15 minutes default
-    min: 0,
-    max: 60,
-  },
-  lunchBreakDuration: {
-    type: Number,
-    default: 30, // 30 minutes default
-    min: 0,
-    max: 90,
-  },
-  screenBreak2Duration: {
-    type: Number,
-    default: 15, // 15 minutes default
-    min: 0,
-    max: 60,
-  },
-  weeklyBreakLimit: {
-    type: Number,
-    default: 300, // 5 hours total break time
-    min: 0,
-  },
-});
-
 // Indexing for performance
 UserSchema.index({ username: 1 }, { unique: true });
-UserSchema.index({ email: 1 }, { unique: true });
 UserSchema.index({ role: 1 });
 UserSchema.index({ department: 1 });
 UserSchema.index({ team: 1 });
