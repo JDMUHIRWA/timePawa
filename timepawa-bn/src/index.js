@@ -4,10 +4,14 @@ import cors from "cors";
 import passport from "passport";
 import dotenv from "dotenv";
 import dbConnect from "./config/dbConnect.js";
-import {authRoutes, breakServiceRoutes, users} from "./routes/index.js";
+import { authRoutes, breakServiceRoutes, users } from "./routes/index.js";
+import BreakGenerationScheduler from "./services/breakGenerationScheduler.js"
 import "./config/passportConfig.js";
 
 dotenv.config();
+
+// Initialize break generation scheduler
+BreakGenerationScheduler.scheduleBreakGeneration();
 
 // Connect to the database
 dbConnect();

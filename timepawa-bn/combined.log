@@ -1,0 +1,10 @@
+{"coverageValidation":[{"breakCount":3,"coverageRatio":1,"isValidCoverage":false,"shift":"MORNING_SHIFT"}],"level":"warn","message":"Potential insufficient team coverage","timestamp":"2024-12-10T11:47:56.793Z"}
+{"level":"info","message":"Generated 3 breaks for user jojo","timestamp":"2024-12-10T11:47:56.972Z"}
+{"level":"info","message":"Total breaks generated: 3","timestamp":"2024-12-10T11:47:56.973Z"}
+{"invalidBreaks":[{"break":{"endTime":"2024-12-10T10:51:37.747Z","shift":"MORNING_SHIFT","slot":"MIDDAY","startTime":"2024-12-10T10:21:37.747Z","status":"PENDING","type":"LUNCH_BREAK","userId":"6748cc89fd909bf0cba6ad49","username":"jojo"},"error":"Break time conflicts with existing breaks"}],"level":"warn","message":"Some breaks failed validation","timestamp":"2024-12-10T11:48:47.583Z"}
+{"coverageValidation":[{"breakCount":2,"coverageRatio":1,"isValidCoverage":false,"shift":"MORNING_SHIFT"}],"level":"warn","message":"Potential insufficient team coverage","timestamp":"2024-12-10T11:48:47.584Z"}
+{"level":"info","message":"Generated 2 breaks for user jojo","timestamp":"2024-12-10T11:48:47.708Z"}
+{"level":"info","message":"Total breaks generated: 2","timestamp":"2024-12-10T11:48:47.708Z"}
+{"coverageValidation":[{"breakCount":3,"coverageRatio":1,"isValidCoverage":false,"shift":"EVENING_SHIFT"}],"level":"warn","message":"Potential insufficient team coverage","timestamp":"2024-12-10T15:01:07.406Z"}
+{"level":"info","message":"Generated 3 breaks for user jojo","timestamp":"2024-12-10T15:01:07.526Z"}
+{"level":"info","message":"Total breaks generated: 3","timestamp":"2024-12-10T15:01:07.527Z"}
