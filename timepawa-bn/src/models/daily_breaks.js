@@ -6,7 +6,7 @@ const DailyBreaksSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
             required: true,
-            indexe: true,
+            index: true,
         },
         username: {
             type: String,

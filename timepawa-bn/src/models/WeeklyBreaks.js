@@ -1,39 +1,41 @@
 import mongoose from "mongoose";
 
-const WeeklyBreakSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: true,
-    ref: "User",
-    unique: true,
+const WeeklyBreakSchema = new mongoose.Schema(
+  {
+    username: {
+      type: String,
+      required: true,
+      ref: "User",
+      unique: true,
+      index: true,
+    },
+    break_type: {
+      type: String,
+      enum: ["SCREEN_BREAK_1", "LUNCH", "SCREEN_BREAK_2"],
+      required: true,
+    },
+    status: {
+      type: String,
+      enum: ["PENDING", "ONGOING", "COMPLETED"],
+      default: "PENDING",
+      required: true,
+    },
+    week_start_date: {
+      type: Date,
+      required: true,
+    },
+    week_end_date: {
+      type: Date,
+      required: true,
+    },
+    total_break_duration: {
+      type: Number,
+      required: true,
+    },
   },
-  break_type: {
-    type: String,
-    enum: ["SCREEN_BREAK_1", "LUNCH", "SCREEN_BREAK_2"],
-    required: true,
-  },
-  status: {
-    type: String,
-    enum: ["PENDING", "ONGOING", "COMPLETED"],
-    default: "PENDING",
-    required: true,
-  },
-  week_start_date: {
-    type: Date,
-    required: true,
-  },
-  week_end_date: {
-    type: Date,
-    required: true,
-  },
-  total_break_duration: {
-    type: Number,
-    required: true,
-  },
-}, {
-  
+  {
     timestamps: true,
-  },
+  }
 );
 
 // Indexing for performance

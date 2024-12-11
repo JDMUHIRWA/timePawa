@@ -5,13 +5,14 @@ const MonthlyBreaksSchema = new mongoose.Schema(
     username: {
       type: String,
       required: true,
+      index: true,
       ref: "User", // Reference to the User model
     },
     userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true,
-        index: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      index: true,
     },
     month: {
       type: Number,

@@ -6,15 +6,17 @@ const SwapRequestSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
+      index: true,
     },
     target: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
+      index: true,
     },
     breakType: {
       type: String,
-      enum: ["SCREEN_BREAK_1","LUNCH_BREAK", "SCREEN_BREAK_2"],
+      enum: ["SCREEN_BREAK_1", "LUNCH_BREAK", "SCREEN_BREAK_2"],
       required: true,
     },
     initiatorBreakDetails: {

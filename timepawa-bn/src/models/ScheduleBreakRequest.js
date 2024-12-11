@@ -6,6 +6,7 @@ const SpecialBreakRequestSchema = new mongoose.Schema(
       type: String,
       required: true,
       ref: "User",
+      index: true,
     },
     break_type: {
       type: String,
