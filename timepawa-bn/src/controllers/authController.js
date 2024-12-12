@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import speakeasy from "speakeasy";
 import qrcode from "qrcode";
 import jwt from "jsonwebtoken";
+import User from "../models/user.js";
 
 export const register = async (req, res) => {
   try {
@@ -33,7 +34,7 @@ export const login = async (req, res) => {
 export const authstatus = async (req, res) => {
   if (req.user) {
     res.status(200).json({
-      message: "User is logged in",
+      message: "User is Authenticated",
       username: req.user.username,
       isMfaActive: req.user.isMfaActive,
     });
