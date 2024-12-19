@@ -1,201 +1,501 @@
-import NightBreaks from "../models/Shift Type/nightBreaks.js";
-import MorningBreaks from "../models/Shift Type/morningBreaks.js";
-import AfternoonBreaks from "../models/Shift Type/afternoonBreaks.js";
-import User from "../models/user.js";
-import { create } from "qrcode";
+// import NightBreaks from "../models/Shift Type/nightBreaks.js";
+// import MorningBreaks from "../models/Shift Type/morningBreaks.js";
+// import AfternoonBreaks from "../models/Shift Type/afternoonBreaks.js";
+// import User from "../models/user.js";
 
-class GenerateWeeklyBreaks {
-  constructor() {
-    this.breakTypes = ["SCREEN_BREAK_1", "LUNCH", "SCREEN_BREAK_2"];
-  }
-  async morningBreaks() {
-    try {
-      // Fetch all the active users
-      const users = await User.find({ status: "ACTIVE" });
+// class GenerateWeeklyBreaks {
+//   constructor() {
+//     this.breakTypes = ["SCREEN_BREAK_1", "LUNCH", "SCREEN_BREAK_2"];
+//   }
+//   async morningBreaks() {
+//     // fetch all the active users
+//     const users = await User.find({ status: "ACTIVE" });
 
-      // Define start and end dates for the week
-      const today = new Date();
-      const startOfWeek = new Date(
-        today.setDate(today.getDate() - today.getDay())
-      ); // Start of the week (Sunday)
-      const endOfWeek = new Date(today.setDate(startOfWeek.getDate() + 6)); // End of the week (Saturday)
+//     // defining break start and end times
+//     const startShiftTime = new Date();
+//     startShiftTime.setHours(9, 0, 0, 0); // 9:00 AM
+//     const shiftDuration = 8 * 60; // 8 hours in minutes
 
-      // Array to store created morning breaks
-      let createdMorningBreaks = [];
+//     const breakWindowStart = new Date(startShiftTime);
+//     breakWindowStart.setHours(10, 0, 0, 0); // 10:00 AM
 
-      // Generate weekly breaks for each user
-      for (let user of users) {
-        let totalBreakDuration = 0;
-        for (let i = 0; i < this.breakTypes.length; i++) {
-          let breakDuration = 0;
+//     const breakWindowEnd = new Date(startShiftTime);
+//     breakWindowEnd.setHours(16, 0, 0, 0); // 4:00 PM
 
-          // Assign break durations based on the break type
+//     const breakDuration = this.breakTypes.reduce((sum, breakType) => {
+//       return sum + (breakType === "LUNCH" ? 30 : 10); // 30 min for lunch, 10 min for others
+//     }, 0);
 
-          switch (this.breakTypes[i]) {
-            case "SCREEN_BREAK_1":
-              breakDuration = 10; // SB 1 has 10 mins duration
-              break;
-            case "LUNCH":
-              breakDuration = 30; // Lunch break has 30 mins duration
-              break;
-            case "SCREEN_BREAK_2":
-              breakDuration = 10; // SB 2 has 10 mins duration
-              break;
-          }
+//     const availableTime = shiftDuration - breakDuration; // available time for spacing between breaks
+//     // number of breaks
+//     const numberOfBreaks = this.breakTypes.length;
 
-          totalBreakDuration += breakDuration; // Calculate total break duration for the week
+//     const spacingBreaks = Math.floor(availableTime / ( numberOfBreaks + 1)); // space between breaks
 
-          try {
-            // Create a record in the database
-            const morningbreaks = await MorningBreaks.create({
-              user_id: user._id,
-              username: user.username,
-              start_date: startOfWeek,
-              end_date: endOfWeek,
-              status: "PENDING",
-              break_type: this.breakTypes[i],
-              break_duration: breakDuration,
-              time_period: "MORNING",
-            });
-            createdMorningBreaks.push(morningbreaks);
-          } catch (createError) {
-            console.error(
-              `Error creating morning break record for ${user.username}:`,
-              createError
-            );
-          }
-        }
-      }
+//     let createdBreaks = [];
+//     let currentBreakStart = new Date(breakWindowStart);
 
-      return createdMorningBreaks;
-    } catch (error) {
-      console.error("Error in morningBreaks function:", error);
-    }
-  }
+//     // Generate breaks for all users dynamically
+//     for (let user of users) {
+//       let createdBreak = [];
+//       let breakStartTime = new Date(currentBreakStart);
 
-  async afternoonBreaks() {
-    try {
-      // fetch all the active users
-      const users = await User.find({ status: "ACTIVE" });
+//       for (let i = 0; i < this.breakTypes.length; i++) {
+//         const breakEndTime = new Date(breakStartTime);
+//         breakEndTime.setMinutes(
+//           breakStartTime.getMinutes() +
+//             (this.breakTypes[i] === "LUNCH" ? 30 : 10)
+//         );
 
-      // defining break types and weekly start/end dates
-      const today = new Date(); // get today's date
-      const startOfWeek = new Date(
-        today.setDate(today.getDate() - today.getDay())
-      ); // get the start of the week
-      const endOfWeek = new Date(
-        today.setDate(today.getDate() - today.getDay() + 6)
-      ); // get the end of the week
+//         createdBreak.push({
+//           break_type: this.breakTypes[i],
+//           break_start: breakStartTime.toLocaleTimeString(),
+//           break_end: breakEndTime.toLocaleTimeString(),
+//         });
+//         // Set the break time for the next break after this break
+//         breakStartTime = new Date(breakEndTime);
+//         breakStartTime.setMinutes(breakStartTime.getMinutes() + spacingBreaks); // move forward by calculated spacing
+//       }
 
-      // Array to store created afternoon breaks
-      const createdAfternoonBreaks = [];
+//       // Save the break times for the user
+//       try {
+//         const breaks = await Breaks.create({
+//           user_id: user._id,
+//           username: user.username,
+//           start_date: startShiftTime,
+//           end_date: breakWindowEnd,
+//           status: "PENDING",
+//           breaks: createdBreak,
+//         });
+//         createdBreaks.push(breaks);
+//       } catch (createError) {
+//         console.error(
+//           `Error creating break record for ${user.username}:`,
+//           createError
+//         );
+//       }
+//     }
 
-      // Generate weekly breaks for each user
-      for (let user of users) {
-        let totalBreakDuration = 0;
-        for (let i = 0; i < this.breakTypes.length; i++) {
-          let breakDuration = 0;
-          switch (this.breakTypes[i]) {
-            case "SCREEN_BREAK_1":
-              breakDuration = 10; // SB 1 has 10 mins duration
-              break;
-            case "LUNCH":
-              breakDuration = 30; // Lunch break has 30 mins duration
-              break;
-            case "SCREEN_BREAK_2":
-              breakDuration = 10; // SB 2 has 10 mins duration
-              break;
-          }
-          totalBreakDuration += breakDuration; // calculate total break duration for the week
+//     return createdBreaks;
+//   }
 
-          try {
-            // create a record in th database
-            await AfternoonBreaks.create({
-              user_id: user._id,
-              username: user.username,
-              start_date: startOfWeek,
-              end_date: endOfWeek,
-              status: "PENDING",
-              break_type: this.breakTypes[i],
-              break_duration: breakDuration,
-              time_period: "AFTERNOON",
-            });
-            createdAfternoonBreaks.push({
-              user_id: user._id,
-              username: user.username,
-              start_date: startOfWeek,
-              end_date: endOfWeek,
-              status: "PENDING",
-              break_type: this.breakTypes[i],
-              break_duration: breakDuration,
-              time_period: "AFTERNOON",
-            });
-          } catch (createError) {
-            console.error(
-              `Error creating afternoon break record for ${user.username}:`,
-              createError
-            );
-          }
-        }
-      }
+//   async afternoonBreaks() {
+//     // fetch all the active users
+//     const users = await User.find({ status: "ACTIVE" });
 
-      return createdAfternoonBreaks;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  async nightBreaks() {
-    try {
-      // fetch all the active users
-      const users = await User.find({ status: "ACTIVE" });
+//     // defining break start and end times
+//     const startShiftTime = new Date();
+//     startShiftTime.setHours(16, 0, 0, 0); // 14:00 PM
 
-      // defining break types and weekly start/end dates
-      const today = new Date(); // get today's date
-      const startOfWeek = new Date(
-        today.setDate(today.getDate() - today.getDay())
-      ); // get the start of the week
-      const endOfWeek = new Date(
-        today.setDate(today.getDate() - today.getDay() + 6)
-      ); // get the end of the week
+//     const shiftDuration = 8 * 60; // 8 hours in minutes
 
-      // Array to store created night breaks
-      const createdNightBreaks = [];
+//     const breakWindowStart = new Date(startShiftTime);
+//     breakWindowStart.setHours(17, 0, 0, 0); // 17:00 PM
 
-      // Generate weekly breaks for each user
-      for (let user of users) {
-        let totalBreakDuration = 0;
+//     const breakWindowEnd = new Date(startShiftTime);
+//     breakWindowEnd.setHours(23, 0, 0, 0); // 23:00 PM
 
-        for (let i = 0; i < this.breakTypes.length; i++) {
-          let breakDuration = i === 1 ? 30 : 10; // Lunch break has 60 mins duration, other breaks have 30 mins duration
+//     const breakDuration = this.breakTypes.reduce((sum, breakType) => {
+//       return sum + (breakType === "LUNCH" ? 30 : 10); // 30 min for lunch, 10 min for others
+//     }, 0);
 
-          try {
-            // create a record in th database
-            const nightbreaks = await NightBreaks.create({
-              user_id: user._id,
-              username: user.username,
-              start_date: startOfWeek,
-              end_date: endOfWeek,
-              status: "PENDING",
-              break_type: this.breakTypes[i],
-              break_duration: breakDuration,
-              time_period: "NIGHT",
-            });
+//     const availableTime = shiftDuration - breakDuration; // available time for spacing between breaks
 
-            createdNightBreaks.push(nightbreaks);
-          } catch (createError) {
-            console.error(
-              `Error creating night break record for ${user.username}:`,
-              createError
-            );
-          }
-        }
-      }
+//     let createdBreaks = [];
+//     let currentBreakStart = new Date(breakWindowStart);
 
-      return createdNightBreaks;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-}
+//     // Generate breaks for all users dynamically
 
-export default GenerateWeeklyBreaks;
+//     for (let user of users) {
+//       let createdBreak = [];
+//       let breakStartTime = new Date(currentBreakStart);
+
+//       this.breakTypes.forEach((breakType) => {
+//         const breakEndTime = new Date(breakStartTime);
+//         breakEndTime.setMinutes(
+//           breakStartTime.getMinutes() + (breakType === "LUNCH" ? 30 : 10)
+//         );
+
+//         createdBreak.push({
+//           break_type: breakType,
+//           break_start: breakStartTime.toLocaleTimeString(),
+//           break_end: breakEndTime.toLocaleTimeString(),
+//         });
+
+//         // Set the break time for the next user after this user's break
+//         currentBreakStart = new Date(breakEndTime);
+//         currentBreakStart.setMinutes(
+//           currentBreakStart.getMinutes() + spacingBreaks
+//         ); // move forward by calculated spacing
+//       });
+
+//       // Save the break times for the user
+//       try {
+//         const breaks = await Breaks.create({
+//           user_id: user._id,
+//           username: user.username,
+//           start_date: startShiftTime,
+//           end_date: breakWindowEnd,
+//           status: "PENDING",
+//           breaks: createdBreak,
+//         });
+//         createdBreaks.push(breaks);
+//       } catch (createError) {
+//         console.error(
+//           `Error creating break record for ${user.username}:`,
+//           createError
+//         );
+//       }
+//     }
+//   }
+
+//   async nightBreaks() {
+//     // fetch all the active users
+//     const users = await User.find({ status: "ACTIVE" });
+
+//     // defining break start and end times
+//     const startShiftTime = new Date();
+//     startShiftTime.setHours(24, 0, 0, 0); // 00:00 AM
+//     const shiftDuration = 8 * 60; // 8 hours in minutes
+
+//     const breakWindowStart = new Date(startShiftTime);
+//     breakWindowStart.setHours(1, 0, 0, 0); // 1:00 AM
+
+//     const breakWindowEnd = new Date(startShiftTime);
+//     breakWindowEnd.setHours(7, 0, 0, 0); // 7:00 PM
+
+//     const breakDuration = this.breakTypes.reduce((sum, breakType) => {
+//       return sum + (breakType === "LUNCH" ? 30 : 10); // 30 min for lunch, 10 min for others
+//     }, 0);
+
+//     const availableTime = shiftDuration - breakDuration; // available time for spacing between breaks
+//     const usersCount = users.length;
+//     const spacingBreaks = Math.floor(availableTime / (usersCount + 1)); // space between breaks
+
+//     let createdBreaks = [];
+//     let currentBreakStart = new Date(breakWindowStart);
+
+//     // Generate breaks for all users dynamically
+//     for (let user of users) {
+//       let createdBreak = [];
+//       let breakStartTime = new Date(currentBreakStart);
+
+//       this.breakTypes.forEach((breakType) => {
+//         const breakEndTime = new Date(breakStartTime);
+//         breakEndTime.setMinutes(
+//           breakStartTime.getMinutes() + (breakType === "LUNCH" ? 30 : 10)
+//         );
+
+//         createdBreak.push({
+//           break_type: breakType,
+//           break_start: breakStartTime.toLocaleTimeString(),
+//           break_end: breakEndTime.toLocaleTimeString(),
+//         });
+
+//         // Set the break time for the next user after this user's break
+//         currentBreakStart = new Date(breakEndTime);
+//         currentBreakStart.setMinutes(
+//           currentBreakStart.getMinutes() + spacingBreaks
+//         ); // move forward by calculated spacing
+//       });
+
+//       // Save the break times for the user
+//       try {
+//         const breaks = await Breaks.create({
+//           user_id: user._id,
+//           username: user.username,
+//           start_date: startShiftTime,
+//           end_date: breakWindowEnd,
+//           status: "PENDING",
+//           breaks: createdBreak,
+//         });
+//         createdBreaks.push(breaks);
+//       } catch (createError) {
+//         console.error(
+//           `Error creating break record for ${user.username}:`,
+//           createError
+//         );
+//       }
+//     }
+
+//     return createdBreaks;
+//   }
+// }
+
+// export default GenerateWeeklyBreaks;
+
+
+
+
+
+// const breakTypes = ["SCREEN_BREAK_1", "LUNCH", "SCREEN_BREAK_2"];
+// const users = [
+//   "User1",
+//   "User2",
+//   "User3",
+//   "User4",
+//   "User5",
+//   "User6",
+//   "User7",
+//   "User8",
+//   "User9",
+//   "User10",
+// ];
+
+// const shiftduration = 8 * 60; // Shift duration in minutes
+
+// const shiftstart = new Date();
+// shiftstart.setHours(9, 0, 0, 0); // Shift start at 9:00 AM
+
+// const breakstartwindow = new Date(shiftstart);
+// breakstartwindow.setHours(10, 0, 0, 0); // Break start window at 10:00 AM
+
+// const breakendwindow = new Date(shiftstart);
+// breakendwindow.setHours(16, 0, 0, 0); // Break end window at 4:00 PM
+
+// const breakDuration = breakTypes.reduce((sum, breakType) => {
+//   return sum + (breakType === "LUNCH" ? 30 : 10); // LUNCH gets 30 mins, others 10 mins
+// }, 0);
+
+// const availabletime = shiftduration - breakDuration;
+
+// const spacing = 60;
+
+// let createdbreaks = [];
+// let nextbreak = new Date(breakstartwindow);
+
+// for (let user of users) {
+//   let createdbreak = [];
+//   let currentbreakstart = new Date(breakstartwindow);
+
+//   for (let i = 0; i < breakTypes.length; i++) {
+//     let breakendTime = new Date(currentbreakstart);
+//     breakendTime.setMinutes(
+//       currentbreakstart.getMinutes() + (breakTypes[i] === "LUNCH" ? 30 : 10)
+//     );
+//     createdbreak.push({
+//       username: user,
+//       break_type: breakTypes[i],
+//       break_start: currentbreakstart.toLocaleTimeString(),
+//       break_end: breakendTime.toLocaleTimeString(),
+//     });
+
+//     currentbreakstart = new Date(breakendTime);
+//     currentbreakstart.setMinutes(breakendTime.getMinutes() + spacing);
+//   }
+
+//   nextbreak = new Date(currentbreakstart);
+//   nextbreak.setMinutes(nextbreak.getMinutes() - spacing);
+
+//   createdbreaks.push(createdbreak);
+// }
+
+// console.log(createdbreaks);
+
+
+
+
+// function createBreakSchedule(shiftStart, shiftEnd, numUsers, breaks) {
+//   // Helper function to convert time string (e.g., "9:00 AM") to minutes since midnight
+//   function timeToMinutes(timeStr) {
+//     const [time, modifier] = timeStr.split(" ");
+//     let [hours, minutes] = time.split(":").map(Number);
+
+//     if (modifier === "PM" && hours !== 12) hours += 12;
+//     if (modifier === "AM" && hours === 12) hours = 0;
+
+//     return hours * 60 + minutes;
+//   }
+
+//   // Helper function to convert minutes since midnight to time string
+//   function minutesToTime(minutes) {
+//     const hours = Math.floor(minutes / 60) % 24;
+//     const mins = minutes % 60;
+//     const modifier = hours >= 12 ? "PM" : "AM";
+
+//     const displayHours = hours % 12 === 0 ? 12 : hours % 12;
+//     const displayMinutes = mins.toString().padStart(2, "0");
+
+//     return `${displayHours}:${displayMinutes} ${modifier}`;
+//   }
+
+//   // Convert shift times to minutes
+//   const shiftStartMinutes = timeToMinutes(shiftStart);
+//   const shiftEndMinutes = timeToMinutes(shiftEnd);
+
+//   // Calculate the break window (exclude first and last hour)
+//   const breakWindowStart = shiftStartMinutes + 60; // Start 1 hour after shift starts
+//   const breakWindowEnd = shiftEndMinutes - 60; // End 1 hour before shift ends
+
+//   // Initialize the schedule for all users
+//   const schedule = [];
+
+//   for (let i = 0; i < numUsers; i++) {
+//     schedule.push({ user: `User ${i + 1}`, breaks: [] });
+//   }
+
+//   // Assign breaks sequentially for each break type
+//   breaks.forEach((breakType) => {
+//     const breakDuration = breakType.duration; // Duration in minutes
+//     let currentBreakStart = breakWindowStart; // Start at beginning of break window
+
+//     for (let i = 0; i < numUsers; i++) {
+//       const currentBreakEnd = currentBreakStart + breakDuration;
+
+//       // Ensure break does not exceed the break window
+//       if (currentBreakEnd > breakWindowEnd) {
+//         console.error(
+//           "Not enough time to schedule all breaks within the window."
+//         );
+//         break;
+//       }
+
+//       // Assign the break to the current user
+//       schedule[i].breaks.push({
+//         break: breakType.name,
+//         start: minutesToTime(currentBreakStart),
+//         end: minutesToTime(currentBreakEnd),
+//       });
+
+//       // Move to the next break time
+//       currentBreakStart = currentBreakEnd;
+//     }
+//   });
+
+//   return schedule;
+// }
+
+// // Example input
+// const shiftStart = "9:00 AM";
+// const shiftEnd = "5:00 PM";
+// const numUsers = 5;
+// const breaks = [
+//   { name: "Screen Break 1", duration: 10 },
+//   { name: "Lunch Break", duration: 30 },
+//   { name: "Screen Break 2", duration: 10 },
+// ];
+
+// // Generate the schedule
+// const schedule = createBreakSchedule(shiftStart, shiftEnd, numUsers, breaks);
+
+// // Print the output
+// console.log(JSON.stringify(schedule, null, 2));
+
+
+
+
+// SB = 10:00 - 11:30
+// LB = 11:30 - 15:00
+// SB = 15:00 - 16:00
+
+
+// const breakTypes = ["SCREEN_BREAK_1", "LUNCH", "SCREEN_BREAK_2"];
+// const users = [
+//   "User1",
+//   "User2",
+//   "User3",
+//   "User4",
+//   "User5",
+//   "User6",
+//   "User7",
+//   "User8",
+//   "User9",
+//   "User10",
+// ];
+
+// const shiftduration = 8 * 60; // Shift duration in minutes
+
+// const shiftstart = new Date();
+// shiftstart.setHours(9, 0, 0, 0); // Shift start at 9:00 AM
+
+// const breakstartwindow = new Date(shiftstart);
+// breakstartwindow.setHours(10, 0, 0, 0); // Break start window at 10:00 AM
+
+// const breakendwindow = new Date(shiftstart);
+// breakendwindow.setHours(16, 0, 0, 0); // Break end window at 4:00 PM
+
+// const breakDuration = breakTypes.reduce((sum, breakType) => {
+//   return sum + (breakType === "LUNCH" ? 30 : 10); // LUNCH gets 30 mins, others 10 mins
+// }, 0);
+
+// const availabletime = shiftduration - breakDuration;
+
+// const spacing = 60;
+
+// let createdbreaks = [];
+
+// for (let user of users) {
+//     let breakend = new Date
+
+//     createdbreak.push({
+//       username: user,
+//       break_type: breakTypes[i],
+//       break_start: currentbreakstart.toLocaleTimeString(),
+//       break_end: breakendTime.toLocaleTimeString(),
+//     });
+
+//   createdbreaks.push(createdbreak);
+// }
+
+// console.log(createdbreaks);
+
+
+// const breakTypes = ["SCREEN_BREAK_1", "LUNCH", "SCREEN_BREAK_2"];
+// const users = [
+//   "User1",
+//   "User2",
+//   "User3",
+//   "User4",
+//   "User5",
+//   "User6",
+//   "User7",
+//   "User8",
+//   "User9",
+//   "User10",
+// ];
+
+// const screenBreakStart = new Date();
+// screenBreakStart.setHours(10, 0, 0, 0); // Set start time to 10:00 AM
+
+// const screenBreakEnd = new Date();
+// screenBreakEnd.setHours(11, 30, 0, 0); // Set end time to 11:30 AM
+
+// // Calculate the difference in milliseconds
+// const screenBreakWindow = screenBreakEnd - screenBreakStart;
+
+// // Convert the difference to minutes
+// const screenBreakMinutes = screenBreakWindow / (1000 * 60);
+
+// const breakDuration = 10
+
+// const breaksPerUser = users.length / (screenBreakMinutes/breakDuration)
+// const userBreaks = breaksPerUser.toFixed(0)
+
+// let createdbreaks = [];
+// let breakStartTime = new Date(screenBreakStart)
+// let breakEndTime = new Date(screenBreakStart)
+// breakEndTime.setMinutes(screenBreakStart.getMinutes()+breakDuration)
+// let i =1
+// for (let user of users) {
+//     const userStart = breakStartTime
+//     const userEnd = breakEndTime
+//     const userDetails = {
+//       username: user,
+//       break_start: userStart,
+//       break_end: userEnd,
+//     };
+//     console.log("Userdetails: ",userDetails)
+//     if(i==userBreaks){
+//         i=1;
+//         breakStartTime.setMinutes(breakStartTime.getMinutes()+breakDuration)
+//     breakEndTime.setMinutes(breakEndTime.getMinutes()+breakDuration)
+//     }
+//     else{
+//         i=i+1
+//     }
+    
+    
+
+// }
+
+// console.log(createdbreaks);

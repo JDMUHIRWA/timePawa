@@ -4,7 +4,7 @@ import cors from "cors";
 import passport from "passport";
 import dotenv from "dotenv";
 import dbConnect from "./config/dbConnect.js";
-import { authRoutes, breakServiceRoutes, usersRoutes } from "./routes/index.js";
+import { authRoutes, usersRoutes } from "./routes/index.js";
 import BreakGenerationScheduler from "./services/breakGenerationScheduler.js"
 import "./config/passportConfig.js";
 
@@ -40,7 +40,6 @@ app.use(passport.session());
 
 //routes
 app.use("/api/auth", authRoutes);
-app.use("/api", breakServiceRoutes);
 app.use("/api", usersRoutes);
 // Listen to the server
 const PORT = process.env.PORT || 7002;
