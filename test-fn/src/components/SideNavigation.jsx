@@ -8,6 +8,7 @@ import { useState } from 'react';
 const SideNavigation = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const toggleMenu = () => setMenuOpen(!menuOpen);
+    const { role } = useSession();
 
     const { logout } = useSession();
     const location = useLocation();
@@ -15,6 +16,34 @@ const SideNavigation = () => {
     const path = location.pathname;
 
     const isActive = (route) => (path === route ? 'active' : '');
+
+    const menuItems = [
+        {
+            path: '/dashboard',
+            icon: Home,
+            label: 'Home',
+        },
+        {
+            path: '/breaks',
+            icon: Timer,
+            label: 'My breaks',
+        },
+        {
+            path: '/swaps',
+            icon: ArrowLeftRight,
+            label: role === 'AGENT' ? 'Swaps' : 'Swap Requests',
+        },
+        {
+            path: '/schedule',
+            icon: CalendarDays,
+            label: role === 'AGENT' ? 'Schedule break' : 'Schedule Approval',
+        },
+        {
+            path: '/agents-on-break',
+            icon: UserRound,
+            label: role === 'AGENT' ? 'Agents on break' : 'Team Overview',
+        },
+    ];
 
     return (
         <>
@@ -24,51 +53,14 @@ const SideNavigation = () => {
                 </div>
                 <div className="menu-sidebar">
                     <ul>
-                        <li>
-                            <a
-                                href="/dashboard"
-                                className={isActive('/dashboard')}
-                            >
-                                <Home size={20} color={isActive('/dashboard') ? "#B8FF29" : "#f6f6f6"} />
-                                <span>Home</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="/breaks"
-                                className={isActive('/breaks')}
-                            >
-                                <Timer size={20} color={isActive('/breaks') ? "#B8FF29" : "#f6f6f6"} />
-                                <span>My breaks</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="/swaps"
-                                className={isActive('/swaps')}
-                            >
-                                <ArrowLeftRight size={20} color={isActive('/swaps') ? "#B8FF29" : "#f6f6f6"} />
-                                <span>Swaps</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="/schedule"
-                                className={isActive('/schedule')}
-                            >
-                                <CalendarDays size={20} color={isActive('/schedule') ? "#B8FF29" : "#f6f6f6"} />
-                                <span>Schedule break</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="/agents-on-break"
-                                className={isActive('/agents-on-break')}
-                            >
-                                <UserRound size={20} color={isActive('/agents-on-break') ? "#B8FF29" : "#f6f6f6"} />
-                                <span>Agents on break</span>
-                            </a>
-                        </li>
+                        {menuItems.map((item) => (
+                            <li key={item.path}>
+                                <a href={item.path} className={isActive(item.path)}>
+                                    <item.icon size={20} color={isActive(item.path) ? "#B8FF29" : "#f6f6f6"} />
+                                    <span>{item.label}</span>
+                                </a>
+                            </li>
+                        ))}
                     </ul>
                 </div>
                 <div className="logout">

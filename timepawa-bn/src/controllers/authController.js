@@ -28,6 +28,7 @@ export const login = async (req, res) => {
   res.status(200).json({
     message: "User logged in successfully",
     username: req.user.username,
+    role: req.user.role,
     isMfaActive: req.user.isMfaActive,
   });
 };

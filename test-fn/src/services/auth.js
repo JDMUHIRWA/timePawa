@@ -8,7 +8,7 @@ export const register = async (username, password) => {
 };
 
 export const loginUser = async (username, password) => {
-  return await api.post(
+  const response = await api.post(
     "auth/login",
     {
       username,
@@ -18,6 +18,16 @@ export const loginUser = async (username, password) => {
       withCredentials: true,
     }
   );
+
+  // store role in local storage for persistance
+  if (response.data.role) {
+    localStorage.setItem("role", response.data.role);
+  }
+  return response;
+};
+
+export const getuserRole = () => {
+  return localStorage.getItem("role");
 };
 
 export const authstatus = async () => {
