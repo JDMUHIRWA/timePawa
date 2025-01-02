@@ -169,6 +169,11 @@ body {
   height: 24px;
 }
 
+.supervisor-button {
+  display: flex;
+  gap: 10px;
+}
+
 .activity-icon.swap {
   color: var(--secondary-color);
 }

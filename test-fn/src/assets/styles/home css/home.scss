@@ -170,6 +170,10 @@ body {
   width: 24px;
   height: 24px;
 }
+.supervisor-button{
+  display: flex;
+  gap: 10px;
+}
 
 .activity-icon.swap { color: var(--secondary-color); }
 .activity-icon.approved { color: var(--primary-color); }

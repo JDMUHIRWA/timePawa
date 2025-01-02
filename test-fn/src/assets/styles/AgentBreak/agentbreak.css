@@ -1,5 +1,5 @@
 .agents-table-container {
-  background-color: white;
+  background-color: #f3f4f6;
   border-radius: 8px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   margin-left: 20rem;
@@ -13,25 +13,21 @@
 }
 
 .table-header {
-  background-color: #f7fafc;
-  color: #4a5568;
+  background-color: #032a0f;
 }
 
 .table-header-cell {
   padding: 12px 16px;
   text-align: left;
+  color: #e2e8f0;
 }
 
 .table-row {
   border-bottom: 1px solid #e2e8f0;
 }
 
-.table-row.even {
-  background-color: #f7fafc;
-}
-
 .table-row.odd {
-  background-color: white;
+  background-color: #f3f4f6;
 }
 
 .table-cell {
@@ -52,6 +48,26 @@
 
 .status-cell.on-break {
   color: #f56565;
+}
+
+.search-bar {
+  margin-bottom: 16px;
+  text-align: right;
+}
+
+.search-input {
+  padding: 8px 12px;
+  width: 100%;
+  max-width: 300px;
+  font-size: 14px;
+  border: 1px solid #cbd5e0;
+  border-radius: 4px;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: #48bb78;
+  box-shadow: 0 0 0 3px rgba(72, 187, 120, 0.4);
 }
 
 @media screen and (max-width: 768px) {

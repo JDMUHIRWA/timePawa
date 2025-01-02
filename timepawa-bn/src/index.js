@@ -4,8 +4,8 @@ import cors from "cors";
 import passport from "passport";
 import dotenv from "dotenv";
 import dbConnect from "./config/dbConnect.js";
-import { authRoutes, usersRoutes } from "./routes/index.js";
-import BreakGenerationScheduler from "./services/breakGenerationScheduler.js"
+import { authRoutes, usersRoutes, swapRoutes } from "./routes/index.js";
+import BreakGenerationScheduler from "./services/breakGenerationScheduler.js";
 import "./config/passportConfig.js";
 
 dotenv.config();
@@ -41,6 +41,7 @@ app.use(passport.session());
 //routes
 app.use("/api/auth", authRoutes);
 app.use("/api", usersRoutes);
+app.use("/api", swapRoutes);
 // Listen to the server
 const PORT = process.env.PORT || 7002;
 app.listen(PORT, () => {

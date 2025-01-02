@@ -10,12 +10,20 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import SideNavigation from '../components/SideNavigation';
 import '../assets/styles/home css/home.css';
+import { useSession } from '../contexts/SessionContex';
 
 const Homepage = () => {
   const navigate = useNavigate();
+  const { role } = useSession();
 
   const handleBreakRequest = () => {
     navigate('/schedule');
+  }
+  const handleScheduleApproval = () => {
+    navigate('/schedules');
+  }
+  const handleSwapRequest = () => {
+    navigate('/swaps');
   }
 
   return (
@@ -29,16 +37,33 @@ const Homepage = () => {
               <div className="break-request-text">
                 <Coffee className="break-icon" />
                 <div>
-                  <h3>Take a Moment</h3>
-                  <p>Request a break that suits your needs</p>
+                  <h3>{role === 'AGENT' ? 'Take a moment' : 'Manage Team Breaks'}</h3>
+                  <p>{role === 'AGENT' ? 'Request a break that suits your needs' : 'Approve or Reject'}</p>
                 </div>
               </div>
-              <button
-                onClick={handleBreakRequest}
-                className="request-break-btn"
-              >
-                Request Break
-              </button>
+              {role === 'SUPERVISOR' && (
+                <div className='supervisor-button'>
+                  <button
+                    onClick={handleScheduleApproval}
+                    className="request-break-btn supervisor-button"
+                  >
+                    Schedule Approval
+                  </button>
+                  <button
+                    onClick={handleSwapRequest}
+                    className="request-break-btn supervisor-button"
+                  >
+                    Swap Approval
+                  </button>
+                </div>
+              ) || (
+                <button
+                  onClick={handleBreakRequest}
+                  className="request-break-btn"
+                >
+                  Request Break
+                </button>
+              )}
             </div>
           </div>
 

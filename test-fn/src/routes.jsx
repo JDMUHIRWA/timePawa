@@ -4,7 +4,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 const Router = createBrowserRouter([
     {
-        path: "/login",
+        path: "/",
         element: <Login />,
         errorElement: <div>404</div>,
     },

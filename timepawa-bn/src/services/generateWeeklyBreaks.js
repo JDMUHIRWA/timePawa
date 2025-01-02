@@ -224,10 +224,6 @@
 
 // export default GenerateWeeklyBreaks;
 
-
-
-
-
 // const breakTypes = ["SCREEN_BREAK_1", "LUNCH", "SCREEN_BREAK_2"];
 // const users = [
 //   "User1",
@@ -291,9 +287,6 @@
 // }
 
 // console.log(createdbreaks);
-
-
-
 
 // function createBreakSchedule(shiftStart, shiftEnd, numUsers, breaks) {
 //   // Helper function to convert time string (e.g., "9:00 AM") to minutes since midnight
@@ -381,14 +374,6 @@
 // // Print the output
 // console.log(JSON.stringify(schedule, null, 2));
 
-
-
-
-// SB = 10:00 - 11:30
-// LB = 11:30 - 15:00
-// SB = 15:00 - 16:00
-
-
 // const breakTypes = ["SCREEN_BREAK_1", "LUNCH", "SCREEN_BREAK_2"];
 // const users = [
 //   "User1",
@@ -439,63 +424,58 @@
 
 // console.log(createdbreaks);
 
+const typesBreak = ["SCREEN_BREAK_1", "LUNCH", "SCREEN_BREAK_2"];
+const myusers = [
+  "User1",
+  "User2",
+  "User3",
+  "User4",
+  "User5",
+  "User6",
+  "User7",
+  "User8",
+  "User9",
+  "User10",
+];
 
-// const breakTypes = ["SCREEN_BREAK_1", "LUNCH", "SCREEN_BREAK_2"];
-// const users = [
-//   "User1",
-//   "User2",
-//   "User3",
-//   "User4",
-//   "User5",
-//   "User6",
-//   "User7",
-//   "User8",
-//   "User9",
-//   "User10",
-// ];
+const screenBreakStart = new Date();
+screenBreakStart.setHours(12, 0, 0, 0); // Set start time to 10:00 AM
 
-// const screenBreakStart = new Date();
-// screenBreakStart.setHours(10, 0, 0, 0); // Set start time to 10:00 AM
+const screenBreakEnd = new Date();
+screenBreakEnd.setHours(11, 30, 0, 0); // Set end time to 11:30 AM
 
-// const screenBreakEnd = new Date();
-// screenBreakEnd.setHours(11, 30, 0, 0); // Set end time to 11:30 AM
+// Calculate the difference in milliseconds
+const screenBreakWindow = screenBreakEnd - screenBreakStart;
 
-// // Calculate the difference in milliseconds
-// const screenBreakWindow = screenBreakEnd - screenBreakStart;
+// Convert the difference to minutes
+const screenBreakMinutes = screenBreakWindow / (1000 * 60);
 
-// // Convert the difference to minutes
-// const screenBreakMinutes = screenBreakWindow / (1000 * 60);
+const durationofBreak = 10;
 
-// const breakDuration = 10
+const breaksPerUser = myusers.length / (screenBreakMinutes / durationofBreak);
+const userBreaks = breaksPerUser.toFixed(0);
 
-// const breaksPerUser = users.length / (screenBreakMinutes/breakDuration)
-// const userBreaks = breaksPerUser.toFixed(0)
+let breaksCreated = [];
+let breakStartTime = new Date(screenBreakStart);
+let breakEndTime = new Date(screenBreakStart);
+breakEndTime.setMinutes(screenBreakStart.getMinutes() + durationofBreak);
+let i = 1;
+for (let myuser of myusers) {
+  const userStart = breakStartTime;
+  const userEnd = breakEndTime;
+  const userDetails = {
+    username: myuser,
+    break_start: userStart,
+    break_end: userEnd,
+  };
+  console.log("Userdetails: ", userDetails);
+  if (i == userBreaks) {
+    i = 1;
+    breakStartTime.setMinutes(breakStartTime.getMinutes() + durationofBreak);
+    breakEndTime.setMinutes(breakEndTime.getMinutes() + durationofBreak);
+  } else {
+    i = i + 1;
+  }
+}
 
-// let createdbreaks = [];
-// let breakStartTime = new Date(screenBreakStart)
-// let breakEndTime = new Date(screenBreakStart)
-// breakEndTime.setMinutes(screenBreakStart.getMinutes()+breakDuration)
-// let i =1
-// for (let user of users) {
-//     const userStart = breakStartTime
-//     const userEnd = breakEndTime
-//     const userDetails = {
-//       username: user,
-//       break_start: userStart,
-//       break_end: userEnd,
-//     };
-//     console.log("Userdetails: ",userDetails)
-//     if(i==userBreaks){
-//         i=1;
-//         breakStartTime.setMinutes(breakStartTime.getMinutes()+breakDuration)
-//     breakEndTime.setMinutes(breakEndTime.getMinutes()+breakDuration)
-//     }
-//     else{
-//         i=i+1
-//     }
-    
-    
-
-// }
-
-// console.log(createdbreaks);
+console.log(breaksCreated);

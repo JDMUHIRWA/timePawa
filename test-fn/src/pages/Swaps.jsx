@@ -1,15 +1,19 @@
 import { useState, useEffect } from "react";
 import { fetchUsers } from "../services/auth"; // Import your fetchUsers function
+import { swapRequest } from "../services/requests"; // Import your swapRequest function
 import SideNavigation from "../components/SideNavigation";
 import Header from "../components/Header";
 import "../assets/styles/swap&break/swap.css";
 import { User, CalendarDays, NotebookPen, Timer } from 'lucide-react';
+import MyTable from "../components/Table";
+import { useSession } from "../contexts/SessionContex";
 
 const Swaps = () => {
   const [users, setUsers] = useState([]); // State to store user data
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState("");
+  const { role } = useSession();
 
   // Fetch users from the backend
   useEffect(() => {
@@ -38,7 +42,7 @@ const Swaps = () => {
     setFilteredUsers([]);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!selectedUser) {
@@ -54,15 +58,23 @@ const Swaps = () => {
       reason: e.target.reason.value,
     };
 
-    console.log("Form submitted:", formData);
-    // Send formData to backend or process it further
+    try {
+      const response = await swapRequest(formData);
+      alert("Request submitted successfully!");
+      e.target.reset();
+      setSelectedUser("");
+      setSearchTerm("");
+      console.log("Request submitted successfully:", response);
+    } catch (error) {
+      console.error("Error submitting request:", error.message);
+    }
   };
 
   return (
     <>
       <SideNavigation />
       <Header />
-      <div className="swap-container">
+      {role === "SUPERVISOR" ? (<MyTable />) : (<div className="swap-container">
         <main className="content">
           <form className="break-form" onSubmit={handleSubmit}>
             <div className="form-group">
@@ -98,28 +110,28 @@ const Swaps = () => {
             <div className="form-group">
               <div className="swap-icon">
                 <Timer size={24} />
-                <label htmlFor="agent">From</label>
+                <label htmlFor="from">From</label>
               </div>
               <input type="time" id="from" name="from" />
             </div>
             <div className="form-group">
               <div className="swap-icon">
                 <Timer size={24} />
-                <label htmlFor="agent">To</label>
+                <label htmlFor="to">To</label>
               </div>
               <input type="time" id="to" name="to" />
             </div>
             <div className="form-group">
               <div className="swap-icon">
                 <CalendarDays size={24} />
-                <label htmlFor="agent">Date</label>
+                <label htmlFor="date">Date</label>
               </div>
               <input type="text" id="date" name="date" placeholder="DD/MM/YYYY" />
             </div>
             <div className="form-group">
               <div className="swap-icon">
                 <NotebookPen size={24} />
-                <label htmlFor="agent">Reason</label>
+                <label htmlFor="reason">Reason</label>
               </div>
               <textarea id="reason" name="reason" placeholder="Type your reason"></textarea>
             </div>
@@ -128,7 +140,7 @@ const Swaps = () => {
             </div>
           </form>
         </main>
-      </div>
+      </div>)}
     </>
   );
 };

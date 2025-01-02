@@ -1,55 +1,36 @@
 import mongoose from "mongoose";
 
+const StatusEnum = ["PENDING", "APPROVED", "REJECTED"];
+
 const SwapRequestSchema = new mongoose.Schema(
   {
     initiator: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      type: String,
       required: true,
       index: true,
     },
     target: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      type: String,
       required: true,
       index: true,
     },
-    breakType: {
-      type: String,
-      enum: ["SCREEN_BREAK_1", "LUNCH_BREAK", "SCREEN_BREAK_2"],
+    from: {
+      type: Date,
       required: true,
     },
-    initiatorBreakDetails: {
-      date: {
-        type: Date,
-        required: true,
-      },
-      startTime: {
-        type: Date,
-        required: true,
-      },
-      endTime: {
-        type: Date,
-        required: true,
-      },
+    to: {
+      type: Date,
+      required: true,
     },
-    targetBreakDetails: {
-      date: {
-        type: Date,
-        required: true,
-      },
-      startTime: {
-        type: Date,
-        required: true,
-      },
-      endTime: {
-        type: Date,
-        required: true,
-      },
+    reason: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: 500,
     },
     status: {
       type: String,
-      enum: ["PENDING", "APPROVED", "REJECTED"],
+      enum: StatusEnum,
       default: "PENDING",
     },
     approvedBy: {
@@ -59,6 +40,10 @@ const SwapRequestSchema = new mongoose.Schema(
     reason: {
       type: String,
       trim: true,
+      maxlength: 500,
+    },
+    actionedAt: {
+      type: Date,
     },
   },
   {
@@ -66,31 +51,9 @@ const SwapRequestSchema = new mongoose.Schema(
   }
 );
 
-// Indexing for performance
-SwapRequestSchema.index({ initiator: 1, target: 1 });
-SwapRequestSchema.index({ status: 1 });
-SwapRequestSchema.index({ breakType: 1 });
-
-// Validation middleware
-SwapRequestSchema.pre("save", function (next) {
-  // Ensure break types are limited to specific breaks
-  const validBreakTypes = ["SCREEN_BREAK_1", "SCREEN_BREAK_2", "LUNCH_BREAK"];
-
-  if (!validBreakTypes.includes(this.breakType)) {
-    return next(new Error("Invalid break type for swap"));
-  }
-  if (
-    this.initiatorBreakDetails.startTime >= this.initiatorBreakDetails.endTime
-  ) {
-    return next(new Error("Invalid initiator break times"));
-  }
-
-  if (this.targetBreakDetails.startTime >= this.targetBreakDetails.endTime) {
-    return next(new Error("Invalid target break times"));
-  }
-
-  next();
-});
+// Indexes
+SwapRequestSchema.index({ initiator: 1, status: 1 });
+SwapRequestSchema.index({ target: 1, status: 1 });
 
 const SwapRequest = mongoose.model("SwapRequest", SwapRequestSchema);
 export default SwapRequest;
