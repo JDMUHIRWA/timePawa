@@ -85,18 +85,19 @@ const TwoFAVerification = ({ onVerifySuccess, onResetSuccess }) => {
             <div className="logo">
                 <img src={Logo} alt="TimePawa" />
             </div>
-            <form className="container1">
-                <div className="header">
-                    <h1>Verify Two-Factor Authentication</h1>
-                    <p>Enter the code from your authenticator app</p>
+            <form className="container1 w-2/5">
+                <div className='header'>
+                    <h1 className='my-3'>Verify Two-Factor Authentication</h1>
+                    <p className='my-1'>Enter the code from your authenticator app</p>
                 </div>
-                <div className='form'>
+                <div className='w-[90%]'>
                     <input
                         type="text"
                         placeholder='Enter verification code'
                         value={otp}
                         onChange={(e) => setOtp(e.target.value)}
                         required
+                        className='w-full h-12 p-2 my-2 border border-green border-[#d7d7d7] rounded-md text-sm text-black focus:outline-none hover:border-[#9ce800]'
                     />
                 </div>
                 {error && <p style={{ color: "red" }}>{error}</p>}

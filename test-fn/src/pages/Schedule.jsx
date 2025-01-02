@@ -22,15 +22,15 @@ const Schedule = () => {
             </div>
             <div className="form-group">
               <label htmlFor="date">Time</label>
-              <input type="time" id="date" placeholder="DD/MM/YYYY" />
+              <input className="focus:outline-none" type="time" id="date" placeholder="DD/MM/YYYY" />
             </div>
             <div className="form-group">
               <label htmlFor="date">Date</label>
-              <input type="text" id="date" placeholder="DD/MM/YYYY" />
+              <input className="focus:outline-none" type="text" id="date" placeholder="DD/MM/YYYY" />
             </div>
             <div className="form-group">
               <label htmlFor="reason">Reason</label>
-              <textarea id="reason" placeholder="Type your reason"></textarea>
+              <textarea className="focus:outline-none"  id="reason" placeholder="Type your reason"></textarea>
             </div>
             <div className='submit-button'><button type="submit" >Request a break</button></div>
           </form>

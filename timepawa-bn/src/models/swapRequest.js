@@ -28,6 +28,10 @@ const SwapRequestSchema = new mongoose.Schema(
       trim: true,
       maxlength: 500,
     },
+    date: {
+      type: Date,
+      required: true,
+    },
     status: {
       type: String,
       enum: StatusEnum,

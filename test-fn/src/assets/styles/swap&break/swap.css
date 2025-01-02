@@ -42,20 +42,16 @@
 }
 
 .swap-container {
-  display: flex !important;
+  display: flex;
   flex-direction: column;
-  height: 100vh;
-  margin: 10rem;
   padding: 0;
   font-family: Arial, sans-serif;
-  background-color: var(--background-light);
 }
 
 .content {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: -10rem;
   padding: 0;
 }
 
@@ -75,7 +71,7 @@
 
 .form-group label {
   display: block;
-  font-weight: bold;
+  font-weight: 550;
   margin-bottom: 0.5rem;
 }
 
@@ -114,13 +110,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: -5em;
-    margin-left: 0;
     width: 100%;
   }
   .content {
-    margin-top: -10rem;
-    margin-left: -25rem;
     width: 100%;
+  }
+  .break-form {
+    margin-left: 0;
+    width: 70%;
   }
 }/*# sourceMappingURL=swap.css.map */

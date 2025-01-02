@@ -14,6 +14,7 @@ const Swaps = () => {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState("");
   const { role } = useSession();
+  const { user } = useSession();
 
   // Fetch users from the backend
   useEffect(() => {
@@ -42,33 +43,52 @@ const Swaps = () => {
     setFilteredUsers([]);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-    if (!selectedUser) {
-      alert("Please select an agent before submitting!");
-      return;
-    }
+    // Extract form values
+    const fromTime = event.target.from.value; // e.g., "15:00"
+    const toTime = event.target.to.value; // e.g., "15:40"
+    const inputDate = event.target.date.value; // e.g., "21/01/2025"
 
-    const formData = {
-      agent: selectedUser,
-      from: e.target.from.value,
-      to: e.target.to.value,
-      date: e.target.date.value,
-      reason: e.target.reason.value,
+    // Parse the `date` and combine with `from` and `to` times
+    const [day, month, year] = inputDate.split("/"); // Split the date string
+    const date = new Date(`${year}-${month}-${day}`); // Convert to Date object
+
+    const from = new Date(date); // Clone the date object
+    const [fromHours, fromMinutes] = fromTime.split(":"); // Split the time
+    from.setHours(fromHours, fromMinutes); // Set time on the date object
+
+    const to = new Date(date); // Clone the date object
+    const [toHours, toMinutes] = toTime.split(":");
+    to.setHours(toHours, toMinutes);
+
+    // Create the payload
+    const swapData = {
+      initiator: user.username,
+      target: selectedUser,
+      from, // Send as Date object
+      to, // Send as Date object
+      date, // Send as Date object
+      reason: event.target.reason.value,
     };
 
     try {
-      const response = await swapRequest(formData);
-      alert("Request submitted successfully!");
-      e.target.reset();
-      setSelectedUser("");
-      setSearchTerm("");
-      console.log("Request submitted successfully:", response);
+      // Call the API to create a new swap request
+      const response = await swapRequest(swapData);
+      console.log(response);
+      alert("Swap request successfully created!");
     } catch (error) {
-      console.error("Error submitting request:", error.message);
+      console.error("Failed to create swap request:", error.response?.data || error);
+      alert("Failed to create swap request. Please try again.");
     }
+
+    // Clear the form after submission
+    event.target.reset();
+    setSelectedUser("");
+    setSearchTerm("");
   };
+
 
   return (
     <>
@@ -90,6 +110,7 @@ const Swaps = () => {
                   value={searchTerm}
                   onChange={handleSearch}
                   onFocus={() => setFilteredUsers(users)}
+                  className="focus:outline-none"
                 />
                 {filteredUsers.length > 0 && (
                   <div className="dropdown">
@@ -112,28 +133,28 @@ const Swaps = () => {
                 <Timer size={24} />
                 <label htmlFor="from">From</label>
               </div>
-              <input type="time" id="from" name="from" />
+              <input type="time" id="from" name="from" className="focus:outline-none" />
             </div>
             <div className="form-group">
               <div className="swap-icon">
                 <Timer size={24} />
                 <label htmlFor="to">To</label>
               </div>
-              <input type="time" id="to" name="to" />
+              <input type="time" id="to" name="to" className="focus:outline-none" />
             </div>
             <div className="form-group">
               <div className="swap-icon">
                 <CalendarDays size={24} />
                 <label htmlFor="date">Date</label>
               </div>
-              <input type="text" id="date" name="date" placeholder="DD/MM/YYYY" />
+              <input className="focus:outline-none" type="text" id="date" name="date" placeholder="DD/MM/YYYY" />
             </div>
             <div className="form-group">
               <div className="swap-icon">
                 <NotebookPen size={24} />
                 <label htmlFor="reason">Reason</label>
               </div>
-              <textarea id="reason" name="reason" placeholder="Type your reason"></textarea>
+              <textarea className="focus:outline-none" id="reason" name="reason" placeholder="Type your reason"></textarea>
             </div>
             <div className="submit-button">
               <button type="submit">Request a break</button>

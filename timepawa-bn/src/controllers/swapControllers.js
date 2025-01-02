@@ -6,9 +6,38 @@ export const swapRequest = async (req, res) => {
   try {
     const { initiator, target, from, to, date, reason } = req.body;
     // validation logic
-    if (!initiator || !target || !from || !to || !date || !reason) {
-      return res.status(400).json({ error: "All fields are required" });
+    // if (!initiator || !target || !from || !to || !date || !reason) {
+    //   return res.status(400).json({ error: "All fields are required" });
+    // }
+    //show missing fields
+
+    const missingFields = [];
+
+    if (!initiator) {
+      missingFields.push("Initiator");
+      return res.status(400).json({ error: "Initiator is required" });
     }
+    if (!target) {
+      missingFields.push("Target");
+      return res.status(400).json({ error: "Target is required" });
+    }
+    if (!from) {
+      missingFields.push("From");
+      return res.status(400).json({ error: "From is required" });
+    }
+    if (!to) {
+      missingFields.push("To");
+      return res.status(400).json({ error: "To is required" });
+    }
+    if (!date) {
+      missingFields.push("Date");
+      return res.status(400).json({ error: "Date is required" });
+    }
+    if (!reason) {
+      missingFields.push("Reason");
+      return res.status(400).json({ error: "Reason is required" });
+    }
+
     // check if the initiator and target exist
     const initiatorExists = await User.findOne({ username: initiator });
     if (!initiatorExists) {

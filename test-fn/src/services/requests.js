@@ -1,12 +1,47 @@
 // swap.js
 import api from "./api";
 
-export const swapRequest = async (swapData) => {
+// Create a new swap request
+export const swapRequest = async (data) => {
   try {
-    const response = await api.post("swap-request", swapData);
-    return response;
+    const response = await api.post("/swap-requests", data);
+    return response.data;
   } catch (error) {
-    console.error("error creating swap request", error);
-    throw error;
+    throw error.response ? error.response.data : error.message;
+  }
+};
+
+// Get all swap requests (optionally filter by status)
+export const getSwapRequests = async (status) => {
+  try {
+    const response = await api.get("/swap-requests", {
+      params: { status }, // Pass status as a query parameter
+    });
+    return response.data;
+  } catch (error) {
+    throw error.response ? error.response.data : error.message;
+  }
+};
+
+// Get all swap requests initiated by a specific user
+export const getUserSwapRequests = async (username) => {
+  try {
+    const response = await api.get(`/swap-requests/${username}`);
+    return response.data;
+  } catch (error) {
+    throw error.response ? error.response.data : error.message;
+  }
+};
+
+// Update a swap request status
+export const updateSwapRequest = async (requestId, status) => {
+  try {
+    const response = await api.patch(
+      `/swap-requests/:requestId/status/${requestId}`,
+      { status }
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response ? error.response.data : error.message;
   }
 };

@@ -17,13 +17,14 @@ html, body {
   padding: 0 1.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 1rem;
+  margin-left: 5rem;
 }
 
 .left {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  margin-left: 17rem;
+  margin-left: 13rem;
 }
 
 .left h1 {
@@ -71,6 +72,7 @@ html, body {
     justify-content: space-between; /* Space between for even layout */
     align-items: center;
     padding: 0 1rem; /* Reduce padding for smaller screens */
+    margin-left: 0; /* Remove unnecessary margins */
   }
   .left {
     margin-left: 2.5rem; /* Remove unnecessary margins */

@@ -11,10 +11,13 @@ import Header from '../components/Header';
 import SideNavigation from '../components/SideNavigation';
 import '../assets/styles/home css/home.css';
 import { useSession } from '../contexts/SessionContex';
+import { useState, useEffect } from 'react';
+import { getUserSwapRequests } from '../services/requests';
 
 const Homepage = () => {
   const navigate = useNavigate();
-  const { role } = useSession();
+  const { role, user } = useSession();
+  const [notifications, setNotifications] = useState([]);
 
   const handleBreakRequest = () => {
     navigate('/schedule');
@@ -24,6 +27,38 @@ const Homepage = () => {
   }
   const handleSwapRequest = () => {
     navigate('/swaps');
+  }
+
+  useEffect(() => {
+    const loadNotifications = async () => {
+      try {
+        if (!user) {
+          console.log('User not loaded yet');
+          return;
+        }
+        const swapRequests = await getUserSwapRequests(user.username);
+        setNotifications(swapRequests);
+      } catch (error) {
+        console.error('Failed to load notifications:', error);
+      }
+    }
+    loadNotifications();
+  }, [user?.username]);
+
+  // change to in string
+  
+
+  const getNotificationMessage = (notification) => {
+    switch (notification.status) {
+      case 'PENDING':
+        return `New swap request from ${notification.target} waiting for approval`;
+      case 'APPROVED':
+        return `Your swap request from ${notification.target} has been approved!`;
+      case 'REJECTED':
+        return `Your swap request for ${notification.requestDate} was declined`;
+      default:
+        return 'No recent activity';
+    }
   }
 
   return (
@@ -41,7 +76,7 @@ const Homepage = () => {
                   <p>{role === 'AGENT' ? 'Request a break that suits your needs' : 'Approve or Reject'}</p>
                 </div>
               </div>
-              {role === 'SUPERVISOR' && (
+              {role === 'SUPERVISOR' ? (
                 <div className='supervisor-button'>
                   <button
                     onClick={handleScheduleApproval}
@@ -56,7 +91,7 @@ const Homepage = () => {
                     Swap Approval
                   </button>
                 </div>
-              ) || (
+              ) : (
                 <button
                   onClick={handleBreakRequest}
                   className="request-break-btn"
@@ -67,7 +102,6 @@ const Homepage = () => {
             </div>
           </div>
 
-          {/* Upcoming Breaks Section */}
           <div className="upcoming-breaks-section">
             <div className="section-header">
               <Clock className="section-icon" />
@@ -87,38 +121,36 @@ const Homepage = () => {
             </div>
           </div>
 
-          {/* Activity Section */}
           <div className="activity-section">
             <div className="section-header">
               <Bell className="section-icon" />
               <h2>Recent Activity</h2>
             </div>
             <div className="activity-list">
-              {[
-                {
-                  icon: <ArrowLeftRight className="activity-icon swap" />,
-                  text: "Muhirwa has requested a break swap"
-                },
-                {
-                  icon: <CircleCheckBig className="activity-icon approved" />,
-                  text: "Your break has been approved"
-                },
-                {
-                  icon: <CheckCircle className="activity-icon verified" />,
-                  text: "Muvunyi has approved your swap request"
-                }
-              ].map((activity, index) => (
-                <div key={index} className="activity-item">
-                  {activity.icon}
-                  <span>{activity.text}</span>
-                </div>
-              ))}
+              {notifications.length > 0 ? (
+                notifications.map((notification, index) => (
+                  <div key={index} className="activity-item">
+                    {notification.status === 'PENDING' && (
+                      <ArrowLeftRight className="activity-icon swap" />
+                    )}
+                    {notification.status === 'APPROVED' && (
+                      <CircleCheckBig className="activity-icon approved" />
+                    )}
+                    {notification.status === 'REJECTED' && (
+                      <CheckCircle className="activity-icon verified" />
+                    )}
+                    <span>{getNotificationMessage(notification)}</span>
+                  </div>
+                ))
+              ) : (
+                <p>No recent activity</p>
+              )}
             </div>
           </div>
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
 export default Homepage;
