@@ -157,16 +157,20 @@ body {
   background-color: var(--background-color);
   padding: 1rem;
   border-radius: 12px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.5s ease;
 }
 
 .activity-item:hover {
-  background-color: #128f0b;
+  background-color: #2a6526;
+  color: #e2e0e0fb;
 }
 
 .activity-icon {
   width: 24px;
   height: 24px;
+}
+.activity-icon:hover {
+  transform: scale(1.1);
 }
 
 .supervisor-button {
@@ -184,6 +188,17 @@ body {
 
 .activity-icon.verified {
   color: #9C27B0;
+}
+.activity-item:hover .activity-icon.swap {
+  color: #acacac; /* New color for swap icon on hover */
+}
+
+.activity-item:hover .activity-icon.approved {
+  color: #acacac; /* New color for approved icon on hover */
+}
+
+.activity-item:hover .activity-icon.verified {
+  color: #acacac; /* New color for verified icon on hover */
 }
 
 @media (max-width: 768px) {

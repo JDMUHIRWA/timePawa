@@ -7,6 +7,8 @@ import dbConnect from "./config/dbConnect.js";
 import { authRoutes, usersRoutes, swapRoutes } from "./routes/index.js";
 import BreakGenerationScheduler from "./services/breakGenerationScheduler.js";
 import "./config/passportConfig.js";
+import { createServer } from "http";
+import { Server as SocketIOServer } from "socket.io";
 
 dotenv.config();
 
@@ -42,8 +44,37 @@ app.use(passport.session());
 app.use("/api/auth", authRoutes);
 app.use("/api", usersRoutes);
 app.use("/api", swapRoutes);
+
+// Handle socket.io
+const server = createServer(app);
+const io = new SocketIOServer(server, {
+  cors: {
+    origin: ["http://localhost:3001"],
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
+});
+
+// Handle socket.io connections
+io.on("connection", (socket) => {
+  console.log("A user connected");
+
+  // emit an event to the client
+  socket.emit("Notification received", { message: "Hello from the server" });
+  // Example: Listening for a custom event
+  socket.on("swap-notification", (data) => {
+    socket.broadcast.emit("receive-swap-notification", data);
+    console.log("Notification received:", data);
+  });
+
+  // Cleanup when a user disconnects
+  socket.on("disconnect", () => {
+    console.log("A user disconnected");
+  });
+});
+
 // Listen to the server
-const PORT = process.env.PORT || 7002;
-app.listen(PORT, () => {
+const PORT = process.env.PORT;
+server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

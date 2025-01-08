@@ -7,14 +7,14 @@ import "../assets/styles/swap&break/swap.css";
 import { User, CalendarDays, NotebookPen, Timer } from 'lucide-react';
 import MyTable from "../components/Table";
 import { useSession } from "../contexts/SessionContex";
+import socket from "@/utils/socket";
 
 const Swaps = () => {
   const [users, setUsers] = useState([]); // State to store user data
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState("");
-  const { role } = useSession();
-  const { user } = useSession();
+  const { role, user } = useSession();
 
   // Fetch users from the backend
   useEffect(() => {
@@ -67,9 +67,9 @@ const Swaps = () => {
     const swapData = {
       initiator: user.username,
       target: selectedUser,
-      from, // Send as Date object
-      to, // Send as Date object
-      date, // Send as Date object
+      from: from.toISOString(),
+      to : to.toISOString(),
+      date: date.toISOString(),
       reason: event.target.reason.value,
     };
 
@@ -78,6 +78,8 @@ const Swaps = () => {
       const response = await swapRequest(swapData);
       console.log(response);
       alert("Swap request successfully created!");
+      // Emit a socket event to notify the target user and the supervisor
+      socket.emit("swap-notification", swapData)
     } catch (error) {
       console.error("Failed to create swap request:", error.response?.data || error);
       alert("Failed to create swap request. Please try again.");
@@ -111,6 +113,7 @@ const Swaps = () => {
                   onChange={handleSearch}
                   onFocus={() => setFilteredUsers(users)}
                   className="focus:outline-none"
+                  autoComplete="off"
                 />
                 {filteredUsers.length > 0 && (
                   <div className="dropdown">

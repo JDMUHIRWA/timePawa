@@ -45,3 +45,13 @@ export const updateSwapRequest = async (requestId, status) => {
     throw error.response ? error.response.data : error.message;
   }
 };
+
+// Get all swap requests targeting a specific user
+export const getTargetSwapRequests = async (username) => {
+  try {
+    const response = await api.get(`/swap-requests/target/${username}`);
+    return response.data;
+  } catch (error) {
+    throw error.response ? error.response.data : error.message;
+  }
+};

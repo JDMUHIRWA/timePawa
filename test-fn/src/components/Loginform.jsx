@@ -88,106 +88,109 @@ const Loginform = ({ onLoginSuccess }) => {
     }
     return (
         <>
-            <div className="logo">
-                <img src={Logo} alt="logo" />
-            </div>
-            <div className="container1">
-                <div className="header">
-                    <h1>Welcome to timePawa</h1>
-                    {/* <p>Choose Register or Sign in</p> */}
+            <div className='bg[#43423] h-screen'>
+                <div className="logo">
+                    <img src={Logo} alt="logo" />
                 </div>
-                <div className="display">
-                    {action === "Register" ? "Create an account" : ""}
-                </div>
-                <div className="display">
-                    {action === "Sign in" ? "Sign in to your account" : ""}
-                </div>
-                <div className="flex flex-row w-80 m-4 space-x-2 ">
-                    <button
-                        className={`w-full p-2 border border-[#d1d5cb] rounded-full text-center text-sm font-normal h-10  ${action === "Register" ? "bg-[#9ce800] text-white" : "bg-transparent"}`}
-                        onClick={() => {
-                            handleActionChange("Register");
-                        }}
-                    >
-                        Register
-                    </button>
-                    <button
-                        className={`w-full p-2 border border-[#d1d5cb] rounded-full text-center text-sm font-normal ${action === "Sign in" ? "bg-[#9ce800] text-white" : "bg-transparent"}`}
-                        onClick={() => {
-                            handleActionChange("Sign in");
-                        }}
-                    >
-                        Sign in
-                    </button>
-                </div>
-
-                <form onSubmit={action === "Register" ? handleRegister : handleLogin} className="w-[90%] rounded-md text-sm text-black">
-                    {action === "Register" && (
-                        <>
-                            <input
-                                type="text"
-                                placeholder="Username"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                                className="w-full h-12 p-2 my-2 border border-green border-[#d7d7d7] rounded-md text-sm text-black focus:outline-none hover:border-[#9ce800]"
-                            />
-                            <input
-                                type="password"
-                                placeholder="Password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                onClick={() => setMessage("")}
-                                className="w-full h-12 p-2 my-2 border border-[#d7d7d7] hover:border-[#9ce800] rounded-md text-sm text-black focus:outline-none"
-                            />
-                            <input
-                                type="password"
-                                placeholder="Confirm Password"
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                                className="w-full h-12 p-2 my-2 border border-[#d7d7d7] rounded-md text-sm text-black focus:outline-none hover:border-[#9ce800]"
-                            />
-                        </>
-                    )}
-                    {action === "Sign in" && (
-                        <>
-                            <input
-                                type="text"
-                                placeholder="Username"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                                onClick={() => { setMessage(""), setError("") }}
-                                className="w-full h-12 p-2 my-2 border border-[#d7d7d7] rounded-md text-sm text-black focus:outline-none hover:border-[#9ce800]"
-                            />
-                            <input
-                                type="password"
-                                placeholder="Password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                className="w-full h-12 p-2 my-2 border border-[#d7d7d7] rounded-md text-sm text-black focus:outline-none hover:border-[#9ce800]"
-                            />
-                        </>
-                    )}
-                    {action === "Sign in" && (
-                        <div className="flex items-center space-x-2">
-                            <input
-                                type="checkbox"
-                                className="w-4 h-4 border border-[#d7d7d7] rounded-md my-3"
-                            />
-                            <label className="text-sm">Remember Me</label>
-                        </div>
-                    )}
-                    {error && <p className="text-red-500 text-sm">{error}</p>}
-                    {message && <p className="text-green-500 text-sm">{message}</p>}
-                    <div className="flex justify-center mt-4 w-full">
-                        <input
-                            type="submit"
-                            value={action === "Register" ? "Register" : "Sign In"}
-                            className="w-2/4 h-10 p-2 bg[rgba(117, 11, 11, 0.0196078431)] rounded-full border border-gray-300 hover:bg-lime-400  focus:outline-none hover:text-white"
-                        />
+                <div className="container1">
+                    <div className="header">
+                        <h1>Welcome to timePawa</h1>
+                        {/* <p>Choose Register or Sign in</p> */}
                     </div>
-                </form>
+                    <div className="display">
+                        {action === "Register" ? "Create an account" : ""}
+                    </div>
+                    <div className="display">
+                        {action === "Sign in" ? "Sign in to your account" : ""}
+                    </div>
+                    <div className="flex flex-row w-80 m-4 space-x-2 ">
+                        <button
+                            className={`w-full p-2 border border-[#d1d5cb] rounded-full text-center text-sm font-normal h-10  ${action === "Register" ? "bg-[#9ce800] text-white" : "bg-transparent"}`}
+                            onClick={() => {
+                                handleActionChange("Register");
+                            }}
+                        >
+                            Register
+                        </button>
+                        <button
+                            className={`w-full p-2 border border-[#d1d5cb] rounded-full text-center text-sm font-normal ${action === "Sign in" ? "bg-[#9ce800] text-white" : "bg-transparent"}`}
+                            onClick={() => {
+                                handleActionChange("Sign in");
+                            }}
+                        >
+                            Sign in
+                        </button>
+                    </div>
 
+                    <form onSubmit={action === "Register" ? handleRegister : handleLogin} className="w-[90%] rounded-md text-sm text-black">
+                        {action === "Register" && (
+                            <>
+                                <input
+                                    type="text"
+                                    placeholder="Username"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    className="w-full h-12 p-2 my-2 border border-green border-[#d7d7d7] rounded-md text-sm text-black focus:outline-none hover:border-[#9ce800]"
+                                />
+                                <input
+                                    type="password"
+                                    placeholder="Password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    onClick={() => setMessage("")}
+                                    className="w-full h-12 p-2 my-2 border border-[#d7d7d7] hover:border-[#9ce800] rounded-md text-sm text-black focus:outline-none"
+                                />
+                                <input
+                                    type="password"
+                                    placeholder="Confirm Password"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    className="w-full h-12 p-2 my-2 border border-[#d7d7d7] rounded-md text-sm text-black focus:outline-none hover:border-[#9ce800]"
+                                />
+                            </>
+                        )}
+                        {action === "Sign in" && (
+                            <>
+                                <input
+                                    type="text"
+                                    placeholder="Username"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    onClick={() => { setMessage(""), setError("") }}
+                                    className="w-full h-12 p-2 my-2 border border-[#d7d7d7] rounded-md text-sm text-black focus:outline-none hover:border-[#9ce800]"
+                                />
+                                <input
+                                    type="password"
+                                    placeholder="Password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className="w-full h-12 p-2 my-2 border border-[#d7d7d7] rounded-md text-sm text-black focus:outline-none hover:border-[#9ce800]"
+                                />
+                            </>
+                        )}
+                        {action === "Sign in" && (
+                            <div className="flex items-center space-x-2">
+                                <input
+                                    type="checkbox"
+                                    className="w-4 h-4 border border-[#d7d7d7] rounded-md my-3"
+                                />
+                                <label className="text-sm">Remember Me</label>
+                            </div>
+                        )}
+                        {error && <p className="text-red-500 text-sm">{error}</p>}
+                        {message && <p className="text-green-500 text-sm">{message}</p>}
+                        <div className="flex justify-center mt-4 w-full">
+                            <input
+                                type="submit"
+                                value={action === "Register" ? "Register" : "Sign In"}
+                                className="w-2/4 h-10 p-2 bg[rgba(117, 11, 11, 0.0196078431)] rounded-full border border-gray-300 hover:bg-lime-400  focus:outline-none hover:text-white"
+                            />
+                        </div>
+                    </form>
+
+                </div>
             </div>
+
         </>
     )
 

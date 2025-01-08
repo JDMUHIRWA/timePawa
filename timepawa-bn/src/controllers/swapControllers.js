@@ -1,3 +1,4 @@
+import { create } from "qrcode";
 import SwapRequest from "../models/SwapRequest.js";
 import User from "../models/user.js";
 
@@ -156,5 +157,27 @@ export const updateSwapRequest = async (req, res) => {
     res
       .status(500)
       .json({ error: "Unable to update swap request", message: error.message });
+  }
+};
+
+// Get swap request where you are the target
+export const getTargetSwapRequests = async (req, res) => {
+  const { username } = req.params;
+
+  // check if the username exist
+  const user = await User.findOne({ username });
+  if (!user) {
+    return res.status(404).json({ error: "User not found" });
+  }
+  try {
+    const requests = await SwapRequest.find({ target: username }).sort({
+      createdAt: -1,
+    });
+    res.status(200).json(requests);
+  } catch (error) {
+    res.status(500).json({
+      error: `Unable to get swap request for ${username}`,
+      message: error,
+    });
   }
 };

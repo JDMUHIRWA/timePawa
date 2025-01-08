@@ -12,7 +12,9 @@ import SideNavigation from '../components/SideNavigation';
 import '../assets/styles/home css/home.css';
 import { useSession } from '../contexts/SessionContex';
 import { useState, useEffect } from 'react';
-import { getUserSwapRequests } from '../services/requests';
+import { getTargetSwapRequests } from '../services/requests';
+import socket from '@/utils/socket';
+// import { setupNotifications, sendNotification } from '@/utils/notifications';
 
 const Homepage = () => {
   const navigate = useNavigate();
@@ -29,33 +31,48 @@ const Homepage = () => {
     navigate('/swaps');
   }
 
-  useEffect(() => {
-    const loadNotifications = async () => {
-      try {
-        if (!user) {
-          console.log('User not loaded yet');
-          return;
-        }
-        const swapRequests = await getUserSwapRequests(user.username);
-        setNotifications(swapRequests);
-      } catch (error) {
-        console.error('Failed to load notifications:', error);
+
+  const loadNotifications = async () => {
+    try {
+      if (!user) {
+        console.log('User not loaded yet');
+        return;
       }
+      const swapRequests = await getTargetSwapRequests(user.username);
+      setNotifications(swapRequests);
+    } catch (error) {
+      console.error('Failed to load notifications:', error);
     }
+  }
+
+  useEffect(() => {
+    // listen for new swap notifications
+    socket.on('receive-swap-notification', (data) => {
+      console.log('Received data:', data);
+      // only add the notification if the user is the target
+      if (data.target === user.username) {
+        setNotifications((prevNotifications) => [data, ...prevNotifications
+        ]);
+      }
+    });
+
     loadNotifications();
-  }, [user?.username]);
+
+    return () => {
+      socket.off('receive-swap-notification');
+    }
+  }, [user, loadNotifications]);
 
   // change to in string
-  
 
-  const getNotificationMessage = (notification) => {
-    switch (notification.status) {
+  const getNotificationMessage = (data) => {
+    switch (data.status) {
       case 'PENDING':
-        return `New swap request from ${notification.target} waiting for approval`;
+        return `New swap request from ${data.initiator} waiting for approval`;
       case 'APPROVED':
-        return `Your swap request from ${notification.target} has been approved!`;
+        return `${data.target}, the swap request from ${data.initiator} has been approved!`;
       case 'REJECTED':
-        return `Your swap request for ${notification.requestDate} was declined`;
+        return `Your swap request for ${data.status} was declined`;
       default:
         return 'No recent activity';
     }
@@ -129,21 +146,24 @@ const Homepage = () => {
             <div className="activity-list">
               {notifications.length > 0 ? (
                 notifications.map((notification, index) => (
-                  <div key={index} className="activity-item">
-                    {notification.status === 'PENDING' && (
-                      <ArrowLeftRight className="activity-icon swap" />
-                    )}
-                    {notification.status === 'APPROVED' && (
-                      <CircleCheckBig className="activity-icon approved" />
-                    )}
-                    {notification.status === 'REJECTED' && (
-                      <CheckCircle className="activity-icon verified" />
-                    )}
-                    <span>{getNotificationMessage(notification)}</span>
+                  <div key={index} className="activity-item flex items-center justify-between gap-4">
+                    <div className='flex items-center gap-4'>
+                      {notification.status === 'PENDING' && (
+                        <ArrowLeftRight className="activity-icon swap" />
+                      )}
+                      {notification.status === 'APPROVED' && (
+                        <CircleCheckBig className="activity-icon approved" />
+                      )}
+                      {notification.status === 'REJECTED' && (
+                        <CheckCircle className="activity-icon verified" />
+                      )}
+                      <span className='flex items-center gap-4'>{getNotificationMessage(notification)}</span>
+                    </div>
+                    <small className='flex float-right text-sm text-gray-500 mt-2'>{new Date(notification.createdAt).toLocaleString()}</small>
                   </div>
                 ))
               ) : (
-                <p>No recent activity</p>
+                <p className='bg-[#F5F5F7] p-4 border rounded-lg'>{`Hello ${user.username} no recent Activity ✅`}</p>
               )}
             </div>
           </div>
