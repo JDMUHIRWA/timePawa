@@ -12,11 +12,9 @@ export const swapRequest = async (data) => {
 };
 
 // Get all swap requests (optionally filter by status)
-export const getSwapRequests = async (status) => {
+export const getSwapRequests = async () => {
   try {
-    const response = await api.get("/swap-requests", {
-      params: { status }, // Pass status as a query parameter
-    });
+    const response = await api.get("/swap-requests", {});
     return response.data;
   } catch (error) {
     throw error.response ? error.response.data : error.message;
@@ -36,10 +34,9 @@ export const getUserSwapRequests = async (username) => {
 // Update a swap request status
 export const updateSwapRequest = async (requestId, status) => {
   try {
-    const response = await api.patch(
-      `/swap-requests/:requestId/status/${requestId}`,
-      { status }
-    );
+    const response = await api.patch(`/swap-requests/${requestId}/status`, {
+      status,
+    });
     return response.data;
   } catch (error) {
     throw error.response ? error.response.data : error.message;

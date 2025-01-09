@@ -31,7 +31,7 @@ const Homepage = () => {
     navigate('/swaps');
   }
 
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const loadNotifications = async () => {
     try {
       if (!user) {
@@ -43,7 +43,7 @@ const Homepage = () => {
     } catch (error) {
       console.error('Failed to load notifications:', error);
     }
-  }
+  };
 
   useEffect(() => {
     // listen for new swap notifications
@@ -51,8 +51,7 @@ const Homepage = () => {
       console.log('Received data:', data);
       // only add the notification if the user is the target
       if (data.target === user.username) {
-        setNotifications((prevNotifications) => [data, ...prevNotifications
-        ]);
+        setNotifications((prevNotifications) => prevNotifications.some((notif) => notif._id === data._id) ? prevNotifications : [...prevNotifications, data]);
       }
     });
 
@@ -72,7 +71,7 @@ const Homepage = () => {
       case 'APPROVED':
         return `${data.target}, the swap request from ${data.initiator} has been approved!`;
       case 'REJECTED':
-        return `Your swap request for ${data.status} was declined`;
+        return `${data.target}, the swap request from ${data.initiator} has been declined`;
       default:
         return 'No recent activity';
     }
@@ -97,12 +96,14 @@ const Homepage = () => {
                 <div className='supervisor-button'>
                   <button
                     onClick={handleScheduleApproval}
+                    aria-label="Request a break"
                     className="request-break-btn supervisor-button"
                   >
                     Schedule Approval
                   </button>
                   <button
                     onClick={handleSwapRequest}
+                    aria-label="Request a break"
                     className="request-break-btn supervisor-button"
                   >
                     Swap Approval
@@ -112,6 +113,7 @@ const Homepage = () => {
                 <button
                   onClick={handleBreakRequest}
                   className="request-break-btn"
+                  aria-label="Request a break"
                 >
                   Request Break
                 </button>

@@ -67,9 +67,9 @@ const Swaps = () => {
     const swapData = {
       initiator: user.username,
       target: selectedUser,
-      from: from.toISOString(),
-      to : to.toISOString(),
-      date: date.toISOString(),
+      from: from.toLocaleString(),
+      to: to.toLocaleString(),
+      date: date.toLocaleDateString(),
       reason: event.target.reason.value,
     };
 
