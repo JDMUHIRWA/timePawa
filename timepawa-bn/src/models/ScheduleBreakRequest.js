@@ -1,39 +1,44 @@
 import mongoose from "mongoose";
+const StatusEnum = ["PENDING", "APPROVED", "REJECTED"];
+const BreakTypeEnum = ["COACHING", "TRAINING", "MEETING"];
 
-const SpecialBreakRequestSchema = new mongoose.Schema(
+const ScheduleBreakSchema = new mongoose.Schema(
   {
-    username: {
+    initiator: {
       type: String,
       required: true,
-      ref: "User",
       index: true,
     },
-    break_type: {
+    type: {
       type: String,
-      enum: ["COACHING", "MEETING", "TRAINING"],
+      enum: BreakTypeEnum,
       required: true,
     },
-    requested_start_time: {
+    time: {
       type: Date,
       required: true,
     },
-    requested_end_time: {
+    date: {
       type: Date,
       required: true,
+    },
+    reason: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: 500,
     },
     status: {
       type: String,
-      enum: ["PENDING", "APPROVED", "REJECTED"],
+      enum: StatusEnum,
       default: "PENDING",
-      required: true,
     },
-    supervisor_comment: {
-      type: String,
-      default: "",
-    },
-    request_date: {
+    actionedAt: {
       type: Date,
-      default: Date.now,
+    },
+    actionedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
   },
   {
@@ -42,13 +47,11 @@ const SpecialBreakRequestSchema = new mongoose.Schema(
 );
 
 // Indexing for performance
-SpecialBreakRequestSchema.index({ username: 1 });
-SpecialBreakRequestSchema.index({ status: 1 });
-SpecialBreakRequestSchema.index({ break_type: 1 });
+ScheduleBreakSchema.index({ initiator: 1, status: 1 });
 
-const SpecialBreakRequest = mongoose.model(
-  "SpecialBreakRequest",
-  SpecialBreakRequestSchema
+const ScheduleBreakRequest = mongoose.model(
+  "ScheduleBreakRequest",
+  ScheduleBreakSchema
 );
-export default SpecialBreakRequest;
 
+export default ScheduleBreakRequest;

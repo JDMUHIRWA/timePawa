@@ -4,7 +4,12 @@ import cors from "cors";
 import passport from "passport";
 import dotenv from "dotenv";
 import dbConnect from "./config/dbConnect.js";
-import { authRoutes, usersRoutes, swapRoutes } from "./routes/index.js";
+import {
+  authRoutes,
+  usersRoutes,
+  swapRoutes,
+  scheduleRoutes,
+} from "./routes/index.js";
 import BreakGenerationScheduler from "./services/breakGenerationScheduler.js";
 import "./config/passportConfig.js";
 import { createServer } from "http";
@@ -44,6 +49,7 @@ app.use(passport.session());
 app.use("/api/auth", authRoutes);
 app.use("/api", usersRoutes);
 app.use("/api", swapRoutes);
+app.use("/api", scheduleRoutes);
 
 // Handle socket.io
 const server = createServer(app);

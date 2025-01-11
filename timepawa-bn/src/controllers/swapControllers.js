@@ -1,4 +1,3 @@
-import { create } from "qrcode";
 import SwapRequest from "../models/SwapRequest.js";
 import User from "../models/user.js";
 
