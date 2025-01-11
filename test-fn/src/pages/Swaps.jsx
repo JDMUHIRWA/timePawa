@@ -63,7 +63,7 @@ const Swaps = () => {
     const [toHours, toMinutes] = toTime.split(":");
     to.setHours(toHours, toMinutes);
 
-    // Create the payload
+    // Create a new swap request object
     const swapData = {
       initiator: user.username,
       target: selectedUser,
