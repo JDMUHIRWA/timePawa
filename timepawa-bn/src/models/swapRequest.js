@@ -46,6 +46,10 @@ const SwapRequestSchema = new mongoose.Schema(
       trim: true,
       maxlength: 500,
     },
+    requestType: {
+      type: String,
+      default: "SWAP",
+    },
     actionedAt: {
       type: Date,
     },

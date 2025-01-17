@@ -24,7 +24,7 @@ import {
 //     SelectValue,
 // } from "@/components/ui/select";
 // import { fetchUsers } from "@/services/auth";
-import { getSwapRequests, updateSwapRequest } from "../services/requests";
+import { getBreakRequests, updateBreakRequest } from "../services/requests";
 
 function MyTable() {
     const [agents, setAgents] = useState([]);
@@ -36,7 +36,7 @@ function MyTable() {
         // Consolidated fetchAgentData function
         const fetchAgentData = async () => {
             try {
-                const response = await getSwapRequests();
+                const response = await getBreakRequests();
                 if (Array.isArray(response)) {
                     setAgents(response);
                     console.log("Fetched agents:", response);
@@ -79,9 +79,9 @@ function MyTable() {
         // }
 
         try {
-            const update = await updateSwapRequest(requestid, newStatus);
+            const update = await updateBreakRequest(requestid, newStatus);
             console.log("Updated user status:", update);
-            const refreshedAgents = await getSwapRequests();
+            const refreshedAgents = await getBreakRequests();
             setAgents(refreshedAgents);
         } catch (error) {
             console.error("Error updating user status:", error);
@@ -138,9 +138,8 @@ function MyTable() {
                 <TableHeader>
                     <TableRow>
                         <TableHead>Initiator</TableHead>
-                        <TableHead>Target</TableHead>
+                        <TableHead>Break Type</TableHead>
                         <TableHead>From</TableHead>
-                        <TableHead>To</TableHead>
                         <TableHead>Status</TableHead>
                         <TableHead>Actions</TableHead>
                     </TableRow>
@@ -149,9 +148,8 @@ function MyTable() {
                     {filteredAgents.map((data, index) => (
                         <TableRow key={index} className="hover:bg-gray-50">
                             <TableCell>{data.initiator}</TableCell>
-                            <TableCell>{data.target}</TableCell>
-                            <TableCell>{data.from}</TableCell>
-                            <TableCell>{data.to}</TableCell>
+                            <TableCell>{data.type}</TableCell>
+                            <TableCell>{data.time}</TableCell>
                             <TableCell>{data.status}</TableCell>
                             <TableCell>
                                 {/* Dropdown Menu */}

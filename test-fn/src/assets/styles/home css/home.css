@@ -161,8 +161,7 @@ body {
 }
 
 .activity-item:hover {
-  background-color: #2a6526;
-  color: #e2e0e0fb;
+  color: #000000fb;
 }
 
 .activity-icon {
@@ -187,18 +186,25 @@ body {
 }
 
 .activity-icon.verified {
-  color: #9C27B0;
+  color: #b0273c;
 }
 .activity-item:hover .activity-icon.swap {
-  color: #acacac; /* New color for swap icon on hover */
+  transform: scale(1.1);
+  color: var(--secondary-color); /* New color for swap icon on hover */
 }
 
 .activity-item:hover .activity-icon.approved {
-  color: #acacac; /* New color for approved icon on hover */
+  transform: scale(1.1);
+  color: var(--secondary-color); /* New color for approved icon on hover */
 }
 
 .activity-item:hover .activity-icon.verified {
-  color: #acacac; /* New color for verified icon on hover */
+  transform: scale(1.1);
+  color: #b0273c; /* New color for verified icon on hover */
+}
+.activity-item:hover .createdAt {
+  transform: scale(1.1);
+
 }
 
 @media (max-width: 768px) {

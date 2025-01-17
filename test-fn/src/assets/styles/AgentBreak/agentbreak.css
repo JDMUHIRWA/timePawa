@@ -1,5 +1,5 @@
 .agents-table-container {
-  background-color: #f3f4f6;
+  background-color: #fafafa;
   border-radius: 8px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   margin-left: 20rem;
@@ -13,21 +13,23 @@
 }
 
 .table-header {
-  background-color: #032a0f;
+  background-color: #fafafa;
 }
 
 .table-header-cell {
   padding: 12px 16px;
   text-align: left;
-  color: #e2e8f0;
+  color: #65768c;
+  font-weight: 500;
+  font-size: normal;
 }
 
 .table-row {
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e8e8e8;
 }
 
 .table-row.odd {
-  background-color: #f3f4f6;
+  background-color: #fafafa;
 }
 
 .table-cell {
@@ -35,7 +37,8 @@
 }
 
 .status-cell {
-  font-weight: 500;
+  font-weight: 400;
+  font-family: 'Inter', sans-serif;
 }
 
 .status-cell.completed {

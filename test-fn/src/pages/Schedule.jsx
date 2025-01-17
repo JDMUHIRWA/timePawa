@@ -3,10 +3,11 @@ import Header from '../components/Header';
 import '../assets/styles/swap&break/swap.css';
 import { breakRequest } from '../services/requests';
 import { useSession } from "../contexts/SessionContex";
-
+import MyTable from "../components/scheduleTable";
+import socket from '@/utils/socket';
 
 const Schedule = () => {
-  const { user } = useSession();
+  const { user, role } = useSession();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -37,8 +38,9 @@ const Schedule = () => {
 
     try {
       const response = await breakRequest(breakData);
-      console.log(response);
+      console.log("Break data", response);
       alert("Break request successfully created!");
+      socket.emit("new-break-request", response);
     } catch (error) {
       console.error("Failed to create break request:", error.response?.data || error);
       alert(`Failed to create break request: ${error.response?.data?.message || error.message}`);
@@ -53,51 +55,53 @@ const Schedule = () => {
     <>
       <SideNavigation />
       <Header />
+      {role === "SUPERVISOR" ? (<MyTable />) : (
+        <div className="swap-container">
+          <main className="content">
+            <form className="break-form" onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label htmlFor="type">Type</label>
+                <select id="type" defaultValue="COACHING">
+                  <option value="COACHING">Coaching Session</option>
+                  <option value="TRAINING">Training Session</option>
+                  <option value="MEETING">Meeting</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label htmlFor="time">Time</label>
+                <input
+                  className="focus:outline-none"
+                  type="time"
+                  id="time"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="date">Date</label>
+                <input
+                  className="focus:outline-none"
+                  type="date"
+                  id="date"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="reason">Reason</label>
+                <textarea
+                  className="focus:outline-none"
+                  id="reason"
+                  placeholder="Type your reason"
+                  required
+                ></textarea>
+              </div>
+              <div className="submit-button">
+                <button type="submit">Request a break</button>
+              </div>
+            </form>
+          </main>
+        </div>
+      )}
 
-      <div className="swap-container">
-        <main className="content">
-          <form className="break-form" onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="type">Type</label>
-              <select id="type" defaultValue="COACHING">
-                <option value="COACHING">Coaching Session</option>
-                <option value="TRAINING">Training Session</option>
-                <option value="MEETING">Meeting</option>
-              </select>
-            </div>
-            <div className="form-group">
-              <label htmlFor="time">Time</label>
-              <input
-                className="focus:outline-none"
-                type="time"
-                id="time"
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="date">Date</label>
-              <input
-                className="focus:outline-none"
-                type="date"
-                id="date"
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="reason">Reason</label>
-              <textarea
-                className="focus:outline-none"
-                id="reason"
-                placeholder="Type your reason"
-                required
-              ></textarea>
-            </div>
-            <div className="submit-button">
-              <button type="submit">Request a break</button>
-            </div>
-          </form>
-        </main>
-      </div>
     </>
   );
 };

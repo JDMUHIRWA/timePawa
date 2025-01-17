@@ -55,12 +55,12 @@ const AgentsTable = () => {
               <th className="table-header-cell">Screen Break 2</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className='text-{#020817}'>
             {filteredAgents.map((agent) => (
               <tr key={agent._id} className={`table-row ${(agent._id % 2 === 0) ? 'even' : 'odd'}`}>
                 <td className="table-cell">{agent.username}</td>
                 <td className={`table-cell status-cell ${agent.screenBreak1 ? agent.screenBreak1.toLowerCase() : ''}`}>
-                  {agent.screenBreak1 || 'N/A'}
+                  {agent.screenBreak1 || 'On Break'}
                 </td>
                 <td className={`table-cell status-cell ${agent.lunchBreak ? agent.lunchBreak.toLowerCase() : ''}`}>
                   {agent.lunchBreak || 'N/A'}

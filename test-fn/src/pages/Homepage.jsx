@@ -4,7 +4,7 @@ import {
   Bell,
   Coffee,
   Clock,
-  CheckCircle
+  OctagonX
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
@@ -12,7 +12,7 @@ import SideNavigation from '../components/SideNavigation';
 import '../assets/styles/home css/home.css';
 import { useSession } from '../contexts/SessionContex';
 import { useState, useEffect } from 'react';
-import { getTargetSwapRequests } from '../services/requests';
+import { getBreakRequestsByInitiator, getTargetSwapRequests } from '../services/requests';
 import socket from '@/utils/socket';
 // import { setupNotifications, sendNotification } from '@/utils/notifications';
 
@@ -20,6 +20,7 @@ const Homepage = () => {
   const navigate = useNavigate();
   const { role, user } = useSession();
   const [notifications, setNotifications] = useState([]);
+  const [activeTab, setActiveTab] = useState('swaps');
 
   const handleBreakRequest = () => {
     navigate('/schedule');
@@ -39,7 +40,10 @@ const Homepage = () => {
         return;
       }
       const swapRequests = await getTargetSwapRequests(user.username);
-      setNotifications(swapRequests);
+      const breakRequest = await getBreakRequestsByInitiator(user.username);
+
+      const allNotifications = [...swapRequests, ...breakRequest];
+      setNotifications(allNotifications);
     } catch (error) {
       console.error('Failed to load notifications:', error);
     }
@@ -55,27 +59,58 @@ const Homepage = () => {
       }
     });
 
+    // Listen for new break request notifications
+    socket.on('receive-new-break-request', (data) => {
+      console.log('Break Request Notification Received:', data);
+      if (data.initiator === user.username) {
+        setNotifications((prevNotifications) =>
+          prevNotifications.some((notif) => notif._id === data._id)
+            ? prevNotifications
+            : [...prevNotifications, data]
+        );
+      }
+    });
+
     loadNotifications();
 
     return () => {
       socket.off('receive-swap-notification');
+      socket.off('receive-new-break-request');
     }
   }, [user, loadNotifications]);
 
-  // change to in string
-
   const getNotificationMessage = (data) => {
-    switch (data.status) {
-      case 'PENDING':
-        return `New swap request from ${data.initiator} waiting for approval`;
-      case 'APPROVED':
-        return `${data.target}, the swap request from ${data.initiator} has been approved!`;
-      case 'REJECTED':
-        return `${data.target}, the swap request from ${data.initiator} has been declined`;
-      default:
-        return 'No recent activity';
+    if (data.requestType === 'SWAP') {
+      switch (data.status) {
+        case 'PENDING':
+          return `New swap request from ${data.initiator} waiting for approval`;
+        case 'APPROVED':
+          return `${data.target}, the swap request from ${data.initiator} has been approved!`;
+        case 'REJECTED':
+          return `${data.target}, the swap request from ${data.initiator} has been declined`;
+        default:
+          return 'No recent swap activity';
+      }
+    } else if (data.requestType === 'SCHEDULE_BREAK') {
+      switch (data.status) {
+        case 'PENDING':
+          return `New break request from ${data.initiator} waiting for approval`;
+        case 'APPROVED':
+          return `${data.initiator}, your ${data.type} has been approved!`;
+        case 'REJECTED':
+          return `${data.initiator},your ${data.type} has been declined!`;
+        default:
+          return 'No recent break request activity ✅';
+      }
     }
-  }
+    return 'No recent activity';
+  };
+
+  // filter notifications
+  const tabsNotifications = notifications.filter((notification) => {
+    return activeTab === 'swaps' ? notification.requestType === 'SWAP' : notification.requestType === 'SCHEDULE_BREAK'
+  });
+
 
   return (
     <>
@@ -141,13 +176,35 @@ const Homepage = () => {
           </div>
 
           <div className="activity-section">
-            <div className="section-header">
+            <div className="section-header mb-[0rem]">
               <Bell className="section-icon" />
               <h2>Recent Activity</h2>
             </div>
+            <div className="mb-2 mt-0 flex border-b border-black-400 justify-end">
+              <button
+                onClick={() => setActiveTab('swaps')}
+                className={`px-8 py-4 text-sm font-medium ${activeTab === 'swaps'
+                  ? 'text-green-600 border-b-2 border-green-600'
+                  : 'text-gray-600 hover:text-green-600'
+                  }`}
+              >
+                Swaps
+              </button>
+              <button
+                onClick={() => setActiveTab('breaks')}
+                className={`px-8 py-4 text-sm font-medium ${activeTab === 'breaks'
+                  ? 'text-green-600 border-b-2 border-green-600'
+                  : 'text-gray-600 hover:text-green-600 '
+                  }`}
+              >
+                Breaks
+              </button>
+            </div>
+
+
             <div className="activity-list">
-              {notifications.length > 0 ? (
-                notifications.map((notification, index) => (
+              {tabsNotifications.length > 0 ? (
+                tabsNotifications.map((notification, index) => (
                   <div key={index} className="activity-item flex items-center justify-between gap-4">
                     <div className='flex items-center gap-4'>
                       {notification.status === 'PENDING' && (
@@ -157,11 +214,11 @@ const Homepage = () => {
                         <CircleCheckBig className="activity-icon approved" />
                       )}
                       {notification.status === 'REJECTED' && (
-                        <CheckCircle className="activity-icon verified" />
+                        <OctagonX className="activity-icon verified" />
                       )}
                       <span className='flex items-center gap-4'>{getNotificationMessage(notification)}</span>
                     </div>
-                    <small className='flex float-right text-sm text-gray-500 mt-2'>{new Date(notification.createdAt).toLocaleString()}</small>
+                    <small className='createdAt flex float-right text-sm text-gray-500 mt-2'>{new Date(notification.createdAt).toLocaleString()}</small>
                   </div>
                 ))
               ) : (

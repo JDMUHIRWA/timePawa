@@ -73,6 +73,12 @@ io.on("connection", (socket) => {
     console.log("Notification received:", data);
   });
 
+  // listening on the new break requests
+  socket.on("new-break-request", (data) => {
+    socket.broadcast.emit("receive-new-break-request", data);
+    console.log("New break request received:", data);
+  });
+
   // Cleanup when a user disconnects
   socket.on("disconnect", () => {
     console.log("A user disconnected");

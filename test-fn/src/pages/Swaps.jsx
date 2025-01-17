@@ -150,7 +150,7 @@ const Swaps = () => {
                 <CalendarDays size={24} />
                 <label htmlFor="date">Date</label>
               </div>
-              <input className="focus:outline-none" type="text" id="date" name="date" placeholder="DD/MM/YYYY" />
+              <input className="focus:outline-none" type="date" id="date" name="date" placeholder="DD/MM/YYYY" />
             </div>
             <div className="form-group">
               <div className="swap-icon">

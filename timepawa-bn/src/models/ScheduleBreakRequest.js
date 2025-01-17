@@ -33,6 +33,10 @@ const ScheduleBreakSchema = new mongoose.Schema(
       enum: StatusEnum,
       default: "PENDING",
     },
+    requestType: {
+      type: String,
+      default: "SCHEDULE_BREAK",
+    },
     actionedAt: {
       type: Date,
     },

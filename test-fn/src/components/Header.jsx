@@ -17,15 +17,15 @@ const Header = () => {
                 return 'Request a Swap'
             case "/schedule":
                 return 'Request a Schedule'
-                case "/agents-on-break":
+            case "/agents-on-break":
                 return 'Agents on Break'
             default:
-                return `Welcome back, ${user?.username || "User"}`; 
+                return `Welcome back, ${user?.username || "User"}`;
         }
     }
     return (
         <>
-            <div className="container">
+            <div className="container sticky top-0">
                 <div className="left">
                     <h1>{title(location.pathname)}</h1>
 

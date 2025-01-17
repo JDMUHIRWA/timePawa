@@ -36,6 +36,9 @@ export default {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
         },
+        fontFamily: {
+          sans: ["Inter", "sans-serif"],
+        },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
@@ -51,6 +54,13 @@ export default {
           5: "hsl(var(--chart-5))",
         },
       },
+    },
+    screens: {
+      sm: { raw: "(max-width: 768px)" }, // Change `sm` from 640px to 600px
+      // md: "768px", // Default value for `md` (you can adjust this too if needed)
+      // lg: "1024px", // Default value for `lg`
+      xl: "1280px", // Default value for `xl`
+      // "2xl": "1536px", // Default value for `2xl`
     },
   },
   // eslint-disable-next-line no-undef
