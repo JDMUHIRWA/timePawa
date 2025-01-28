@@ -53,6 +53,16 @@ export const getTargetSwapRequests = async (username) => {
   }
 };
 
+// delete swap requests
+export const deleteSwapRequest = async (requestId) => {
+  try {
+    const response = await api.delete(`/swap-requests/${requestId}`);
+    return response.data;
+  } catch (error) {
+    throw error.response ? error.response.data : error.message;
+  }
+};
+
 // create a new break request
 export const breakRequest = async (data) => {
   try {
@@ -89,6 +99,16 @@ export const updateBreakRequest = async (requestId, status) => {
     const response = await api.patch(`/scheduled-breaks/${requestId}/status`, {
       status,
     });
+    return response.data;
+  } catch (error) {
+    throw error.response ? error.response.data : error.message;
+  }
+};
+
+// delete break request
+export const deleteBreakRequest = async (requestId) => {
+  try {
+    const response = await api.delete(`/scheduled-breaks/${requestId}`);
     return response.data;
   } catch (error) {
     throw error.response ? error.response.data : error.message;

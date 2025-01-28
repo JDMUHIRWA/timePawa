@@ -4,7 +4,8 @@ import {
   Bell,
   Coffee,
   Clock,
-  OctagonX
+  OctagonX,
+  Trash2,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
@@ -12,7 +13,7 @@ import SideNavigation from '../components/SideNavigation';
 import '../assets/styles/home css/home.css';
 import { useSession } from '../contexts/SessionContex';
 import { useState, useEffect } from 'react';
-import { getBreakRequestsByInitiator, getTargetSwapRequests } from '../services/requests';
+import { getBreakRequestsByInitiator, getTargetSwapRequests, getUserSwapRequests, deleteSwapRequest, deleteBreakRequest } from '../services/requests';
 import socket from '@/utils/socket';
 // import { setupNotifications, sendNotification } from '@/utils/notifications';
 
@@ -26,7 +27,7 @@ const Homepage = () => {
     navigate('/schedule');
   }
   const handleScheduleApproval = () => {
-    navigate('/schedules');
+    navigate('/schedule');
   }
   const handleSwapRequest = () => {
     navigate('/swaps');
@@ -40,9 +41,10 @@ const Homepage = () => {
         return;
       }
       const swapRequests = await getTargetSwapRequests(user.username);
-      const breakRequest = await getBreakRequestsByInitiator(user.username);
+      const swapRequestsbyUser = await getUserSwapRequests(user.username);
+      const breakRequests = await getBreakRequestsByInitiator(user.username);
 
-      const allNotifications = [...swapRequests, ...breakRequest];
+      const allNotifications = [...swapRequests, ...swapRequestsbyUser, ...breakRequests];
       setNotifications(allNotifications);
     } catch (error) {
       console.error('Failed to load notifications:', error);
@@ -54,7 +56,7 @@ const Homepage = () => {
     socket.on('receive-swap-notification', (data) => {
       console.log('Received data:', data);
       // only add the notification if the user is the target
-      if (data.target === user.username) {
+      if (data.target === user.username || data.initiator === user.username) {
         setNotifications((prevNotifications) => prevNotifications.some((notif) => notif._id === data._id) ? prevNotifications : [...prevNotifications, data]);
       }
     });
@@ -81,35 +83,70 @@ const Homepage = () => {
 
   const getNotificationMessage = (data) => {
     if (data.requestType === 'SWAP') {
-      switch (data.status) {
-        case 'PENDING':
-          return `New swap request from ${data.initiator} waiting for approval`;
-        case 'APPROVED':
-          return `${data.target}, the swap request from ${data.initiator} has been approved!`;
-        case 'REJECTED':
-          return `${data.target}, the swap request from ${data.initiator} has been declined`;
-        default:
-          return 'No recent swap activity';
+      if (data.target === user.username) {
+        // Notification for the target
+        switch (data.status) {
+          case 'PENDING':
+            return `You have a swap request from ${data.initiator} waiting for approval.`;
+          case 'APPROVED':
+            return `The swap request from ${data.initiator} has been approved!`;
+          case 'REJECTED':
+            return `The swap request from ${data.initiator} has been declined.`;
+          default:
+            return 'No recent swap activity.';
+        }
+      } else if (data.initiator === user.username) {
+        // Notification for the initiator
+        switch (data.status) {
+          case 'PENDING':
+            return `Your swap request to ${data.target} is waiting for approval.`;
+          case 'APPROVED':
+            return `Your swap request to ${data.target} has been approved!`;
+          case 'REJECTED':
+            return `Your swap request to ${data.target} has been declined.`;
+          default:
+            return 'No recent swap activity.';
+        }
       }
     } else if (data.requestType === 'SCHEDULE_BREAK') {
+      // Break Request Notifications
       switch (data.status) {
         case 'PENDING':
-          return `New break request from ${data.initiator} waiting for approval`;
+          return `${data.initiator}, your ${data.type} break is waiting for approval.`;
         case 'APPROVED':
-          return `${data.initiator}, your ${data.type} has been approved!`;
+          return `${data.initiator}, your ${data.type} break has been approved!`;
         case 'REJECTED':
-          return `${data.initiator},your ${data.type} has been declined!`;
+          return `${data.initiator}, your ${data.type} break has been declined.`;
         default:
-          return 'No recent break request activity ✅';
+          return 'No recent break request activity ✅.';
       }
     }
-    return 'No recent activity';
+
+    return 'No recent activity.';
   };
 
+
   // filter notifications
-  const tabsNotifications = notifications.filter((notification) => {
-    return activeTab === 'swaps' ? notification.requestType === 'SWAP' : notification.requestType === 'SCHEDULE_BREAK'
-  });
+  const tabsNotifications = notifications.filter(
+    (notification) => notification.requestType === (activeTab === 'swaps' ? 'SWAP' : 'SCHEDULE_BREAK')
+  );
+  // delete notification 
+  const deleteNotification = async (id) => {
+    try {
+      if (activeTab === 'swaps') {
+        await deleteSwapRequest(id);
+      } else if (activeTab === 'breaks') {
+        await deleteBreakRequest(id);
+      }
+      setNotifications(prevNotifications =>
+        prevNotifications.filter(notification =>
+          notification._id !== id
+        )
+      );
+    } catch (error) {
+      console.error('Failed to delete notification:', error);
+    }
+  };
 
 
   return (
@@ -218,7 +255,15 @@ const Homepage = () => {
                       )}
                       <span className='flex items-center gap-4'>{getNotificationMessage(notification)}</span>
                     </div>
-                    <small className='createdAt flex float-right text-sm text-gray-500 mt-2'>{new Date(notification.createdAt).toLocaleString()}</small>
+                    <div className='flex gap-4'>
+                      <small className='text-sm text-gray-500'>{new Date(notification.createdAt).toLocaleString()}</small>
+                      {(notification.status === 'APPROVED' || notification.status === 'REJECTED') && (
+                        <Trash2
+                          className='cursor-pointer'
+                          onClick={() => deleteNotification(notification._id)}
+                        />
+                      )}
+                    </div>
                   </div>
                 ))
               ) : (

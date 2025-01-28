@@ -4,7 +4,8 @@ import {
   getSwapRequests,
   getUserSwapRequests,
   updateSwapRequest,
-  getTargetSwapRequests
+  getTargetSwapRequests,
+  deleteSwapRequest,
 } from "../controllers/swapControllers.js";
 
 const router = Router();
@@ -14,5 +15,6 @@ router.get("/swap-requests", getSwapRequests);
 router.get("/swap-requests/:username", getUserSwapRequests);
 router.patch("/swap-requests/:requestId/status", updateSwapRequest);
 router.get("/swap-requests/target/:username", getTargetSwapRequests);
+router.delete("/swap-requests/:requestId", deleteSwapRequest);
 
 export default router;

@@ -135,3 +135,20 @@ export const updateBreakRequest = async (req, res) => {
       .json({ error: "Unable to update break request", message: error });
   }
 };
+
+// delete break request
+export const deleteBreakRequest = async (req, res) => {
+  const { requestId } = req.params;
+  try {
+    const request = await ScheduleBreakRequest.findByIdAndDelete(requestId);
+
+    if (!request) {
+      return res.status(404).json({ error: "Request not found" });
+    }
+    res.status(200).json({ message: "Request deleted successfully" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "Unable to delete break request", message: error });
+  }
+};
