@@ -1,7 +1,7 @@
 :root {
   --primary-color: #4CAF50;
   --secondary-color: #398347;
-  --background-color: #F5F5F7;
+  --background-color: #ebebeb;
   --text-dark: #ffffff;
   --text-light: #666;
   --white: #FFFFFF;
@@ -13,7 +13,7 @@
 
 body {
   font-family: "Inter", sans-serif;
-  background-color: var(--background-color);
+  background-color: var(--white);
   line-height: 1.6;
   color: var(--text-dark);
   margin: 0;
@@ -90,6 +90,7 @@ body {
 .activity-section {
   background-color: var(--white);
   border-radius: 16px;
+  box-shadow: #666;
   padding: 1.5rem;
   box-shadow: 0 5px 15px rgba(5, 224, 53, 0.05);
 }

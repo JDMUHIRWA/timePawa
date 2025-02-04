@@ -2,7 +2,7 @@
   --primary-color: #032a0f;
   --text-dark: #1f2937;
   --text-light: #6b7280;
-  --background-light: #f3f4f6;
+  --background-light: #fafafa;
   --white: #ffffff;
   --shadow-subtle: 0 4px 6px rgba(0, 0, 0, 0.1);
   --shadow-hover: 0 10px 15px rgba(0, 0, 0, 0.15);
@@ -61,7 +61,7 @@
   border-radius: 20px;
   box-shadow: 0 2px 4px rgba(4, 4, 4, 0.1);
   width: 400px;
-  background-color: var(--white);
+  background-color: var(--background-light);
 }
 
 .form-group {

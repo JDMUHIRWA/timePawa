@@ -97,7 +97,7 @@ const Swaps = () => {
       <SideNavigation />
       <Header />
       {role === "SUPERVISOR" ? (<MyTable />) : (<div className="swap-container">
-        <main className="content">
+        <main className="content w-screen">
           <form className="break-form" onSubmit={handleSubmit}>
             <div className="form-group">
               <div className="swap-icon">
@@ -112,7 +112,7 @@ const Swaps = () => {
                   value={searchTerm}
                   onChange={handleSearch}
                   onFocus={() => setFilteredUsers(users)}
-                  className="focus:outline-none"
+                  className="focus:outline-none "
                   autoComplete="off"
                 />
                 {filteredUsers.length > 0 && (
