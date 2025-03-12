@@ -55,7 +55,7 @@ app.use("/api", scheduleRoutes);
 const server = createServer(app);
 const io = new SocketIOServer(server, {
   cors: {
-    origin: ["http://localhost:3001"],
+    origin: "*",
     methods: ["GET", "POST"],
     credentials: true,
   },
