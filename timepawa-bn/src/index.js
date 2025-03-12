@@ -26,9 +26,7 @@ dbConnect();
 const app = express();
 
 //middlewares
-const corsOptions = {
-  credentials: true,
-};
+const corsOptions = {};
 
 app.use(express.json({ limit: "100mb" }));
 app.use(express.urlencoded({ limit: "100mb", extended: true }));
@@ -53,11 +51,10 @@ app.use("/api", scheduleRoutes);
 // Handle socket.io
 const server = createServer(app);
 const io = new SocketIOServer(server, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
-    credentials: true,
-  },
+  // cors: {
+  //   // methods: ["GET", "POST"],
+  //   // credentials: true,
+  // },
 });
 
 // Handle socket.io connections
