@@ -1,4 +1,4 @@
-import SwapRequest from "../models/SwapRequest.js";
+import SwapRequest from "../models/SwapRequests.js";
 import User from "../models/user.js";
 
 // Creating new Swap Request
