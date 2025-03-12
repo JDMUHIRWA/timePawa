@@ -7,7 +7,6 @@ const SwapRequestSchema = new mongoose.Schema(
     initiator: {
       type: String,
       required: true,
-      index: true,
     },
     target: {
       type: String,
