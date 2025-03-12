@@ -25,9 +25,6 @@ dbConnect();
 
 const app = express();
 
-//middlewares
-const corsOptions = {};
-
 app.use(express.json({ limit: "100mb" }));
 app.use(express.urlencoded({ limit: "100mb", extended: true }));
 app.use(
@@ -38,7 +35,14 @@ app.use(
     cookie: { maxAge: 60000 * 60 },
   })
 );
-app.use(cors(corsOptions));
+
+app.use(
+  cors({
+    origin: "https://timepawa.vercel.app", // Allow requests from your frontend
+    credentials: true, // Allow credentials (cookies, sessions, tokens)
+  })
+);
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -51,10 +55,11 @@ app.use("/api", scheduleRoutes);
 // Handle socket.io
 const server = createServer(app);
 const io = new SocketIOServer(server, {
-  // cors: {
-  //   // methods: ["GET", "POST"],
-  //   // credentials: true,
-  // },
+  cors: {
+    origin: "https://timepawa.vercel.app",
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
 });
 
 // Handle socket.io connections
