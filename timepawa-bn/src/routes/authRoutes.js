@@ -20,13 +20,13 @@ router.post("/login", passport.authenticate("local"), login);
 router.get("/status", authstatus);
 // Logout Route
 router.post("/logout", logout);
-
 // 2FA setup Route
 router.post(
   "/setup2fa",
   (req, res, next) => {
+    console.log("req.isAuthenticated() for setup", req.isAuthenticated());
     if (req.isAuthenticated()) return next();
-    res.status(401).json({ message: "Unauthorized user trynaa" });
+    res.status(401).json({ message: "Unauthorized user try" });
   },
   setup2FA
 );
@@ -34,6 +34,7 @@ router.post(
 router.post(
   "/verify2fa",
   (req, res, next) => {
+    console.log("req.isAuthenticated() for verify", req.isAuthenticated());
     if (req.isAuthenticated()) return next();
     res.status(401).json({ message: "Unauthorized user" });
   },
