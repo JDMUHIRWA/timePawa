@@ -15,11 +15,11 @@ import "./config/passportConfig.js";
 import { createServer } from "http";
 import { Server as SocketIOServer } from "socket.io";
 
-const allowedOrigins = [
-  "http://localhost:3001",
-  "https://timepawa.vercel.app",
-  "https://timepawa.onrender.com",
-];
+// const allowedOrigins = [
+//   "http://localhost:3001",
+//   "https://timepawa.vercel.app",
+//   "https://timepawa.onrender.com/api",
+// ];
 
 dotenv.config();
 
@@ -30,19 +30,7 @@ BreakGenerationScheduler.scheduleBreakGeneration();
 dbConnect();
 
 const app = express();
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      // If no origin (like from Postman), allow the request
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true, // Allow cookies, authentication tokens, etc.
-  })
-);
+app.use(cors());
 
 app.use(express.json({ limit: "100mb" }));
 app.use(express.urlencoded({ limit: "100mb", extended: true }));
@@ -68,13 +56,7 @@ app.use("/api", scheduleRoutes);
 const server = createServer(app);
 const io = new SocketIOServer(server, {
   cors: {
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: "*",
     methods: ["GET", "POST"],
     credentials: true, // Allow credentials (cookies, sessions)
   },
