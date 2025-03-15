@@ -57,6 +57,8 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.set('trust proxy', 1); // ✅ Required for Render & mobile networks
+
 //routes
 app.use("/api/auth", authRoutes);
 app.use("/api", usersRoutes);
