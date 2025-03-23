@@ -46,7 +46,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      maxAge: 60000 * 60,
+      maxAge: 1 * 60 * 1000,
       secure: true,
       sameSite: "none",
       httpOnly: true,
@@ -57,7 +57,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.set('trust proxy', 1); // ✅ Required for Render & mobile networks
+app.set("trust proxy", 1); // ✅ Required for Render & mobile networks
 
 //routes
 app.use("/api/auth", authRoutes);

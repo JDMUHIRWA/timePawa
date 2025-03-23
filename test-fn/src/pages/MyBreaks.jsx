@@ -72,7 +72,7 @@ const MyBreaks = () => {
                             <div className="break-day">{dayBreaks.day}</div>
 
                             {dayBreaks.breaks.map((break_, breakIndex) => (
-                                <div key={breakIndex} className="break-item">
+                                <div key={breakIndex} className="break-item bg-[#ebebeb]">
                                     <div className="break-type">{break_.type}</div>
 
                                     {break_.start && break_.end ? (

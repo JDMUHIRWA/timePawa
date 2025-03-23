@@ -213,29 +213,31 @@ const Homepage = () => {
           </div>
 
           <div className="activity-section">
-            <div className="section-header mb-[0rem]">
-              <Bell className="section-icon" />
-              <h2>Recent Activity</h2>
-            </div>
-            <div className="mb-2 mt-0 flex border-b border-black-400 justify-end">
-              <button
-                onClick={() => setActiveTab('swaps')}
-                className={`px-8 py-4 text-sm font-medium ${activeTab === 'swaps'
-                  ? 'text-green-600 border-b-2 border-green-600'
-                  : 'text-gray-600 hover:text-green-600'
-                  }`}
-              >
-                Swaps
-              </button>
-              <button
-                onClick={() => setActiveTab('breaks')}
-                className={`px-8 py-4 text-sm font-medium ${activeTab === 'breaks'
-                  ? 'text-green-600 border-b-2 border-green-600'
-                  : 'text-gray-600 hover:text-green-600 '
-                  }`}
-              >
-                Breaks
-              </button>
+            <div className="mb-2 flex justify-between">
+              <div className="flex items-center gap-4">
+                <Bell className="section-icon" />
+                <h2>Recent Activity</h2>
+              </div>
+              <div className=" flex border-b border-black-400 justify-end">
+                <button
+                  onClick={() => setActiveTab('swaps')}
+                  className={`px-8 py-4 text-sm font-medium ${activeTab === 'swaps'
+                    ? 'text-green-600 border-b-2 border-green-600'
+                    : 'text-gray-600 hover:text-green-600'
+                    }`}
+                >
+                  Swaps
+                </button>
+                <button
+                  onClick={() => setActiveTab('breaks')}
+                  className={`px-8 py-4 text-sm font-medium ${activeTab === 'breaks'
+                    ? 'text-green-600 border-b-2 border-green-600'
+                    : 'text-gray-600 hover:text-green-600 '
+                    }`}
+                >
+                  Breaks
+                </button>
+              </div>
             </div>
 
 
