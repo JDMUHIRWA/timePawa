@@ -89,6 +89,7 @@ cd timepawa
 
 
 ## Troubleshooting
+-  The app might not start immediately. Because of the free plan I have used, you might need to wait a little while.
 - Check the console for the displayed error.    
 - If MongoDB is not connecting, verify the `MONGO_URI`.
 - If MFA is not working, check your authentication settings and confirm your frontend and backend configurations align.
